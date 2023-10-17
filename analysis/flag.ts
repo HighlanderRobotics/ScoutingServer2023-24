@@ -1,6 +1,10 @@
 
 
 class flag extends BaseAnalysis {
+    private team
+    private result
+    private typeArr
+    private tournamentKey
 
     constructor(db, team, typeArr, tournamentKey) {
         super(db)
@@ -74,4 +78,3 @@ class flag extends BaseAnalysis {
     }
 }
 
-module.exports = flag

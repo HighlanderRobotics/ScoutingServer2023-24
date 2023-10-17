@@ -2,11 +2,9 @@
 
 
 
-
-const BaseAnalysis = require('./BaseAnalysis.js')
-
 class categoryMetrics extends BaseAnalysis {
-
+    private result
+    private team
     constructor(db, team) {
         super(db)
         this.team = team
@@ -51,4 +49,3 @@ class categoryMetrics extends BaseAnalysis {
     }
 
 }
-module.exports = categoryMetrics

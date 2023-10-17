@@ -1,4 +1,3 @@
-const { row } = require('mathjs')
 
 
 class picklistShell extends BaseAnalysis {
@@ -162,9 +161,8 @@ class picklistShell extends BaseAnalysis {
     }
     finalizeResults() {
         return {
-            "result": this.result
+
         }
     }
 
 }
-module.exports = picklistShell

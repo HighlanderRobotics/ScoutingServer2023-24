@@ -1,7 +1,17 @@
 
 
 class predictWinning extends BaseAnalysis {
-
+    private red1
+    private red2
+    private red3
+    private blue1
+    private blue2
+    private blue3
+    private winningAlliance
+    private blueAlliance
+    private redAlliance
+    private redWinning
+    private blueWinning
     constructor(db, red1, red2, red3, blue1, blue2, blue3,) {
         super(db)
 
@@ -12,6 +22,8 @@ class predictWinning extends BaseAnalysis {
         this.blue2 = blue2
         this.blue3 = blue3
         this.winningAlliance = 2
+        this.redWinning = 0
+        this.blueWinning
         //red = 0
         //blue = 1
         this.blueAlliance = {}
@@ -178,7 +190,7 @@ class predictWinning extends BaseAnalysis {
             "blue2": this.blue2,
             "blue3": this.blue3,
             "redWinning": this.redWinning,
-            "blueWinning": this.blueWiinning,
+            "blueWinning": this.blueWinning,
             "winningAlliance" : this.winningAlliance,
             "redAlliance" : this.redAlliance,
             "blueAlliance" : this.blueAlliance
@@ -187,4 +199,3 @@ class predictWinning extends BaseAnalysis {
     }
 }
     
-module.exports = predictWinning

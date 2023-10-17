@@ -1,6 +1,7 @@
 
 class TeamsInTournament extends BaseAnalysis {
-
+    private tournamentKey
+    private result
     constructor(db, tournamentKey) {
         super(db)
         this.tournamentKey = tournamentKey
@@ -65,4 +66,3 @@ class TeamsInTournament extends BaseAnalysis {
     }
 }
 
-module.exports = TeamsInTournament

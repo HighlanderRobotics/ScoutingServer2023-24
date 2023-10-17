@@ -1,19 +1,20 @@
 //given a specific team and match this will give the following stats for that match only:
 //auto path, auto points, auto charge, driver ability, role, notes, links, cones and cubes w level breakdown
-
-
-const Manager = require('../manager/dbmanager.js')
-
 	
 
 
 class teamAndMatch extends BaseAnalysis {
-
-    constructor(db, team, matchKey) {
+    private team
+    private teamKey
+    private matchKey
+    private teamsThatScouted
+    private result
+    constructor(db, team, matchKey, teamsThatScouted) {
         super(db)
         this.team = team
         this.teamKey = "ftc" + team
         this.matchKey = matchKey
+        this.teamsThatScouted = teamsThatScouted
     }
     async getData() {
         let a = this
@@ -145,4 +146,3 @@ class teamAndMatch extends BaseAnalysis {
     }
 
 }
-module.exports = teamAndMatch

@@ -1,17 +1,9 @@
 
-const robotRole = require('./general/robotRole')
-
-
-
-
-// const { i } = require('mathjs')
-
-
-//2022cc_qm3_2	
-
 
 class breakdownMetrics extends BaseAnalysis {
-
+    private team
+    private teamKey
+    private result
     constructor(db, team) {
         super(db)
         this.team = team
@@ -34,11 +26,10 @@ class breakdownMetrics extends BaseAnalysis {
     }
 
     runAnalysis() {
-        let a = this
         return new Promise(async (resolve, reject) => {
-            a.getData()
+            this.getData()
                 .then((data) => {
-                    a.result = data;
+                    this.result = data;
                     resolve("done");
                 })
                 .catch((err) => {
@@ -60,4 +51,3 @@ class breakdownMetrics extends BaseAnalysis {
     }
 
 }
-module.exports = breakdownMetrics

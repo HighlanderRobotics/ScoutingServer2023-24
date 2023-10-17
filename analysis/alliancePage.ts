@@ -1,7 +1,10 @@
 
-
-
 class alliancePage extends BaseAnalysis {
+    private teamOne
+    private teamTwo
+    private teamThree
+    private totalPoints
+    private result
 
     constructor(db, teamOne, teamTwo, teamThree) {
         super(db)
@@ -9,10 +12,7 @@ class alliancePage extends BaseAnalysis {
         this.teamTwo = teamTwo
         this.teamThree = teamThree
         this.totalPoints = 0
-        this.one = {}
-        this.two = {}
-        this.three = {}
-        this.links = 0
+      
     }
     async getData() {
         // let a = this
@@ -162,11 +162,8 @@ class alliancePage extends BaseAnalysis {
         finalizeResults() {
             return {
                 "totalPoints": this.totalPoints,
-                "teams": this.teams,
-                "levelCargo": this.levels,
-                "links" : this.links
+             
             }
         }
 
     }
-module.exports = alliancePage

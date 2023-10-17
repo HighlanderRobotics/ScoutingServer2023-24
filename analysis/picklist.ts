@@ -1,7 +1,8 @@
 
 
 class picklist extends BaseAnalysis {
-
+    private weightedArray
+    private unWeightedArray
     constructor(db, team, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, autoCargo, teleOp, defense, climbAuto, feedCone, feedCube, avgTotal, teleopClimb, driverAbility, allAndArray) {
         super(db)
         // this.team = team
@@ -179,11 +180,8 @@ class picklist extends BaseAnalysis {
     }
     finalizeResults() {
         return {
-            "result": this.result,
-            "array" : this.array,
-            "unadjusted" : this.unadjustedZScores
+            
         }
     }
 
 }
-module.exports = picklist
