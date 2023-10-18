@@ -2,7 +2,8 @@ const averageScore = require('./general/averageScore.js')
 
 
 class trend extends BaseAnalysis {
-
+    private team
+    private result
     constructor(db, team) {
         super(db)
         this.team = team
