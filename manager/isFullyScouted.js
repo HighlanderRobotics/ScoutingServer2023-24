@@ -1,6 +1,6 @@
 const { re, row } = require('mathjs')
 const Manager = require('./Manager.js')
-const updateEPA = require('../analysis/general/updateEPA.js')
+// const updateEPA = require('../analysis/general/updateEPA.js')
 
 class isFullyScouted extends Manager {
     static name = "isFullyScouted"
@@ -26,10 +26,10 @@ class isFullyScouted extends Manager {
                 {
                     console.log("no data for that match")
                 }
-                if (rows.length >= 6) {
-                    let temp = new updateEPA(Manager.db, matchNumber)
-                    await temp.runAnalysis()
-                }
+                // if (rows.length >= 6) {
+                //     let temp = new updateEPA(Manager.db, matchNumber)
+                //     await temp.runAnalysis()
+                // }
                 resolve("done")
             })
         })

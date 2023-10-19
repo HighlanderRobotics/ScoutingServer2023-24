@@ -167,9 +167,9 @@ app.post('/API/manager/:task', async (req, res) => {
     }
 })
 
-app.get('/API/manager/:task', async (req, res) => {
-    if (req.params.task) {
-        await new DatabaseManager().runTask(req.params.task, req.query)
+app.post('/API/manager/:task', async (req, res) => {
+    if (req.body.task) {
+        await new DatabaseManager().runTask(req.body.task, req.body)
             .then((result) => {
                 res.status(200).send(result)
             })

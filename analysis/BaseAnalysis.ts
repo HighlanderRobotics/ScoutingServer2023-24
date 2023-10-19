@@ -2,11 +2,19 @@
 
 class BaseAnalysis {
     public db
+    public knex: any
     constructor(db) {
         if (this.constructor == BaseAnalysis) {
             throw new Error(`Abstract classes can't be instantiated.`);
         }
         this.db = db
+        const knex = require('knex')({
+            client: 'sqlite3', 
+            connection: {
+              filename: "./mydb.sqlite"
+            }
+            //update ^^
+          });
     }
 
     getData() {

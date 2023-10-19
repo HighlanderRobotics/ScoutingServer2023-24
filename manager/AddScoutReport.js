@@ -1,7 +1,7 @@
 const Manager = require('./Manager.js')
 const axios = require('axios');
 const isFullyScouted = require('./isFullyScouted.js');
-const updateEPA = require('../analysis/general/updateEPA.js');
+// const updateEPA = require('../analysis/general/updateEPA.js');
 const { rows } = require('jstat');
 
 class AddScoutReport extends Manager {
@@ -96,9 +96,7 @@ class AddScoutReport extends Manager {
             var constantData = {
                 uuid: data.uuid,
                 scouterName: data.scouterName,
-                // defenseQuality: data.overallDefenseRating,
-                // defenseQuantity: data.defenseFrequencyRating,
-                startTime: data.startTime,
+            
                 notes: data.notes
             }
         } catch (err) {
@@ -151,7 +149,7 @@ class AddScoutReport extends Manager {
 
         return new Promise((resolve, reject) => {
 
-            Manager.db.run(insert, [constantData.uuid, matchKey, constantData.scouterName, /*constantData.defenseQuality, constantData.defenseQuantity, */constantData.startTime, JSON.stringify(gameDependent), constantData.notes], (err) => {
+            Manager.db.run(insert, [constantData.uuid, matchKey, constantData.scouterName, constantData.startTime, JSON.stringify(gameDependent), constantData.notes], (err) => {
                 if (err) {
                     reject(err)
                 } else {

@@ -1,5 +1,4 @@
 
-
 class flag extends BaseAnalysis {
     private team
     private result

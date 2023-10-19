@@ -1,7 +1,7 @@
 const Manager = require('./Manager.js')
 const axios = require('axios');
 const isFullyScouted = require('./isFullyScouted.js');
-const updateEPA = require('../analysis/general/updateEPA.js');
+// const updateEPA = require('../analysis/general/updateEPA.js');
 const { rows } = require('jstat');
 
 class AddTournament extends Manager {

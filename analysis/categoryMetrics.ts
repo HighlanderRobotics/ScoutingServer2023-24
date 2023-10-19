@@ -1,7 +1,5 @@
 
 
-
-
 class categoryMetrics extends BaseAnalysis {
     private result
     private team
