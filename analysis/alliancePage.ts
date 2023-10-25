@@ -1,13 +1,14 @@
+import BaseAnalysis  from'./BaseAnalysis';
 
 class alliancePage extends BaseAnalysis {
-    private teamOne
-    private teamTwo
-    private teamThree
-    private totalPoints
-    private result
+    private teamOne : number
+    private teamTwo : number
+    private teamThree : number
+    private totalPoints : number
+    private result : any
 
-    constructor(db, teamOne, teamTwo, teamThree) {
-        super(db)
+    constructor(teamOne: number, teamTwo: number, teamThree: number) {
+        super()
         this.teamOne = teamOne
         this.teamTwo = teamTwo
         this.teamThree = teamThree
@@ -167,3 +168,5 @@ class alliancePage extends BaseAnalysis {
         }
 
     }
+export default alliancePage;
+

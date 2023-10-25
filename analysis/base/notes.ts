@@ -1,36 +1,21 @@
 
+import BaseAnalysis  from '.././BaseAnalysis';
+
 class notes extends BaseAnalysis {
    
     private team
     private teamsScoutedSettings
     private tournamentScoutedSettings
-    private notes
+    private notes: any
 
-    constructor(db, team, teamsScoutedSettings, tournamentScoutedSettings) {
-        super(db)
+    constructor(team: any, teamsScoutedSettings: any, tournamentScoutedSettings: any) {
+        super()
         this.team = team
         this.tournamentScoutedSettings = tournamentScoutedSettings
         this.teamsScoutedSettings = teamsScoutedSettings
     }
     async getNotes() {
-        let sql = `
-            FROM scoutReport
-            WHERE team = ? and ? and ?`
-        return new Promise((resolve, reject) => {
-          
-            this.db.all(sql, [], (err, rows) => {
-                if (err) {
-                    console.log(err)
-                    reject(err)
-                } else {
-                    this.notes = rows
-
-                }
-            })
-
-        })
-
-
+        
        
     }
 
@@ -56,3 +41,4 @@ class notes extends BaseAnalysis {
         }
     }
 }
+export default class MainItem {notes: any }

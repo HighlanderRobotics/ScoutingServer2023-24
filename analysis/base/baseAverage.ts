@@ -1,45 +1,34 @@
 
+import BaseAnalysis  from '.././BaseAnalysis';
+
 class baseAverage extends BaseAnalysis {
-    private teamAvg : number
-    private teamArray : Array<number>
-    private allTeamAvg : number
-    private difference : number
+    private teamAvg = 0
+    private teamArray = []
+    private allTeamAvg = 0
+    private difference = 0
 
     private team : number
     private sourceTeams : number[]
     private tournamentScoutedSettings : String[]
     private action: number 
 
-    constructor(db: any, team: number, sourceTeams: number[], tournamentScoutedSettings: String[], action: number) {
-        super(db)
+    constructor( team: number, sourceTeams: number[], tournamentScoutedSettings: String[], action: number) {
+        super()
         this.team = team
         this.tournamentScoutedSettings = tournamentScoutedSettings
         this.sourceTeams = sourceTeams
         this.action = action
     }
     async getTeamAverage() {
-        //string substitute teamsScoutedSettings and tournamentScoutedSettings
-        let sql = `
-            FROM event
-            WHERE team = ? and ? and ?`
-        return new Promise((resolve, reject) => {
-         
-
-            this.db.all(sql, [], (err, rows) => {
-                if (err) {
-                    console.log(err)
-                    reject(err)
-                } else {
+        
                     
-                    this.knex.select("matchKey").from("events").whereIn('action', this.action).where("source_team", this.sourceTeams)
-
-                }
-            })
-
-        })
+        this.teamArray = this.knex.avg().count().from("events").whereIn('action', this.action).where("source_team", this.sourceTeams).where("team" , "=", this.team).groupBy("source_team", "key")
+        this.teamAvg = this.teamArray.reduce((partialSum, a) => partialSum + a, 0) / this.teamArray.length
+    
     }
     async getAllTeamsAverage() {
-        let sql = ``
+        this.allTeamAvg = this.knex.avg().count().from("events").whereIn('action', this.action).where("source_team", this.sourceTeams).groupBy("source_team", "key")
+
     }
 
 
@@ -53,6 +42,7 @@ class baseAverage extends BaseAnalysis {
             await a.getAllTeamsAverage().catch((err) => {
                 reject(err)
             })
+            this.difference = this.teamAvg - this.allTeamAvg
             resolve("done")
         })
 
@@ -69,3 +59,4 @@ class baseAverage extends BaseAnalysis {
         }
     }
 }
+export default class MainItem {baseAverage: any}

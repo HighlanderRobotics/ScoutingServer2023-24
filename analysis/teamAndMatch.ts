@@ -2,15 +2,16 @@
 //auto path, auto points, auto charge, driver ability, role, notes, links, cones and cubes w level breakdown
 	
 
+import BaseAnalysis  from'./BaseAnalysis';
 
 class teamAndMatch extends BaseAnalysis {
-    private team
-    private teamKey
-    private matchKey
-    private teamsThatScouted
-    private result
-    constructor(db, team, matchKey, teamsThatScouted) {
-        super(db)
+    private team : number
+    private teamKey : string
+    private matchKey : string
+    private teamsThatScouted : number[]
+    private result: any
+    constructor(team: number, matchKey: string, teamsThatScouted: number[]) {
+        super()
         this.team = team
         this.teamKey = "ftc" + team
         this.matchKey = matchKey
@@ -146,3 +147,5 @@ class teamAndMatch extends BaseAnalysis {
     }
 
 }
+export = teamAndMatch;
+

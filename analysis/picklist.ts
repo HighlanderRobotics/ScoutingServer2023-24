@@ -1,10 +1,14 @@
 
+import BaseAnalysis  from'./BaseAnalysis';
 
 class picklist extends BaseAnalysis {
-    private weightedArray
-    private unWeightedArray
-    constructor(db, team, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, autoCargo, teleOp, defense, climbAuto, feedCone, feedCube, avgTotal, teleopClimb, driverAbility, allAndArray) {
-        super(db)
+    getData() {
+        throw new Error('Method not implemented.');
+    }
+    private weightedArray: any;
+    private unWeightedArray: any;
+    constructor( team: any, coneOneScore: any, coneTwoScore: any, coneThreeScore: any, cubeOneScore: any, cubeTwoScore: any, cubeThreeScore: any, autoCargo: any, teleOp: any, defense: any, climbAuto: any, feedCone: any, feedCube: any, avgTotal: any, teleopClimb: any, driverAbility: any, allAndArray: any) {
+        super()
         // this.team = team
         // this.cubeOneScore = cubeOneScore
         // this.cubeTwoScore = cubeTwoScore
@@ -185,3 +189,4 @@ class picklist extends BaseAnalysis {
     }
 
 }
+export = picklist;

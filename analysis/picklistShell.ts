@@ -1,9 +1,10 @@
 
+import BaseAnalysis  from'./BaseAnalysis';
 
 class picklistShell extends BaseAnalysis {
 
-    constructor(db, tourmentKey, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, autoCargo, teleOp, defense, autoClimb, feedCone, feedCube, avgTotal, teleppClimb, driverAbility, flags) {
-        super(db)
+    constructor(tourmentKey: any, coneOneScore: any, coneTwoScore: any, coneThreeScore: any, cubeOneScore: any, cubeTwoScore: any, cubeThreeScore: any, autoCargo: any, teleOp: any, defense: any, autoClimb: any, feedCone: any, feedCube: any, avgTotal: any, teleppClimb: any, driverAbility: any, flags: any) {
+        super()
         // this.tourmentKey = tourmentKey
         // this.cubeOneScore = cubeOneScore
         // this.cubeTwoScore = cubeTwoScore
@@ -166,3 +167,5 @@ class picklistShell extends BaseAnalysis {
     }
 
 }
+
+export = picklistShell;

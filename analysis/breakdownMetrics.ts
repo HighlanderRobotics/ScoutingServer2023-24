@@ -1,28 +1,21 @@
-
+import BaseAnalysis from './BaseAnalysis';
 
 class breakdownMetrics extends BaseAnalysis {
-    private team
-    private teamKey
-    private result
-    constructor(db, team) {
-        super(db)
-        this.team = team
-        this.teamKey = "ftc" + team
-        
+    team : number;
+    teamKey: string;
+    result : any;
+
+    constructor(team : number) {
+        super();
+        this.team = team;
+        this.teamKey = "ftc" + team;
     }
+
     async getData() {
-        let a = this
-
         return new Promise(async (resolve, reject) => {
-
-            let metrics = {}
-          
-           
-          
-          
-
-            resolve({ metrics})
-        })
+            let metrics = {};
+            resolve({ metrics });
+        });
     }
 
     runAnalysis() {
@@ -38,16 +31,12 @@ class breakdownMetrics extends BaseAnalysis {
                         return err;
                     }
                 });
-        
-        })
-
-
+        });
     }
+
     finalizeResults() {
-        return {
-        
-                
-        }
+        return {};
     }
-
 }
+
+export default breakdownMetrics;

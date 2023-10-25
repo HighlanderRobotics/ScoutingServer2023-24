@@ -1,12 +1,16 @@
+import BaseAnalysis  from'./BaseAnalysis';
 
 class flag extends BaseAnalysis {
+    getData() {
+        throw new Error('Method not implemented.');
+    }
     private team
-    private result
+    private result: null
     private typeArr
     private tournamentKey
 
-    constructor(db, team, typeArr, tournamentKey) {
-        super(db)
+    constructor(team: any, typeArr: any, tournamentKey: any) {
+        super()
         this.team = team
         this.result = null
         this.typeArr = typeArr
@@ -77,3 +81,4 @@ class flag extends BaseAnalysis {
     }
 }
 
+export default flag;

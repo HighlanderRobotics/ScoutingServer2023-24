@@ -1,10 +1,11 @@
 
+import BaseAnalysis  from'./BaseAnalysis';
 
 class categoryMetrics extends BaseAnalysis {
-    private result
+    private result: unknown
     private team
-    constructor(db, team) {
-        super(db)
+    constructor( team: any) {
+        super()
         this.team = team
 
     }
@@ -47,3 +48,4 @@ class categoryMetrics extends BaseAnalysis {
     }
 
 }
+export = categoryMetrics;

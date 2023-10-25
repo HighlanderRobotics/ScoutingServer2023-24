@@ -1,39 +1,31 @@
 
-class baseNonEvents extends BaseAnalysis {
-   
-    private team
-    private teamsScoutedSettings
-    private tournamentScoutedSettings
-    private arrayRatios
-    private notes
+import BaseAnalysis  from '.././BaseAnalysis';
 
-    constructor(db, team, teamsScoutedSettings, tournamentScoutedSettings) {
-        super(db)
+class baseNonEvents extends BaseAnalysis {
+
+
+   
+    private team : number
+    private teamsScoutedSettings : number[]
+    private tournamentScoutedSettings : String[]
+    private arrayRatios = []
+    private columnName : String
+
+    constructor( team: number, teamsScoutedSettings: number[], tournamentScoutedSettings: string[], columnName: string) {
+        super()
         this.team = team
         this.tournamentScoutedSettings = tournamentScoutedSettings
         this.teamsScoutedSettings = teamsScoutedSettings
+        this.columnName = columnName
 
     }
     async getRatios() {
-        let sql = `
-        FROM scoutReport
-        WHERE team = ? and ? and ?`
-        return new Promise((resolve, reject) => {
+       
 
-        this.db.all(sql, [], (err, rows) => {
-            if (err) {
-                console.log(err)
-                reject(err)
-            } else {
-                this.notes = rows
-
-            }
-        })
-
-    })
+    }
 
        
-    }
+    
 
 
 
@@ -57,3 +49,5 @@ class baseNonEvents extends BaseAnalysis {
         }
     }
 }
+
+export default class MainItem {baseNonEvents : any }

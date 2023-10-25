@@ -1,16 +1,18 @@
 // only difference to baseAverage is it will sum with points coloumn 
+import BaseAnalysis  from '.././BaseAnalysis';
+
 class basePointAverages extends BaseAnalysis {
-    private teamAvg
-    private teamArray
-    private allTeamAvg
-    private difference
+    private teamAvg = 0
+    private teamArray = []
+    private allTeamAvg = 0
+    private difference = 0
    
     private team
     private teamsScoutedSettings
     private tournamentScoutedSettings
 
-    constructor(db, team, teamsScoutedSettings, tournamentScoutedSettings) {
-        super(db)
+    constructor( team: any, teamsScoutedSettings: any, tournamentScoutedSettings: any) {
+        super()
         this.team = team
         this.tournamentScoutedSettings = tournamentScoutedSettings
         this.teamsScoutedSettings = teamsScoutedSettings
@@ -51,3 +53,4 @@ class basePointAverages extends BaseAnalysis {
         }
     }
 }
+export default class MainItem {basePointAverage: any}

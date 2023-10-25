@@ -1,19 +1,20 @@
 
+import BaseAnalysis  from'./BaseAnalysis';
 
 class predictWinning extends BaseAnalysis {
-    private red1
-    private red2
-    private red3
-    private blue1
-    private blue2
-    private blue3
+    private red1 : number
+    private red2 : number
+    private red3 : number
+    private blue1 : number
+    private blue2 : number
+    private blue3 : number
     private winningAlliance
     private blueAlliance
     private redAlliance
     private redWinning
-    private blueWinning
-    constructor(db, red1, red2, red3, blue1, blue2, blue3,) {
-        super(db)
+    private blueWinning: any
+    constructor( red1: number, red2 : number, red3: number, blue1: number, blue2: number, blue3: number) {
+        super()
 
         this.red1 = red1
         this.red2 = red2
@@ -121,7 +122,7 @@ class predictWinning extends BaseAnalysis {
 
 
     }
-    async GetZPercent(z) {
+    async GetZPercent(z: number) {
         return new Promise(function (resolve, reject) {
             // if(err)
             // {
@@ -155,7 +156,7 @@ class predictWinning extends BaseAnalysis {
         //range
 
     }
-    async getMean(teamArray) {
+    async getMean(teamArray : number[]) {
         return new Promise(function (resolve, reject) {
 
             var total = 0;
@@ -198,4 +199,5 @@ class predictWinning extends BaseAnalysis {
         }
     }
 }
+export = predictWinning;
     
