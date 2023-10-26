@@ -1,4 +1,4 @@
-const Manager = require('./Manager.js')
+import Manager from './Manager.js'
 
 class IsScouted extends Manager {
     static name = `isScouted`
@@ -91,4 +91,4 @@ class IsScouted extends Manager {
 
 }
 
-module.exports = IsScouted
+export default IsScouted

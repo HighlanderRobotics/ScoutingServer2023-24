@@ -1,4 +1,4 @@
-const Manager = require('./Manager.js')
+import Manager from './Manager.js'
 
 class GetMatches extends Manager {
     static name = 'getMatches'
@@ -62,5 +62,4 @@ class GetMatches extends Manager {
         })
     }
 }
-
-module.exports = GetMatches
+export default GetMatches

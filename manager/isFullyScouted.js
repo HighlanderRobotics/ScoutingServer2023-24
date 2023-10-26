@@ -1,6 +1,6 @@
-const { re, row } = require('mathjs')
-const Manager = require('./Manager.js')
-// const updateEPA = require('../analysis/general/updateEPA.js')
+import { re, row } from 'mathjs'
+import Manager from './Manager.js'
+// import updateEPA = require('../analysis/general/updateEPA.js')
 
 class isFullyScouted extends Manager {
     static name = "isFullyScouted"
@@ -39,4 +39,4 @@ class isFullyScouted extends Manager {
     }
 }
 
-module.exports = isFullyScouted
+export default isFullyScouted

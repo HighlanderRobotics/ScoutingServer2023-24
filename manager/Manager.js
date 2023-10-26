@@ -1,12 +1,16 @@
-const sqlite = require('sqlite3').verbose()
+import sqlite from 'sqlite3'
+import { createClient } from '@supabase/supabase-js';
 
+sqlite.verbose()
+const supabaseUrl = 'https://vuavdtyffnscsvwiknpa.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ1YXZkdHlmZm5zY3N2d2lrbnBhIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY1NTM4MjQsImV4cCI6MjAxMjEyOTgyNH0.iKf5aytgMh7-pISOgaU7e-1u0cxkge2mNSzDOYyA8r0';
+let supabase
 class Manager {
-    static db = new sqlite.Database(`${__dirname}/.././test.db`, sqlite.OPEN_CREATE | sqlite.OPEN_READWRITE, (err) => {
-        if (err)
-            console.error(err);
-    });
+      
 
     constructor() {
+        this.supabase = createClient(supabaseUrl, supabaseKey);
+
     }
     
     runTask(task) {
@@ -14,4 +18,4 @@ class Manager {
     }
 }
 
-module.exports = Manager
+export default Manager

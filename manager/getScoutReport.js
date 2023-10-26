@@ -1,6 +1,5 @@
-const { re } = require('mathjs')
-const Manager = require('./Manager.js')
-
+import { re } from 'mathjs'
+import Manager from './Manager.js'
 class getScoutReport extends Manager {
     static name = "getScoutReport"
 
@@ -26,4 +25,4 @@ class getScoutReport extends Manager {
     }
 }
 
-module.exports = getScoutReport
+export default getScoutReport

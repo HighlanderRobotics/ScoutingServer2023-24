@@ -1,5 +1,5 @@
-const { re } = require('mathjs')
-const Manager = require('./Manager.js')
+import Manager from './Manager.js'
+
 
 class deletePicklist extends Manager {
     static name = "deletePicklist"
@@ -25,4 +25,4 @@ class deletePicklist extends Manager {
     }
 }
 
-module.exports = deletePicklist
+export default deletePicklist

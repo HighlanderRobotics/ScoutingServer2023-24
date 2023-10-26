@@ -1,16 +1,15 @@
-const Manager = require('./manager/dbmanager.js')
-// const AverageForMetric = require('./analysis/AverageForMetric.js')
-// const AverageForMetric = require('./analysis/AverageForMetric.js')
-//const Overview = require('./overview.js')
+// import Manager from './manager/dbmanager.js'
+// import AverageForMetric = from('./analysis/AverageForMetric.js')
+// import AverageForMetric = from('./analysis/AverageForMetric.js')
+//import Overview = from('./overview.js')
 
-const breakdownMetrics = require('./analysis/breakdownMetrics.ts')
-const categoryMetrics = require('./analysis/categoryMetrics.ts')
-const notes = require('./analysis/general/notes')
-const picklistShell = require('./analysis/picklistShell.ts')
-const autoPathsTeams = require('./analysis/auto/cargo/autoPathsTeams.ts')
-const alliancePage = require('./analysis/alliancePage')
-const predictWinning = require('./analysis/predictWinning.ts')
-const flag = require('./analysis/flag.ts')
+import breakdownMetrics from './analysis/breakdownMetrics.js'
+import categoryMetrics from'./analysis/categoryMetrics.js'
+import notes from'./analysis/base/notes.js'
+import picklistShell from './analysis/picklistShell.js'
+import alliancePage  from'./analysis/alliancePage.js'
+import predictWinning from'./analysis/predictWinning.js'
+import flag from './analysis/flag.js'
 
 
 class TaskManager {
@@ -79,9 +78,7 @@ class TaskManager {
                 case ("picklist"):
                     returnAnalysis.push(new picklistShell(Manager.db, task.tournamentKey, task.coneOneScore, task.coneTwoScore, task.coneThreeScore, task.cubeOneScore, task.cubeTwoScore, task.cubeThreeScore,task.autoCargo, task.teleopScore, task.defenseScore, task.autoClimb, task.feedCone, task.feedCube, task.avgTotal, task.teleopClimb, task.driverAbility, JSON.parse(task.flags)))
                     break
-                case("allianceAutoPaths"):
-                    returnAnalysis.push(new autoPathsTeams(Manager.db, task.teamOne, task.teamTwo, task.teamThree))
-                    break
+                
                 case("alliancePage"):
                     returnAnalysis.push(new alliancePage(Manager.db, task.teamOne, task.teamTwo, task.teamThree))
                     break
@@ -101,4 +98,4 @@ class TaskManager {
     }
 }
 
-module.exports = TaskManager
+export default TaskManager

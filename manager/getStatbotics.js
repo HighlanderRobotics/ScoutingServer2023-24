@@ -1,6 +1,6 @@
-const Manager = require('./Manager')
-const { resolve } = require('mathjs')
-const axios = require('axios')
+import Manager from './Manager.js'
+import { resolve } from 'mathjs'
+import axios from 'axios'
 
 //gets norm_epa_recent and full_winrate from statbotics given a team number
 //used in category metrics (analysis folder)
@@ -33,4 +33,4 @@ class getStatbotics extends Manager {
 
 }
 
-module.exports = getStatbotics
+export default getStatbotics

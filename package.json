@@ -1,61 +1,64 @@
 {
-    "name": "scouting-server",
-    "version": "1.0.0",
-    "description": "Scouting Server",
-    "main": "collectionServer.js",
-    "homepage": "https://github.com/barryb5/learn-auth-server#README.md",
-    "scripts": {
-        "start": "node collectionServer.js",
-        "linuxstart": "gnome-terminal -- ./ngrok.sh; node collectionServer.js",
-        "macstart": "open -a Terminal.app ngrok.sh; node collectionServer.js",
-        "windowsstart": "wt -p \"ngrok\" bash ngrok.sh ; split-pane -p \"CollectionServer\" node collectionServer.js",
-        "test": "jest",
-        "dev": "nodemon collectionServer.js",
-        "setup": "node setup.mjs"
-    },
-    "keywords": [],
-    "author": {
-        "name": "Barry B Benson",
-        "email": "bbalasingham@gmail.com"
-    },
-    "license": "ISC",
-    "dependencies": {
-        "axios": "^0.21.4",
-        "bcrypt": "^5.1.0",
-        "chalk": "^5.2.0",
-        "cors": "^2.8.5",
-        "csv": "^6.3.3",
-        "csvtojson": "^2.0.10",
-        "express": "^4.18.2",
-        "inquirer": "^9.1.5",
-        "jsonwebtoken": "^8.5.1",
-        "jstat": "^1.9.6",
-        "knex": "^3.0.1",
-        "mathjs": "^11.5.0",
-        "morgan": "^1.10.0",
-        "node-fetch": "^3.3.0",
-        "nodejs": "^0.0.0",
-        "ora": "^6.1.2",
-        "papaparse": "^5.3.2",
-        "qrcode-terminal": "^0.12.0",
-        "socket.io": "^4.6.1",
-        "sqlite": "^4.1.2",
-        "sqlite3": "^5.1.6"
-    },
-    "devDependencies": {
-        "dotenv": "^16.0.3",
-        "jest": "^29.3.1",
-        "nodemon": "^2.0.20"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/barryb5/learn-auth-server"
-    },
-    "bugs": {
-        "url": "https://github.com/barryb5/learn-auth-server/issues"
-    },
-    "engines": {
-        "node": "^18.12.1",
-        "npm": "^9.2.0"
-    }
+  "name": "scouting-server",
+  "version": "1.0.0",
+  "description": "Scouting Server",
+  "main": "collectionServer.js",
+  "homepage": "https://github.com/barryb5/learn-auth-server#README.md",
+  "type": "module",
+  "scripts": {
+    "start": "node collectionServer.js",
+    "linuxstart": "gnome-terminal -- ./ngrok.sh; node collectionServer.js",
+    "macstart": "open -a Terminal.app ngrok.sh; node collectionServer.js",
+    "windowsstart": "wt -p \"ngrok\" bash ngrok.sh ; split-pane -p \"CollectionServer\" node collectionServer.js",
+    "test": "jest",
+    "dev": "nodemon collectionServer.js",
+    "setup": "node setup.mjs"
+  },
+  "keywords": [],
+  "author": "Cassie Colby <cassiecolby@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.2",
+    "@types/express": "^4.17.20",
+    "@types/node": "^20.8.7",
+    "axios": "^0.21.4",
+    "bcrypt": "^5.1.0",
+    "chalk": "^5.2.0",
+    "cors": "^2.8.5",
+    "csv": "^6.3.3",
+    "csvtojson": "^2.0.10",
+    "express": "^4.18.2",
+    "inquirer": "^9.1.5",
+    "jsonwebtoken": "^8.5.1",
+    "jstat": "^1.9.6",
+    "knex": "^3.0.1",
+    "mathjs": "^11.5.0",
+    "morgan": "^1.10.0",
+    "node-fetch": "^3.3.0",
+    "nodejs": "^0.0.0",
+    "ora": "^6.1.2",
+    "papaparse": "^5.3.2",
+    "qrcode-terminal": "^0.12.0",
+    "socket.io": "^4.6.1",
+    "sqlite": "^4.1.2",
+    "sqlite3": "^5.1.6",
+    "supabase": "^1.106.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3",
+    "jest": "^29.3.1",
+    "nodemon": "^2.0.20",
+    "typescript": "^5.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/barryb5/learn-auth-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/barryb5/learn-auth-server/issues"
+  },
+  "engines": {
+    "node": "^18.12.1",
+    "npm": "^9.2.0"
+  }
 }

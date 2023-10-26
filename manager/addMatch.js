@@ -1,9 +1,8 @@
-const { resolve } = require('mathjs');
-const Manager = require('./Manager.js');
-const { rows } = require('jstat');
+import Manager from './Manager.js'
 
-class addMatches extends Manager {
-    static name = 'addMatches'
+
+class addMatch extends Manager {
+    static name = 'addMatch'
 
     constructor() {
         super()
@@ -72,4 +71,4 @@ class addMatches extends Manager {
     }
 }
 
-module.exports = addMatches
+export default addMatch

@@ -1,4 +1,5 @@
-const Manager = require('./Manager.js')
+import Manager from './Manager.js'
+
 
 class AddNonQualTeams extends Manager {
     static name = 'addNonQualTeams'
@@ -56,4 +57,4 @@ class AddNonQualTeams extends Manager {
     }
 }
 
-module.exports = AddNonQualTeams
+export default AddNonQualTeams

@@ -1,5 +1,5 @@
-const { re } = require('mathjs')
-const Manager = require('./Manager.js')
+import Manager from './Manager.js'
+
 //adds or updates
 
 class AddCustomMatch extends Manager {
@@ -67,4 +67,4 @@ class AddCustomMatch extends Manager {
     }
 }
 
-module.exports = AddCustomMatch
+export default AddCustomMatch

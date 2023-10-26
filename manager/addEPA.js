@@ -1,11 +1,5 @@
-const getTeamsInTournament = require('./GetTeamsInTournament')
+import Manager from './Manager.js'
 
-const { re, resolve, xgcd } = require('mathjs')
-const Manager = require('./Manager.js')
-const GetTeams = require('./GetTeams')
-const fs = require("fs");
-const file = require('../2023EPA.csv')
-const { parse } = require("csv-parse");
 
 class addEPA extends Manager {
     static name = "addEPA"
@@ -51,4 +45,4 @@ class addEPA extends Manager {
     }
 }
 
-module.exports = addEPA
+export default addEPA

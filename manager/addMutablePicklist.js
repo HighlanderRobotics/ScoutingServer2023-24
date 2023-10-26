@@ -1,5 +1,5 @@
-const { re, resolve } = require('mathjs')
-const Manager = require('./Manager.js')
+import Manager from './Manager.js'
+
 //adds or updates
 
 class addMutablePicklist extends Manager {
@@ -51,4 +51,4 @@ class addMutablePicklist extends Manager {
     }
 }
 
-module.exports = addMutablePicklist
+export default addMutablePicklist

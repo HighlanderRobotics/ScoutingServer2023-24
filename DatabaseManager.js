@@ -1,39 +1,40 @@
-const Manager = require('./manager/Manager.js')
-const AddScoutReport = require('./manager/AddScoutReport.js')
-const GetTeams = require('./manager/GetTeams.js')
-const InitServer = require('./manager/InitServer.js')
-const ResetAndPopulate = require('./manager/ResetAndPopulate.js')
-const AddAPITeams = require('./manager/AddAPITeams.js')
-const AddAPITournaments = require('./manager/AddAPITournaments.js')
-const AddScouters = require('./manager/AddScouters.js')
-const AddTournamentMatches = require('./manager/AddTournamentMatches.js')
-const IsScouted = require('./manager/IsScouted.js')
-const GetScoutersSchedule = require('./manager/GetScoutersSchedule.js')
-const UpdateScoutersSchedule = require('./manager/UpdateScoutersSchedule.js')
-const GetMatches = require('./manager/GetMatches.js')
-const IsMatchesScouted = require('./manager/IsMatchesScouted.js')
-const GetAllNotes = require('./manager/GetAllNotes.js')
-const NewScouter = require('./manager/NewScouter.js')
-const MatchesCompleted = require('./manager/MatchesCompleted.js')
-const GetTeamsInTournament = require('./manager/GetTeamsInTournament.js')
-const GetTournaments = require('./manager/GetTournaments.js')
-const deletePicklist = require('./manager/deletePicklist.js')
-const getPicklists = require('./manager/getPicklists.js')
-const addPicklist = require('./manager/addPicklist.js')
-const addMutablePicklist = require('./manager/addMutablePicklist.js')
-const deleteMutablePicklist = require('./manager/deleteMutablePicklist.js')
-const getMutablePicklists = require('./manager/getMutablePicklists.js')
-const deleteData = require('./manager/deleteData.js')
-const editNotes = require('./manager/editNotes.js')
-const getScoutReport = require('./manager/getScoutReport.js')
-const getRankOfTeam = require('./manager/getRankOfTeam.js')
-const editData = require('./manager/editData.js')
-const addMatch = require('./manager/addMatch.js')
-const addEpa = require('./manager/addEPA.js')
-const addEPA = require('./manager/addEPA.js')
-const AddTournament = require('./manager/AddTournament.js')
-const AddCustomMatch = require('./manager/AddCustomMatch.js')
-const deleteCustomMatch = require('./manager/deleteCustomMatch.js')
+// import Manager from('./manager/Manager.js')
+import AddScoutReport from './manager/AddScoutReport.js'
+import GetTeams from'./manager/GetTeams.js'
+import InitServer from'./manager/InitServer.js'
+import ResetAndPopulate from'./manager/ResetAndPopulate.js'
+import AddAPITeams from'./manager/AddAPITeams.js'
+import AddAPITournaments from'./manager/AddAPITournaments.js'
+import AddScouter from'./manager/AddScouter.js'
+import AddTournamentMatches from'./manager/AddTournamentMatches.js'
+import IsScouted from'./manager/IsScouted.js'
+import GetScoutersSchedule from'./manager/GetScoutersSchedule.js'
+import UpdateScoutersSchedule from'./manager/UpdateScoutersSchedule.js'
+import GetMatches from'./manager/GetMatches.js'
+import IsMatchesScouted from'./manager/IsMatchesScouted.js'
+import GetAllNotes from'./manager/GetAllNotes.js'
+import NewScouter from'./manager/NewScouter.js'
+import MatchesCompleted from'./manager/MatchesCompleted.js'
+import GetTeamsInTournament from'./manager/GetTeamsInTournament.js'
+import GetTournaments from'./manager/GetTournaments.js'
+import deletePicklist from'./manager/deletePicklist.js'
+import getPicklists from'./manager/getPicklists.js'
+import addPicklist from'./manager/addPicklist.js'
+import addMutablePicklist from'./manager/addMutablePicklist.js'
+import deleteMutablePicklist from'./manager/deleteMutablePicklist.js'
+import getMutablePicklists from'./manager/getMutablePicklists.js'
+import deleteData from'./manager/deleteData.js'
+import editNotes from'./manager/editNotes.js'
+import getScoutReport from'./manager/getScoutReport.js'
+import getRankOfTeam from'./manager/getRankOfTeam.js'
+import editData from'./manager/editData.js'
+import addMatch from'./manager/addMatch.js'
+import addEpa from './manager/addEPA.js'
+import addEPA from './manager/addEPA.js'
+import AddTournament from './manager/AddTournament.js'
+import AddCustomMatch from './manager/AddCustomMatch.js'
+import deleteCustomMatch from './manager/deleteCustomMatch.js'
+import test from './manager/test.js'
 
 
 class DatabaseManager {
@@ -57,7 +58,7 @@ class DatabaseManager {
                     return new AddAPITeams().runTask()
                 case AddAPITournaments.name:
                     return new AddAPITournaments().runTask(body.year)
-                case AddScouters.name:
+                case AddScouter.name:
                     return new AddScouters().runTask()
                 case AddTournamentMatches.name:
                     return new AddTournamentMatches().runTask(body.key)
@@ -115,6 +116,8 @@ class DatabaseManager {
                     return new AddCustomMatch().runTask(body.tournamentKey, body.matchNumber, body.matchType, body.teams)
                 case deleteCustomMatch.name:
                     return new deleteCustomMatch().runTask(body.tournamentKey, body.matchNumber, body.matchType)
+                case test.name:
+                    return new test().runTask()
                 
 
                 default:
@@ -131,4 +134,4 @@ class DatabaseManager {
     }
 }
 
-module.exports = DatabaseManager
+export default DatabaseManager

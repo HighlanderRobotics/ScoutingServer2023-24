@@ -1,8 +1,9 @@
-const { re } = require('mathjs')
-const Manager = require('./Manager.js')
+import Manager from './Manager.js'
+import axios from "axios"
+import { resolve, row } from 'mathjs'
 
-const deleteData = require('./deleteData.js')
-const addData = require('./AddScoutReport.js')
+import deleteData from  './deleteData.js'
+import addData from './AddScoutReport.js'
 class editData extends Manager {
     static name = "editData"
 
@@ -17,4 +18,4 @@ class editData extends Manager {
     }
 }
 
-module.exports = editData
+export default editData

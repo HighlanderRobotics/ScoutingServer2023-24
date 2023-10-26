@@ -1,4 +1,5 @@
-const Manager = require('./Manager.js')
+import Manager from './Manager.js'
+
 
 class GetAllNotes extends Manager {
     static name = 'getAllNotes'
@@ -45,4 +46,4 @@ class GetAllNotes extends Manager {
 
 }
 
-module.exports = GetAllNotes
+export default GetAllNotes

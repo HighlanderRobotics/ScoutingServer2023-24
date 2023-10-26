@@ -1,7 +1,6 @@
-const Manager = require('./Manager.js')
-const axios = require('axios');
-const isFullyScouted = require('./isFullyScouted.js');
-const { rows } = require('jstat');
+import Manager from './Manager.js'
+import axios from 'axios';
+import isFullyScouted from'./isFullyScouted.js';
 
 class AddScoutReport extends Manager {
     static name = 'addScoutReport'
@@ -166,4 +165,4 @@ class AddScoutReport extends Manager {
 
 // console.log(gameDependent)
 
-module.exports = AddScoutReport
+export default AddScoutReport

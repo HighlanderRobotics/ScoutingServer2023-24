@@ -1,4 +1,4 @@
-const Manager = require('./Manager.js')
+import Manager from './Manager.js'
 
 class GetTeams extends Manager {
     static name = 'getTeams'
@@ -7,32 +7,22 @@ class GetTeams extends Manager {
         super()
     }
 
-    runTask() {
-        var sql = `SELECT * FROM teams 
-            ORDER BY teamnumber
-        `
+    async runTask() {
+       
+        let { data: teams, error } = await this.supabase
+        .from('teams')
+        .select('*')
+        if(error)
+        {
+            console.log(error)
+            return error
+        }
+        else
+        {
+            return teams
+        }
 
-
-        return new Promise((resolve, reject) => {
-            Manager.db.all(sql, (err, storedTeams) => {
-                if (err) {
-                    reject({
-                        "results": err,
-                        "customCode": 500
-                    })
-                }
-
-                if (storedTeams == undefined) {
-                    reject({
-                        "results": "No teams found (database is probably empty)",
-                        "customCode": 406
-                    })
-                } else {
-                    resolve(storedTeams)
-                }
-            })
-        })
     }
 }
 
-module.exports = GetTeams
+export default GetTeams

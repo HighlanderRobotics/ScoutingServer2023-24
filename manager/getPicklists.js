@@ -1,6 +1,6 @@
-const Manager = require('./Manager.js')
-const axios = require("axios")
-const { resolve, row } = require('mathjs')
+import Manager from './Manager.js'
+import axios from "axios"
+import { resolve, row } from 'mathjs'
 
 class getPicklists extends Manager {
     static name = "getPicklists"
@@ -31,4 +31,4 @@ class getPicklists extends Manager {
     }
 }
 
-module.exports = getPicklists
+export default getPicklists

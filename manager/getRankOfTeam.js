@@ -1,6 +1,6 @@
-const Manager = require('./Manager.js')
-const { resolve } = require('mathjs')
-const axios = require('axios')
+import Manager from './Manager.js'
+import { resolve } from 'mathjs'
+import axios from 'axios'
 
 
 
@@ -45,4 +45,4 @@ class getRankOfTeam extends Manager {
     }
 }
 
-module.exports = getRankOfTeam
+export default getRankOfTeam

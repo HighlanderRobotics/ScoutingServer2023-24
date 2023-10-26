@@ -1,5 +1,5 @@
-const { re } = require('mathjs')
-const Manager = require('./Manager.js')
+import Manager from './Manager.js'
+
 
 class deleteData extends Manager {
     static name = "deleteData"
@@ -33,4 +33,4 @@ class deleteData extends Manager {
     }
 }
 
-module.exports = deleteData
+export default deleteData

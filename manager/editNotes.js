@@ -1,6 +1,5 @@
-const { re } = require('mathjs')
-const Manager = require('./Manager.js')
-//adds or updates
+import Manager from './Manager.js'
+
 
 class editNotes extends Manager {
     static name = "editNotes"
@@ -32,4 +31,4 @@ class editNotes extends Manager {
     }
 }
 
-module.exports = editNotes
+export default editNotes

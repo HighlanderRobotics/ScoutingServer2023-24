@@ -1,6 +1,6 @@
-const { response } = require('express');
-const Manager = require('./Manager.js')
-const axios = require('axios');
+import Manager from './Manager.js'
+
+import axios from 'axios';
 
 class AddTournamentMatches extends Manager {
     static name = 'addTournamentMatches'
@@ -179,4 +179,4 @@ class AddTournamentMatches extends Manager {
     }
 }
 
-module.exports = AddTournamentMatches
+export default AddTournamentMatches

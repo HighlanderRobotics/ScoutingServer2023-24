@@ -1,5 +1,6 @@
-const Manager = require('./Manager.js')
-const axios = require("axios")
+import Manager from './Manager.js'
+
+import axios from "axios"
 
 class AddAPITournaments extends Manager {
     static name = "addAPITournaments"
@@ -60,4 +61,4 @@ class AddAPITournaments extends Manager {
     }
 }
 
-module.exports = AddAPITournaments
+export default AddAPITournaments

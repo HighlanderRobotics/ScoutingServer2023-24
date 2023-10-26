@@ -1,5 +1,5 @@
-const Manager = require('./Manager.js')
-const fs = require('fs')
+import Manager from './Manager.js'
+import fs from'fs'
 
 class UpdateScoutersSchedule extends Manager {
     static name = 'updateScoutersSchedule'
@@ -24,4 +24,4 @@ class UpdateScoutersSchedule extends Manager {
     }
 }
 
-module.exports = UpdateScoutersSchedule
+export default UpdateScoutersSchedule

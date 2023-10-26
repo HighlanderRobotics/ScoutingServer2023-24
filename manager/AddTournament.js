@@ -1,8 +1,6 @@
-const Manager = require('./Manager.js')
-const axios = require('axios');
-const isFullyScouted = require('./isFullyScouted.js');
+import Manager from './Manager.js'
+
 // const updateEPA = require('../analysis/general/updateEPA.js');
-const { rows } = require('jstat');
 
 class AddTournament extends Manager {
     static name = 'AddTournament'
@@ -50,4 +48,4 @@ class AddTournament extends Manager {
 }
 
 
-module.exports = AddTournament
+export default AddTournament

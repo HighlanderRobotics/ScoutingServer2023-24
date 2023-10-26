@@ -1,5 +1,5 @@
-const { re } = require('mathjs')
-const Manager = require('./Manager.js')
+import Manager from './Manager.js'
+
 //adds or updates
 
 class deleteCustomMatch extends Manager {
@@ -31,4 +31,4 @@ class deleteCustomMatch extends Manager {
     }
 }
 
-module.exports = deleteCustomMatch
+export default deleteCustomMatch

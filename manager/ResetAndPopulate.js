@@ -1,6 +1,7 @@
-const Manager = require('./Manager.js')
-const axios = require('axios')
-const fs = require('fs')
+import Manager from './Manager.js'
+import fs from 'fs'
+import axios from'axios'
+
 class ResetAndPopulate extends Manager {
     static name = 'resetAndPopulate'
     constructor() {
@@ -146,7 +147,7 @@ class ResetAndPopulate extends Manager {
 
             try {
                 while (!finished) {
-                    const response = await axios.get(`${url}/teams/${page}/simple`, {
+                     response = await axios.get(`${url}/teams/${page}/simple`, {
                         headers: {'X-TBA-Auth-Key': process.env.KEY}
                     });
 
@@ -244,4 +245,4 @@ class ResetAndPopulate extends Manager {
         })
     }
 }
-module.exports = ResetAndPopulate
+export default ResetAndPopulate

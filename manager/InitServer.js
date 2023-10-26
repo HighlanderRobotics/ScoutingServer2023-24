@@ -1,4 +1,4 @@
-const Manager = require('./Manager.js')
+import Manager from './Manager.js'
 
 class InitServer extends Manager {
     static name = 'initServer'
@@ -33,4 +33,4 @@ class InitServer extends Manager {
     }
 }
 
-module.exports = InitServer
+export default InitServer
