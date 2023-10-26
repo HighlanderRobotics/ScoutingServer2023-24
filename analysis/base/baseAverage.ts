@@ -21,13 +21,12 @@ class baseAverage extends BaseAnalysis {
     }
     async getTeamAverage() {
         
-                    
-        this.teamArray = this.knex.avg().count().from("events").whereIn('action', this.action).where("source_team", this.sourceTeams).where("team" , "=", this.team).groupBy("source_team", "key")
+        this.teamArray = this.supabase.avg().count().from("events").whereIn('action', this.action).where("source_team", this.sourceTeams).where("team" , "=", this.team).groupBy("source_team", "key")
         this.teamAvg = this.teamArray.reduce((partialSum, a) => partialSum + a, 0) / this.teamArray.length
     
     }
     async getAllTeamsAverage() {
-        this.allTeamAvg = this.knex.avg().count().from("events").whereIn('action', this.action).where("source_team", this.sourceTeams).groupBy("source_team", "key")
+        this.allTeamAvg = this.supabase.avg().count().from("events").whereIn('action', this.action).where("source_team", this.sourceTeams).groupBy("source_team", "key")
 
     }
 
