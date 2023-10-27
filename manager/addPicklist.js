@@ -12,37 +12,49 @@ class addPicklist extends Manager {
         {
             return("no team")
         }
-        var sql = `SELECT * FROM sharedPicklists WHERE uuid = ?`
-        var sql2 = `DELETE FROM sharedPicklists
-        WHERE uuid = ?`
-        var sql3 = `INSERT INTO sharedPicklists (uuid, name, cubeOneScore, cubeTwoScore, cubeThreeScore, coneOneScore, coneTwoScore, coneThreeScore, autoCargo, teleopScore, defenseScore, autoClimb, feedCone, feedCube, avgTotal, teleopClimb, driverAbility, team, userName) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?, ?, ?)`
 
-        return new Promise(async (resolve, reject) => {
-            Manager.db.all(sql, [uuid], (err, rows) => {
-                if (err) {
-                    console.log(err)
-                    reject(err)
+        let { data: sharedPicklist, error } = await supabase
+        // .from('sharedPicklist')
+        // .select("*")
+      
+        // // Filters
+        // .eq('column', 'Equal to')
+        // .gt('column', 'Greater than')
+        // .lt('column', 'Less than')
+        // .gte('column', 'Greater than or equal to')
+        // .lte('column', 'Less than or equal to')
+        // .like('column', '%CaseSensitive%')
+        // .ilike('column', '%CaseInsensitive%')
+        // .is('column', null)
+        // .in('column', ['Array', 'Values'])
+        // .neq('column', 'Not equal to')
+      
+        // // Arrays
+        // .cs('array_column', ['array', 'contains'])
+        // .cd('array_column', ['contained', 'by'])
+      
+                      if (error) {
+                    console.log(error)
+                    reject(error)
                 }
                 if (rows.length == 1)
                 {
-                    Manager.db.all(sql2, [uuid], (err, rows) =>{
-                        if (err)
+                        if (error)
                         {
-                            console.log(err)
-                            reject(err)
+                            console.log(error)
                         }
-                    })
+                    
                 }
-                Manager.db.all(sql3, [uuid, name, cubeOneScore, cubeTwoScore, cubeThreeScore, coneOneScore, coneTwoScore, coneThreeScore, autoCargo, teleopScore, defenseScore, autoClimb, feedCone, feedCube, avgTotal, teleopClimb, driverAbility, team, userName], (err) => {
-                    if (err) {
-                        console.log(err)
-                        reject(err)
+                [uuid, name, cubeOneScore, cubeTwoScore, cubeThreeScore, coneOneScore, coneTwoScore, coneThreeScore, autoCargo, teleopScore, defenseScore, autoClimb, feedCone, feedCube, avgTotal, teleopClimb, driverAbility, team, userName]
+                    if (error) {
+                        console.log(error)
+                        reject(error)
                     }
                     resolve("done")
-                })
-            })
+            
+        
            
-        })
+        
 
     }
 }

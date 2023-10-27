@@ -21,7 +21,13 @@ class baseAverage extends BaseAnalysis {
     }
     async getTeamAverage() {
         
-        this.teamArray = this.supabase.avg().count().from("events").whereIn('action', this.action).where("source_team", this.sourceTeams).where("team" , "=", this.team).groupBy("source_team", "key")
+        this.teamArray = this.supabase
+        .from('events')
+        .select('*')
+        .in('tournamentKey', this.tournamentScoutedSettings)
+        .in('sourceTeams', this.sourceTeams)
+        .eq('action', this.action)
+        
         this.teamAvg = this.teamArray.reduce((partialSum, a) => partialSum + a, 0) / this.teamArray.length
     
     }

@@ -1,8 +1,8 @@
 
-import BaseAnalysis  from '.././BaseAnalysis';
+import BaseAnalysis from '.././BaseAnalysis';
 
 class notes extends BaseAnalysis {
-   
+
     private team
     private teamsScoutedSettings
     private tournamentScoutedSettings
@@ -15,8 +15,13 @@ class notes extends BaseAnalysis {
         this.teamsScoutedSettings = teamsScoutedSettings
     }
     async getNotes() {
-        
-       
+
+        let { data: scoutReport, error } = await this.supabase
+            .from('scoutReport')
+            .select('notes')
+            .in
+
+
     }
 
 
@@ -27,7 +32,7 @@ class notes extends BaseAnalysis {
             await a.getNotes().catch((err) => {
                 reject(err)
             })
-            
+
             resolve("done")
         })
 
@@ -37,8 +42,8 @@ class notes extends BaseAnalysis {
     finalizeResults() {
         return {
             "team": this.team,
-            "notes" : this.notes
+            "notes": this.notes
         }
     }
 }
-export default class MainItem {notes: any }
+export default class MainItem { notes: any }

@@ -9,24 +9,25 @@ class getPicklists extends Manager {
         super()
     }
 
-    async runTask(team){
-        if(team == null)
-        {
-            return("no team")
+    async runTask(team) {
+        if (team == null) {
+            return ("no team")
         }
-        var sql = `SELECT *
-        FROM sharedPicklists
-        WHERE team = ?`
-        return new Promise(async (resolve, reject) => {
-            Manager.db.all(sql, [team], (err, rows) => {
-                if (err) {
-                    console.log(err)
-                    reject(err)
-                }
-                resolve(rows)
 
-            })
-        })
+        let { data: sharedPicklist, error } = await this.supabase
+            .from('sharedPicklist')
+            .select('*')
+        if(error)
+        {
+            console.log(error)
+            return error
+        }
+        else
+        {
+            return sharedPicklist
+        }
+
+
 
     }
 }
