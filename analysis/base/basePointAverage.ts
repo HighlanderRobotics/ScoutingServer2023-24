@@ -6,13 +6,14 @@ class basePointAverages extends BaseAnalysis {
     private teamArray = []
     private allTeamAvg = 0
     private difference = 0
-   
+    private action : number
     private team
     private teamsScoutedSettings
     private tournamentScoutedSettings
 
-    constructor( team: any, teamsScoutedSettings: any, tournamentScoutedSettings: any) {
+    constructor( team: any, teamsScoutedSettings: any, tournamentScoutedSettings: any, action: number) {
         super()
+        this.action = action
         this.team = team
         this.tournamentScoutedSettings = tournamentScoutedSettings
         this.teamsScoutedSettings = teamsScoutedSettings
@@ -53,4 +54,4 @@ class basePointAverages extends BaseAnalysis {
         }
     }
 }
-export default class MainItem {basePointAverage: any}
+export default basePointAverages

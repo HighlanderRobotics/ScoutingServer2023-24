@@ -1,18 +1,26 @@
 
 import BaseAnalysis  from'./BaseAnalysis';
+import basePointAverages from './base/basePointAverage';
+import baseAverage from './base/baseAverage';
 
 class categoryMetrics extends BaseAnalysis {
     private result: unknown
     private team
-    constructor( team: any) {
+    tournamentScoutedSettings : string[]
+    teamScoutedSettings : number[]
+    constructor( team: any, tournamentScoutedSettings : string[], teamScoutedSettings : number[]) {
         super()
         this.team = team
+        this.tournamentScoutedSettings = tournamentScoutedSettings
+        this.teamScoutedSettings = teamScoutedSettings
 
     }
     async getData() {
         let a = this
 
         return new Promise(async (resolve, reject) => {
+
+            // let cones = new baseAverage(this.tournamentScoutedSettings)
 
             let metrics = {}
         

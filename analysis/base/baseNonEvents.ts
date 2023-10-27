@@ -50,4 +50,4 @@ class baseNonEvents extends BaseAnalysis {
     }
 }
 
-export default class MainItem {baseNonEvents : any }
+export default baseNonEvents

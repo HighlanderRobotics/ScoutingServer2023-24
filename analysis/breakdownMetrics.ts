@@ -1,21 +1,36 @@
 import BaseAnalysis from './BaseAnalysis';
+import baseNonEvents from './base/baseNonEvents';
 
 class breakdownMetrics extends BaseAnalysis {
     team : number;
     teamKey: string;
     result : any;
 
-    constructor(team : number) {
+    tournamentScoutedSettings : string[];
+    teamScoutedSetting : number[];
+    metrics : any
+
+    constructor(team : number, tournamentScoutedSettings: string[], teamScoutedSetting: number[]) {
         super();
         this.team = team;
         this.teamKey = "ftc" + team;
+        this.teamScoutedSetting = teamScoutedSetting
+        this.tournamentScoutedSettings =tournamentScoutedSettings
     }
 
     async getData() {
-        return new Promise(async (resolve, reject) => {
-            let metrics = {};
-            resolve({ metrics });
-        });
+        let roles = new baseNonEvents(this.team, this.teamScoutedSetting, this.tournamentScoutedSettings, "robotRole")
+        roles.runAnalysis()
+
+        let climb = new baseNonEvents(this.team, this.teamScoutedSetting, this.tournamentScoutedSettings, "challengeResult")
+        climb.runAnalysis()
+
+        let autoClimb = new baseNonEvents(this.team, this.teamScoutedSetting, this.tournamentScoutedSettings, "autoChallengeResult")
+        autoClimb.runAnalysis()
+
+        let metrics = {"roles" : roles.finalizeResults().ratios, "climb" : climb.finalizeResults().ratios, "autoClimb" : autoClimb.finalizeResults().ratios}
+        this.metrics = metrics
+
     }
 
     runAnalysis() {
@@ -35,7 +50,9 @@ class breakdownMetrics extends BaseAnalysis {
     }
 
     finalizeResults() {
-        return {};
+        return {
+            "breakdowns" : this.metrics
+        };
     }
 }
 

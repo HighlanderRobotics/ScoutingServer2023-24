@@ -3,7 +3,7 @@ import BaseAnalysis  from '.././BaseAnalysis';
 
 class baseAverage extends BaseAnalysis {
     private teamAvg = 0
-    private teamArray = []
+    private teamArray: number[] = [];
     private allTeamAvg = 0
     private difference = 0
 
@@ -21,7 +21,7 @@ class baseAverage extends BaseAnalysis {
     }
     async getTeamAverage() {
         
-        this.teamArray = this.supabase
+        this.supabase
         .from('events')
         .select('*')
         .in('tournamentKey', this.tournamentScoutedSettings)
@@ -32,7 +32,7 @@ class baseAverage extends BaseAnalysis {
     
     }
     async getAllTeamsAverage() {
-        this.allTeamAvg = this.supabase.avg().count().from("events").whereIn('action', this.action).where("source_team", this.sourceTeams).groupBy("source_team", "key")
+        // this.allTeamAvg = this.supabase.avg().count().from("events").whereIn('action', this.action).where("source_team", this.sourceTeams).groupBy("source_team", "key")
 
     }
 

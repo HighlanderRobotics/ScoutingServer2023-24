@@ -1,4 +1,6 @@
 import BaseAnalysis  from'./BaseAnalysis';
+import basePointAverage from './base/basePointAverage'
+import baseNonEvents from './base/baseNonEvents'
 
 class alliancePage extends BaseAnalysis {
     private teamOne : number
@@ -6,134 +8,58 @@ class alliancePage extends BaseAnalysis {
     private teamThree : number
     private totalPoints : number
     private result : any
+    private tournamentScoutedSettings : string[]
+    private teamScoutedSettings : number[]
+    metircs : any;
 
-    constructor(teamOne: number, teamTwo: number, teamThree: number) {
+    constructor(teamOne: number, teamTwo: number, teamThree: number, tournamentScoutedSettings : string[], teamScoutedSettings : number[]) {
         super()
         this.teamOne = teamOne
         this.teamTwo = teamTwo
         this.teamThree = teamThree
         this.totalPoints = 0
+        this.tournamentScoutedSettings = tournamentScoutedSettings
+        this.teamScoutedSettings = teamScoutedSettings
       
     }
     async getData() {
-        // let a = this
 
-        // let metrics = {}
-        // let avgOneAuto = new averageScore(Manager.db, a.teamOne, 0)
-        // await avgOneAuto.runAnalysis()
-        // let avgOneTele = new averageScore(Manager.db, a.teamOne, 1)
-        // await avgOneTele.runAnalysis()
+        let oneNonClimbPoints = new basePointAverage(this.teamOne, this.teamScoutedSettings, this.tournamentScoutedSettings, 2)
+        oneNonClimbPoints.runAnalysis()
+        let twoNonClimbPoints = new basePointAverage(this.teamTwo, this.teamScoutedSettings, this.tournamentScoutedSettings, 2)
+        twoNonClimbPoints.runAnalysis()
+        let threeNonClimbPoints = new basePointAverage(this.teamThree, this.teamScoutedSettings, this.tournamentScoutedSettings, 2)
+        threeNonClimbPoints.runAnalysis()
 
-        // let avgTwoAuto = new averageScore(Manager.db, a.teamTwo, 0)
-        // await avgTwoAuto.runAnalysis()
-        // let avgTwoTele = new averageScore(Manager.db, a.teamTwo, 1)
-        // await avgTwoTele.runAnalysis()
+        let oneClimb = new baseNonEvents(this.teamOne, this.teamScoutedSettings, this.tournamentScoutedSettings, "challengeResult")
+        oneClimb.runAnalysis()
+        let twoClimb = new baseNonEvents(this.teamTwo, this.teamScoutedSettings, this.tournamentScoutedSettings, "challengeResult")
+        twoClimb.runAnalysis()
+        let threeClimb = new baseNonEvents(this.teamThree, this.teamScoutedSettings, this.tournamentScoutedSettings, "challengeResult")
+        threeClimb.runAnalysis()
 
-        // let avgThreeAuto = new averageScore(Manager.db, a.teamThree, 0)
-        // await avgThreeAuto.runAnalysis()
-        // let avgThreeTele = new averageScore(Manager.db, a.teamThree, 1)
-        // await avgThreeTele.runAnalysis()
+        let oneClimbArray = oneClimb.finalizeResults().ratios
+        let twoClimbArray = twoClimb.finalizeResults().ratios
+        let threeClimbArray = threeClimb.finalizeResults().ratios
 
-        // a.totalPoints = avgOneAuto.average + avgOneTele.average + avgTwoAuto.average + avgTwoTele.average + avgThreeAuto.average + avgThreeTele.average
+        let oneClimbAuto = new baseNonEvents(this.teamOne, this.teamScoutedSettings, this.tournamentScoutedSettings, "autoChallengeResult")
+        oneClimbAuto.runAnalysis()
+        let twoClimbAuto = new baseNonEvents(this.teamTwo, this.teamScoutedSettings, this.tournamentScoutedSettings, "autoChallengeResult")
+        twoClimbAuto.runAnalysis()
+        let threeClimbAuto = new baseNonEvents(this.teamThree, this.teamScoutedSettings, this.tournamentScoutedSettings, "autoChallengeResult")
+        threeClimbAuto.runAnalysis()
 
-        // let role1 = new role(Manager.db, a.teamOne)
-        // await role1.runAnalysis()
+        let oneClimbArrayAuto = oneClimbAuto.finalizeResults().ratios
+        let twoClimbArrayAuto = twoClimbAuto.finalizeResults().ratios
+        let threeClimbArrayAuto = threeClimbAuto.finalizeResults().ratios
 
-        // let role2 = new role(Manager.db, a.teamTwo)
-        // await role2.runAnalysis()
+        
+        let alliancePoints = oneNonClimbPoints.finalizeResults().teamAvg + twoNonClimbPoints.finalizeResults().teamAvg + threeNonClimbPoints.finalizeResults().teamAvg
+        alliancePoints += oneClimbArray[1] * 10 + oneClimbArray[2] * 8 + twoClimbArray[1] * 10 + twoClimbArray[2] * 8 + threeClimbArray[1] * 10 + threeClimbArray[2] * 8
+        alliancePoints += oneClimbArrayAuto[1] * 12 + oneClimbArrayAuto[2] * 10 + twoClimbArrayAuto[1] * 12 + twoClimbArrayAuto[2] * 10 + threeClimbArrayAuto[1] * 12 + threeClimbArrayAuto[2] * 8
 
-        // let role3 = new role(Manager.db, a.teamThree)
-        // await role3.runAnalysis()
-
-        // let autoPathOne = new autoPaths(Manager.db, a.teamOne)
-        // await autoPathOne.runAnalysis()
-
-        // let autoPathTwo = new autoPaths(Manager.db, a.teamTwo)
-        // await autoPathTwo.runAnalysis()
-
-        // let autoPathThree = new autoPaths(Manager.db, a.teamThree)
-        // await autoPathThree.runAnalysis()
-
-        // let pointsOne = new averageScore(a.db, a.teamOne, 1)
-        // await pointsOne.runAnalysis()
-
-        // let pointsTwo = new averageScore(a.db, a.teamTwo, 1)
-        // await pointsTwo.runAnalysis()
-
-        // let pointsThree = new averageScore(a.db, a.teamThree, 1)
-        // await pointsThree.runAnalysis()
-
-        // let cones = [0, 0, 0]
-        // let cubes = [0, 0, 0]
-        // let teamArr = [a.teamOne, a.teamTwo, a.teamThree]
-        // for (let i = 0; i < teamArr.length; i++) {
-        //     for (let j = 1; j < 4; j++) {
-        //         let temp = new levelCargo(Manager.db, teamArr[i], 1, j)
-        //         await temp.runAnalysis()
-        //         cones[j - 1] += temp.average
-        //         let temp2 = new levelCargo(Manager.db, teamArr[i], 0, j)
-        //         await temp2.runAnalysis()
-        //         cubes[j - 1] += temp2.average
-
-        //     }
-        // }
-        // let levelArr = [{}, {}, {}]
-        // for (let i = 0; i < 3; i++) {
-        //     let temp = { "cones": cones[i], "cubes": cubes[i] }
-        //     levelArr[i] = temp
-
-        // }
-        // let oneRole = role1.defense
-        // let twoRole = role2.defense
-        // let threeRole = role3.defense
-        // let max = math.max(oneRole, twoRole, threeRole)
-        // if (max > 2) {
-
-        //     if (oneRole === max) {
-        //         oneRole = 1
-        //         twoRole = 0
-        //         threeRole = 0
-        //     }
-        //     else if (twoRole === max)
-        //     {
-        //         twoRole = 1
-        //         oneRole = 0
-        //         threeRole = 0
-        //     }
-        //     else
-        //     {
-        //         threeRole = 1
-        //         twoRole = 0
-        //         oneRole = 0
-        //     }
-        // }
-        // else
-        // {
-        //     oneRole = role1.mainRole
-        //     twoRole = role2.mainRole
-        //     threeRole = role3.mainRole
-        // }
-
-        //     a.teams = [{ "team": a.teamOne, "role": oneRole, "paths": autoPathOne.finalizeResults().paths, "averagePoints" : pointsOne.average},
-        //     { "role": twoRole, "team": a.teamTwo, "paths": autoPathTwo.finalizeResults().paths, "averagePoints" : pointsTwo.average},
-        //     { "role": threeRole, "team": a.teamThree, "paths": autoPathThree.finalizeResults().paths, "averagePoints" : pointsThree.average}]
-        //     a.levels = levelArr
-
-        //     let total = 0
-        //     var oneLinks = new links(Manager.db, a.teamOne)
-        //     await oneLinks.runAnalysis()
-        //     total += oneLinks.average
-
-        //     var twoLinks = new links(Manager.db, a.teamTwo)
-        //     await twoLinks.runAnalysis()
-        //     total += twoLinks.average
-
-        //     var threeLinks = new links(Manager.db, a.teamThree)
-        //     await threeLinks.runAnalysis()
-        //     total += threeLinks.average
-
-        //     a.links = total
-
+        
+        this.totalPoints = alliancePoints
 
 
 
