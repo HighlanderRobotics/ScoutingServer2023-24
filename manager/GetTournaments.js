@@ -7,34 +7,25 @@ class GetTournaments extends Manager {
         super()
     }
 
-    runTask() {
-        var sql = `SELECT key, name
-        FROM tournaments
-        `
 
+    async runTask() {
         // console.log(sql)
 
-        return new Promise((resolve, reject) => {
-            Manager.db.all(sql, (err, tournamentKeys) => {
-                if (err) {
-                    reject({
-                        "results": err,
-                        "customCode": 500
-                    })
-                }
-                
-                if (tournamentKeys == undefined) {
-                    reject({
-                        "results": "No tournaments",
-                        "customCode": 406
-                    })
-                } else {
-                
-                    resolve(tournamentKeys)
-                }
-            })
-        })
+
+
+
+        let { data: tournaments, error } = await supabase
+            .from('tournaments')
+            .select('*')
+        if (error) {
+            console.log(error)
+            return error
+        }
+        else {
+            return tournaments
+        }
     }
 }
+
 
 export default GetTournaments

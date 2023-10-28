@@ -9,42 +9,20 @@ class AddTournament extends Manager {
         super()
     }
 
-    runTask(key, name, location, date) {
+    async runTask(tournamentKey, name, location, date) {
 
-        let sql = `INSERT INTO tournaments (key, name, location, date) VALUES (?, ?, ?, ?)`
-
-
-        // console.log(sql)
-
-        return new Promise((resolve, reject) => {
-
-            Manager.db.get(sql, [key, name, location, date], (err, row) => {
-                if (err) {
-
-                    console.error(err)
-
-
-                    reject({
-
-                        "result": err,
-
-                        "customCode": 500
-                    })
-                }
-                else {
-                    resolve("done")
-                }
-            })
-        })
-
-
-
-
+        const { data, error } = await supabase
+            .from('tournaments')
+            .insert([
+                { 'tournamentKey': tournamentKey, 'name': name, 'location': location, 'date': date },
+            ])
+            .select()
+        if (error) {
+            console.log(error)
+            return error
+        }
     }
-
-    // console.log(gameDependent)
-
-
+// console.log(gameDependent)
 }
 
 

@@ -11,10 +11,13 @@ class addMatch extends Manager {
     async runTask(body) {
         if (body.matchType != 'qm') {
             let num = 0
-            var sql = `SELECT MAX(matchNumber) AS answer FROM matches WHERE matchType = "em"`;
+            const { data, error } = await supabase
+                .from('matches')
+                .select('MAX(matchNumber) AS answer')
+                .eq('matchType', 'em');
             num = await this.getLargest(sql)
             num = num + 1
-            
+
 
             let insertFinal = ``
             for (let i = 0; i < 6; i++) {
@@ -41,14 +44,12 @@ class addMatch extends Manager {
     }
     async getLargest(sql) {
         return new Promise((resolve, reject) => {
-            Manager.db.all(sql, [], (err, rows) =>
-            {
+            Manager.db.all(sql, [], (err, rows) => {
                 if (err) {
                     reject(`error getting max`)
                 }
                 else {
-                    if(rows.length == 0)
-                    {
+                    if (rows.length == 0) {
                         return 0
                     }
                     resolve(rows[0].answer)

@@ -9,19 +9,14 @@ class getScoutReport extends Manager {
 
     async runTask(matchKey) {
 
-        var sql = `SELECT *
-        FROM data 
-        WHERE matchKey = ?`
-        return new Promise(async (resolve, reject) => {
-            Manager.db.all(sql, [matchKey], (err, rows) => {
-                if (err) {
-                    console.log(err)
-                    reject(err)
-                }
-                resolve(rows)
-            })
-        })
-
+        const { data, error } = await supabase
+            .from('data')
+            .select('*')
+            .eq('matchKey', matchKey);
+        if(error){
+            console.log(error)
+            return error
+        }
     }
 }
 
