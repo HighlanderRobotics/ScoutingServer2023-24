@@ -29,8 +29,6 @@ import getScoutReport from'./manager/getScoutReport.js'
 import getRankOfTeam from'./manager/getRankOfTeam.js'
 import editData from'./manager/editData.js'
 import addMatch from'./manager/addMatch.js'
-import addEpa from './manager/addEPA.js'
-import addEPA from './manager/addEPA.js'
 import AddTournament from './manager/AddTournament.js'
 import AddCustomMatch from './manager/AddCustomMatch.js'
 import deleteCustomMatch from './manager/deleteCustomMatch.js'
@@ -107,9 +105,7 @@ class DatabaseManager {
                     return new editData().runTask(body.uuid, body.matchKey, body.scouterName, body.startTime, body.scoutReport, body.notes)
                 case addMatch.name:
                     return new addMatch().runTask(body)
-                
-                case addEPA.name:
-                    return new addEPA().runTask()
+       
                 case AddTournament.name:
                     return new AddTournament().runTask(body.key, body.name, body.location, body.date)
                 case AddCustomMatch.name:
