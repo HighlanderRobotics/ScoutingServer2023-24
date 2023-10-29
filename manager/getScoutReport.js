@@ -10,12 +10,15 @@ class getScoutReport extends Manager {
     async runTask(matchKey) {
 
         const { data, error } = await supabase
-            .from('data')
+            .from('scoutReport')
             .select('*')
             .eq('matchKey', matchKey);
         if(error){
             console.log(error)
             return error
+        }
+        else{
+            return scoutReport
         }
     }
 }

@@ -19,9 +19,6 @@ class editNotes extends Manager {
             console.log(error)
             return error
         }
-        else{
-            return newNote
-        }
     }
 }
 

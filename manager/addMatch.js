@@ -11,10 +11,7 @@ class addMatch extends Manager {
     async runTask(body) {
         if (body.matchType != 'qm') {
             let num = 0
-            const { data, error } = await supabase
-                .from('matches')
-                .select('MAX(matchNumber) AS answer')
-                .eq('matchType', 'em');
+            var sql = `SELECT MAX(matchNumber) AS answer FROM matches WHERE matchType = "em"`;
             num = await this.getLargest(sql)
             num = num + 1
 

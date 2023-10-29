@@ -8,21 +8,19 @@ class deleteMutablePicklist extends Manager {
         super()
     }
 
-    async runTask(uuid) {
+    async runTask(scouterUuid) {
         //check uuid will be unique across teams
-        var sql = `DELETE FROM mutablePicklists
-        WHERE uuid = ?`
-        return new Promise(async (resolve, reject) => {
-            Manager.db.all(sql, [uuid], (err, rows) => {
-                if (err) {
-                    console.log(err)
-                    reject(err)
-                }
-                resolve("done")
-            })
-        })
+        const { data, error } = await supabase
+            .from('mutablePicklist')
+            .eq('scouterUuid', scouterUuid)
+            .select()
 
+        if (error) {
+            console.log(error)
+            return error
+        }
     }
 }
+
 
 export default deleteMutablePicklist

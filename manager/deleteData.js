@@ -8,28 +8,32 @@ class deleteData extends Manager {
         super()
     }
 
-    async runTask(scouter_uuid, match_number, tournament_key, team) {
+    async runTask(scouterUuid, matchNumber, tournamentKey, team) {
+        const { data, error } = await supabase
+            .from('scoutReport')
+            .eq('scouterUuid', scouterUuid)
+            .eq('matchNumber', matchNumber)
+            .eq('tournamentKey', tournamentKey)
+            .eq('team', team)
+            .select()
 
-        var sql = `DELETE FROM scout_report
-        WHERE scouter_uuid, match_number, tournament_key, team = ?, ?, ?, ?`
+        if (error) {
+            console.log(error)
+            return error
+        }
         var sql2 = `DELETE FROM events
         WHERE scouter_uuid, match_number, tournament_key, team = ?, ?, ?, ?`
-        return new Promise(async (resolve, reject) => {
-            Manager.db.all(sql, [scouter_uuid, match_number, tournament_key, team], (err, rows) => {
-                if (err) {
-                    console.log(err)
-                    reject(err)
-                }
-            })
-            Manager.db.all(sql2, [scouter_uuid, match_number, tournament_key, team], (err, rows) => {
-                if (err) {
-                    console.log(err)
-                    reject(err)
-                }
-            })
-            resolve("done")
-        })
-
+        const { data1, error1 } = await supabase
+            .from('events')
+            .eq('scouterUuid', scouterUuid)
+            .eq('matchNumber', matchNumber)
+            .eq('tournamentKey', tournamentKey)
+            .eq('team', team)
+            .select()
+        if (error1){
+            console.log(error1)
+            return error1
+        }
     }
 }
 

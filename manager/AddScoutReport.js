@@ -11,36 +11,28 @@ class AddScoutReport extends Manager {
 
     async runTask(teamKey, tournamentKey, data) {
         let localMatchKey = `${tournamentKey}_${data.matchKey}`
-
-        const { data, error } = await supabase
-            .from('matches')
-            .select('*')
-            .eq('teamKey', teamKey)
-            .eq('tournamentKey', tournamentKey)
-            .eq('SUBSTRING(key, 1, LENGTH(key)-1)', `${localMatchKey}_`)
-            .from('matches')
-            .select('matchNumber')
-            .eq('key', matchKey);
-
         let matchKey = null
 
-        // console.log(sql)
-
         if (err) {
-
             console.error(err)
-
-
             reject({
-
                 "result": err,
-
                 "customCode": 500
             })
-        } else if (match != undefined) {
+        }
+        else if (match != undefined) {
+            matchKey = match.key
             try {
-                matchKey = match.key
-                this.insertNonEventData(data.tournamentKey, data.match, data.scouterUuid, data.startTime, data.notes, data.links, data.robotRule, data.autoChallengeResult, data.challengeResult, data.penaltyCard, data.driverAbility)
+                const { data, error } = await supabase
+                    .from('scoutReport')
+                    .insert([
+                        { 'tournamentKey': data.tournamentKey, 'match': data.match, 'scouterName': data.scouterName, 'statTime': data.startTime, 'notes': data.notes, 'links': data.links, 'robotRule': data.robotRule, 'autochallengeResult': data.autoChallengeResult, 'challengeResult': data.challengeResult, 'penaltyCard': data.penaltyCard, 'driverAbility': data.driverAbility },
+                    ])
+                    .select()
+                if (error) {
+                    console.log(error)
+                    return error
+                }
                 let events = data.events
                 for (let i = 0; i < events.length; i++) {
                     let points = 0
@@ -69,7 +61,16 @@ class AddScoutReport extends Manager {
                             }
                         }
                     }
-                    this.insertEventData(data.team, data.tournamentKey, data.match, data.sourceTeam, events[i][0], data.position, data.action, points)
+                    const { data1, error1 } = await supabase
+                        .from('events')
+                        .insert([
+                            { 'team': data.team, 'tournamentKey': data.tournamentKey, 'match': data.match, 'sourceTeam': data.sourceTeam, 'time': events[i][0], 'action': data.action, 'position': data.position, 'points': points },
+                        ])
+                        .select()
+                    if (error1) {
+                        console.log(error1)
+                        return error1
+                    }
                 }
             }
             catch {
@@ -84,19 +85,24 @@ class AddScoutReport extends Manager {
             }
 
             console.log(`Data entry complete for ${match.key}`)
-            Manager.db.all(sqlMatchNumber, [matchKey], async (err, row) => {
-                if (err) {
-                    console.log(err)
-                    reject(err)
-                }
-                else if (row == undefined || row.length === 0) {
-                    console.log("can't find match number")
-                }
+            const { data, error } = await supabase
+                .from('matches')
+                .select('*')
+                .eq('teamKey', teamKey)
+                .eq('tournamentKey', tournamentKey)
+                .eq('SUBSTRING(key, 1, LENGTH(key)-1)', `${localMatchKey}_`)
+                .from('matches')
+                .select('matchNumber')
+                .eq('key', matchKey);
+            if (error) {
+                console.log(error)
+                return error
+            }
+            else if (row == undefined || row.length === 0) {
+                console.log("can't find match number")
+            }
 
-                resolve("done")
-
-
-            })
+            resolve("done")
 
         } else {
             console.log(`Couldn't find match for:`)
@@ -104,33 +110,6 @@ class AddScoutReport extends Manager {
                 "results": `Match doesn't exist`,
                 "customCode": 406
             })
-        }
-
-    }
-
-    async insertNonEventData(tournamentKey, match, scouterName, startTime, notes, links, robotRule, autoChallengeResult, challengeResult, penaltyCard, driverAbility) {
-
-        const { data, error } = await supabase
-            .from('scoutReport')
-            .insert([
-                { 'tournamentKey': data.tournamentKey, 'match': data.match, 'scouterName': data.scouterName, 'statTime': data.startTime, 'notes': data.notes, 'links': data.links, 'robotRule': data.robotRule, 'autochallengeResult': data.autoChallengeResult, 'challengeResult': data.challengeResult, 'penaltyCard': data.penaltyCard, 'driverAbility': data.driverAbility },
-            ])
-            .select()
-        if (error) {
-            console.log(error)
-            return error
-        }
-    }
-    async insertEventData(team, tournamentKey, match, sourceTeam, time, position, action, points) {
-        const { data, error } = await supabase
-            .from('events')
-            .insert([
-                { 'team': data.team, 'tournamentKey': data.tournamentKey, 'match': data.match, 'sourceTeam': data.sourceTeam, 'time': data.time, 'action': data.action, 'position': data.position, 'points': points },
-            ])
-            .select()
-        if (error) {
-            console.log(error)
-            return error
         }
     }
 }

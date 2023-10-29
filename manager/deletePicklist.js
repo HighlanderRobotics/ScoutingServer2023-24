@@ -8,20 +8,16 @@ class deletePicklist extends Manager {
         super()
     }
 
-    async runTask(uuid) {
+    async runTask(scouterUuid) {
+        const { data, error } = await supabase
+            .from('sharedPicklist')
+            .eq('scouterUuid', scouterUuid)
+            .select()
 
-        var sql = `DELETE FROM sharedPicklists
-        WHERE uuid = ?`
-        return new Promise(async (resolve, reject) => {
-            Manager.db.all(sql, [uuid], (err, rows) => {
-                if (err) {
-                    console.log(err)
-                    reject(err)
-                }
-                resolve("done")
-            })
-        })
-
+        if (error) {
+            console.log(error)
+            return error
+        }
     }
 }
 
