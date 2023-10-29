@@ -10,29 +10,41 @@ class baseAverage extends BaseAnalysis {
     private team : number
     private sourceTeams : number[]
     private tournamentScoutedSettings : String[]
-    private action: number 
+    private action: number
+    private lessThanTime : number
 
-    constructor( team: number, sourceTeams: number[], tournamentScoutedSettings: String[], action: number) {
+    constructor( team: number, sourceTeams: number[], tournamentScoutedSettings: String[], action: number, lessThanTime : number) {
         super()
         this.team = team
         this.tournamentScoutedSettings = tournamentScoutedSettings
         this.sourceTeams = sourceTeams
         this.action = action
+        this.lessThanTime = lessThanTime
     }
     async getTeamAverage() {
         
-        this.supabase
-        .from('events')
-        .select('*')
-        .in('tournamentKey', this.tournamentScoutedSettings)
-        .in('sourceTeams', this.sourceTeams)
-        .eq('action', this.action)
-        
+        const { data : arr, error } = await this.supabase.rpc('groupAndCountTeam', {
+            tournament_keys: this.tournamentScoutedSettings,
+            source_teams: this.sourceTeams,
+            single_team: this.team,
+            single_action : this.action,
+            time_input: this.lessThanTime
+          });
+          
+        this.teamArray = arr
         this.teamAvg = this.teamArray.reduce((partialSum, a) => partialSum + a, 0) / this.teamArray.length
     
     }
     async getAllTeamsAverage() {
-        // this.allTeamAvg = this.supabase.avg().count().from("events").whereIn('action', this.action).where("source_team", this.sourceTeams).groupBy("source_team", "key")
+        const { data : allArr, error } = await this.supabase.rpc('groupAndCount', {
+            tournament_keys: this.tournamentScoutedSettings,
+            source_teams: this.sourceTeams,
+            single_team: this.team,
+            time_input: this.lessThanTime
+          });
+          
+    
+        this.allTeamAvg = allArr.reduce((partialSum: any, a: any) => partialSum + a, 0) / this.teamArray.length
 
     }
 
@@ -64,4 +76,4 @@ class baseAverage extends BaseAnalysis {
         }
     }
 }
-export default class MainItem {baseAverage: any}
+export default baseAverage

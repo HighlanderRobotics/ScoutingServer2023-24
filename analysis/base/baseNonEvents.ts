@@ -9,6 +9,7 @@ class baseNonEvents extends BaseAnalysis {
     private teamsScoutedSettings : number[]
     private tournamentScoutedSettings : String[]
     private arrayRatios = []
+    private allTeamArrayRatios = []
     private columnName : String
 
     constructor( team: number, teamsScoutedSettings: number[], tournamentScoutedSettings: string[], columnName: string) {
@@ -45,7 +46,8 @@ class baseNonEvents extends BaseAnalysis {
     finalizeResults() {
         return {
             "team": this.team,
-            "ratios" : this.arrayRatios
+            "ratios" : this.arrayRatios,
+            "allTeamRatios" : this.allTeamArrayRatios
         }
     }
 }

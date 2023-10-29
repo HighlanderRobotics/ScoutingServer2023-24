@@ -2,6 +2,8 @@
 import BaseAnalysis  from'./BaseAnalysis';
 import basePointAverages from './base/basePointAverage';
 import baseAverage from './base/baseAverage';
+import totalPoints from './totalPoints'
+import baseNonEvents from './base/baseNonEvents';
 
 class categoryMetrics extends BaseAnalysis {
     private result: unknown
@@ -20,8 +22,24 @@ class categoryMetrics extends BaseAnalysis {
 
         return new Promise(async (resolve, reject) => {
 
-            // let cones = new baseAverage(this.tournamentScoutedSettings)
+            let cones = new baseAverage(this.team, this.teamScoutedSettings,this.tournamentScoutedSettings, 0, 300)
+            cones.runAnalysis()
+            let cubes = new baseAverage(this.team, this.teamScoutedSettings, this.tournamentScoutedSettings,  1, 300)
+            cubes.runAnalysis()
 
+            let averageTotal = new totalPoints(this.team, this.teamScoutedSettings, this.tournamentScoutedSettings)
+            averageTotal.runAnalysis()
+
+            let averageClimb = new baseNonEvents(this.team, this.teamScoutedSettings, this.tournamentScoutedSettings, "challengeResult")
+            averageClimb.runAnalysis()
+
+            let averageAutoClimb = new baseNonEvents(this.team, this.teamScoutedSettings, this.tournamentScoutedSettings, "autoChallengeResult")
+            averageAutoClimb.runAnalysis()
+
+            let droppedAvg = new baseAverage(this.team, this.teamScoutedSettings, this.tournamentScoutedSettings, 3, 300)
+            await droppedAvg.runAnalysis()
+
+            // let driverAbility = new 
             let metrics = {}
         
           

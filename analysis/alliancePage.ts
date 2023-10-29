@@ -1,7 +1,5 @@
 import BaseAnalysis  from'./BaseAnalysis';
-import basePointAverage from './base/basePointAverage'
-import baseNonEvents from './base/baseNonEvents'
-
+import totalPoints from './totalPoints'
 class alliancePage extends BaseAnalysis {
     private teamOne : number
     private teamTwo : number
@@ -24,42 +22,14 @@ class alliancePage extends BaseAnalysis {
     }
     async getData() {
 
-        let oneNonClimbPoints = new basePointAverage(this.teamOne, this.teamScoutedSettings, this.tournamentScoutedSettings, 2)
-        oneNonClimbPoints.runAnalysis()
-        let twoNonClimbPoints = new basePointAverage(this.teamTwo, this.teamScoutedSettings, this.tournamentScoutedSettings, 2)
-        twoNonClimbPoints.runAnalysis()
-        let threeNonClimbPoints = new basePointAverage(this.teamThree, this.teamScoutedSettings, this.tournamentScoutedSettings, 2)
-        threeNonClimbPoints.runAnalysis()
-
-        let oneClimb = new baseNonEvents(this.teamOne, this.teamScoutedSettings, this.tournamentScoutedSettings, "challengeResult")
-        oneClimb.runAnalysis()
-        let twoClimb = new baseNonEvents(this.teamTwo, this.teamScoutedSettings, this.tournamentScoutedSettings, "challengeResult")
-        twoClimb.runAnalysis()
-        let threeClimb = new baseNonEvents(this.teamThree, this.teamScoutedSettings, this.tournamentScoutedSettings, "challengeResult")
-        threeClimb.runAnalysis()
-
-        let oneClimbArray = oneClimb.finalizeResults().ratios
-        let twoClimbArray = twoClimb.finalizeResults().ratios
-        let threeClimbArray = threeClimb.finalizeResults().ratios
-
-        let oneClimbAuto = new baseNonEvents(this.teamOne, this.teamScoutedSettings, this.tournamentScoutedSettings, "autoChallengeResult")
-        oneClimbAuto.runAnalysis()
-        let twoClimbAuto = new baseNonEvents(this.teamTwo, this.teamScoutedSettings, this.tournamentScoutedSettings, "autoChallengeResult")
-        twoClimbAuto.runAnalysis()
-        let threeClimbAuto = new baseNonEvents(this.teamThree, this.teamScoutedSettings, this.tournamentScoutedSettings, "autoChallengeResult")
-        threeClimbAuto.runAnalysis()
-
-        let oneClimbArrayAuto = oneClimbAuto.finalizeResults().ratios
-        let twoClimbArrayAuto = twoClimbAuto.finalizeResults().ratios
-        let threeClimbArrayAuto = threeClimbAuto.finalizeResults().ratios
-
-        
-        let alliancePoints = oneNonClimbPoints.finalizeResults().teamAvg + twoNonClimbPoints.finalizeResults().teamAvg + threeNonClimbPoints.finalizeResults().teamAvg
-        alliancePoints += oneClimbArray[1] * 10 + oneClimbArray[2] * 8 + twoClimbArray[1] * 10 + twoClimbArray[2] * 8 + threeClimbArray[1] * 10 + threeClimbArray[2] * 8
-        alliancePoints += oneClimbArrayAuto[1] * 12 + oneClimbArrayAuto[2] * 10 + twoClimbArrayAuto[1] * 12 + twoClimbArrayAuto[2] * 10 + threeClimbArrayAuto[1] * 12 + threeClimbArrayAuto[2] * 8
-
-        
-        this.totalPoints = alliancePoints
+        let onePoints = new totalPoints(this.teamOne, this.teamScoutedSettings, this.tournamentScoutedSettings)        
+        onePoints.runAnalysis()
+        let twoPoints = new totalPoints(this.teamTwo, this.teamScoutedSettings, this.tournamentScoutedSettings)        
+        twoPoints.runAnalysis()
+        let threePoints = new totalPoints(this.teamThree, this.teamScoutedSettings, this.tournamentScoutedSettings)        
+        threePoints.runAnalysis()
+        this.totalPoints = onePoints.finalizeResults().teamAvg + twoPoints.finalizeResults().teamAvg + threePoints.finalizeResults().teamAvg 
+    
 
 
 
