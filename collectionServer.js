@@ -27,6 +27,15 @@ import { createClient } from '@supabase/supabase-js';
 const app = express();
 
 
+import bodyParser from 'body-parser';
+app.use(bodyParser.json());
+
+
+import cors from 'cors';
+
+
+// Use this to allow all CORS requests
+
 
 
 
@@ -44,7 +53,7 @@ app.get('/', async (req, res) => {
 // Manager
 
 
-app.get('/API/manager/:task', async (req, res) => {
+app.post('/API/manager/:task', async (req, res) => {
     const task = req.params.task || req.body.task;
     if (!task) {
         return res.status(404).send('Missing Task Name');

@@ -22,7 +22,7 @@ class AddAPITournaments extends Manager {
             })
                 .then(async (response) => {
                     for (var i = 0; i < response.data.length; i++) {
-                        await insertTournament(response, i)
+                        await this.insertTournament(response, i)
                             .catch((err) => {
                                 if (err) {
                                     // console.log(`Error with inserting tournament: ${err}`)

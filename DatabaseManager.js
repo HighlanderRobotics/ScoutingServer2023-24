@@ -55,6 +55,7 @@ class DatabaseManager {
                 case AddAPITeams.name:
                     return new AddAPITeams().runTask()
                 case AddAPITournaments.name:
+                    console.log(body)
                     return new AddAPITournaments().runTask(body.year)
                 case AddScouter.name:
                     return new AddScouters().runTask()
