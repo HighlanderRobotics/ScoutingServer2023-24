@@ -8,11 +8,11 @@ class deleteMutablePicklist extends Manager {
         super()
     }
 
-    async runTask(scouterUuid) {
+    async runTask(uuid) {
         //check uuid will be unique across teams
         const { data, error } = await this.supabase
             .from('mutablePicklist')
-            .eq('scouterUuid', scouterUuid)
+            .eq('uuid', uuid)
             .select()
 
         if (error) {

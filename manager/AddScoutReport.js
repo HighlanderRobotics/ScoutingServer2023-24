@@ -10,23 +10,15 @@ class AddScoutReport extends Manager {
     }
 
     async runTask(teamKey, tournamentKey, data) {
-        let localMatchKey = `${tournamentKey}_${data.matchKey}`
+        let localMatchKey = `${tournamentKey}_${data.match}`
         let matchKey = null
 
-        if (err) {
-            console.error(err)
-            reject({
-                "result": err,
-                "customCode": 500
-            })
-        }
-        else if (match != undefined) {
             matchKey = match.key
             try {
                 const { data, error } = await this.supabase
                     .from('scoutReport')
                     .insert([
-                        { 'tournamentKey': data.tournamentKey, 'match': data.match, 'scouterName': data.scouterName, 'statTime': data.startTime, 'notes': data.notes, 'links': data.links, 'robotRule': data.robotRule, 'autochallengeResult': data.autoChallengeResult, 'challengeResult': data.challengeResult, 'penaltyCard': data.penaltyCard, 'driverAbility': data.driverAbility },
+                        { 'tournamentKey': data.tournamentKey, 'match': data.match, 'scouterName': data.scouterName, 'statTime': data.startTime, 'notes': data.notes, 'links': data.links, 'robotRole': data.robotRole, 'autochallengeResult': data.autoChallengeResult, 'challengeResult': data.challengeResult, 'penaltyCard': data.penaltyCard, 'driverAbility': data.driverAbility },
                     ])
                     .select()
                 if (error) {
@@ -93,7 +85,7 @@ class AddScoutReport extends Manager {
                 .eq('SUBSTRING(key, 1, LENGTH(key)-1)', `${localMatchKey}_`)
                 .from('matches')
                 .select('matchNumber')
-                .eq('key', matchKey);
+                .eq('key', data.match);
             if (error) {
                 console.log(error)
                 return error

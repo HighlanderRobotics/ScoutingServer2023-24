@@ -18,21 +18,20 @@ class AddTournamentMatches extends Manager {
             let { data: match, error } = await this.supabase
                 .from('tournaments')
                 .select('*')
-                .eq('key', key)
+                .eq('tournamentKey', key)
             if (error) {
                 console.log(error)
                 return error
             }
 
-            console.log(tournament);
-            if (tournament[0] == undefined) {
+            if (match == undefined) {
                 console.error(`Error with addMatches(): Tournament not found`)
                 reject({
                     "result": `Error with addMatches(): Tournament not found`,
                     "customCode": 406
                 })
             } else {
-                for (var i = 0; i < tournament.length; i++) {
+                for (var i = 0; i < match.length; i++) {
                     // Get matches in tournament
                     //tournament length is 1
                     axios.get(`${url}/event/${tournament[i].key}/matches/simple`, {

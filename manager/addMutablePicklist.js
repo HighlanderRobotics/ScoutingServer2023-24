@@ -9,7 +9,7 @@ class addMutablePicklist extends Manager {
         super()
     }
 
-    async runTask(scouterUuid, teams, team, username) {
+    async runTask(uuid, teams, name,  team, username) {
         if (team == null) {
             return ("no team")
         }
@@ -18,9 +18,9 @@ class addMutablePicklist extends Manager {
         const { data, error } = await this.supabase
             .from('mutablePicklist')
             .insert([
-                { 'scouterUuid': scouterUuid, 'teams': teams, 'team': team, 'username': username },
+                { 'uuid': uuid, 'teams': teams, 'name' : name,  'team': team, 'username': username },
             ])
-            .eq('scouterUuid', scouterUuid)
+            .eq('uuid', uuid)
             .select()
         if (error) {
             console.log(error)

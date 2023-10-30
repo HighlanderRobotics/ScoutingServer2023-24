@@ -55,18 +55,15 @@ class DatabaseManager {
                 case AddAPITeams.name:
                     return new AddAPITeams().runTask()
                 case AddAPITournaments.name:
-                    console.log(body)
                     return new AddAPITournaments().runTask(body.year)
-                case AddScouter.name:
-                    return new AddScouters().runTask()
                 case AddTournamentMatches.name:
                     return new AddTournamentMatches().runTask(body.key)
                 case IsScouted.name:
                     return new IsScouted().runTask(body.tournamentKey, body.matchKey)
-                case GetScoutersSchedule.name:
-                    return new GetScoutersSchedule().runTask()
-                case UpdateScoutersSchedule.name:
-                    return new UpdateScoutersSchedule().runTask(body)
+                // case GetScoutersSchedule.name:
+                //     return new GetScoutersSchedule().runTask()
+                // case UpdateScoutersSchedule.name:
+                //     return new UpdateScoutersSchedule().runTask(body)
                 case GetMatches.name:
                     return new GetMatches().runTask(body)
                 case IsMatchesScouted.name:
