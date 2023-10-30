@@ -8,7 +8,7 @@ class GetMatches extends Manager {
     }
 
     async runTask(body) {
-        const { data, error } = await supabase
+        const { data, error } = await this.supabase
             .from('match')
             .select('*')
             .eq('tournamentKey', body.tournamentKey)

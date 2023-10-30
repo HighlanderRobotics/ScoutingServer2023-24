@@ -10,7 +10,7 @@ class IsScouted extends Manager {
 
     async runTask(tournamentKey, match, sourceTeam) {
 
-        let { data: scoutReport, error } = await supabase
+        let { data: scoutReport, error } = await this.supabase
             .from('scoutReport')
             .select(['scouterUuid', 'scouterName'])
             .eq('sourceTeam', sourceTeam)

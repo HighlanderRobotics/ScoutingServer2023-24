@@ -13,7 +13,7 @@ class addPicklist extends Manager {
             return("no team")
         }
 
-        let { data: sharedPicklist, error } = await supabase
+        let { data: sharedPicklist, error } = await this.supabase
         // .from('sharedPicklist')
         // .select("*")
       

@@ -25,14 +25,16 @@ class addMatch extends Manager {
                 }
 
             }
-            var sql = `INSERT INTO matches (key, tournamentKey, matchNumber, teamkey, matchType) VALUES ${insertFinal}`
-
-            await this.whyGodInsert(sql)
-                .catch((err) => {
-                    if (err) {
-                        console.log(err)
-                    }
-                })
+            const { data, error } = await supabase
+                .from('match')
+                .insert([
+                    { 'key': key, 'tournamentKey': tournamentKey, 'matchNumber': matchNumber, 'teamKey': teamKey, 'matchType': matchType },
+                ])
+                .select()
+            if (error) {
+                console.log(error)
+                return error
+            }
         }
         else {
             //always qm?
@@ -53,18 +55,6 @@ class addMatch extends Manager {
                 }
             })
 
-        })
-    }
-
-    async whyGodInsert(sql) {
-        return new Promise((resolve, reject) => {
-            Manager.db.run(sql, (err) => {
-                if (err) {
-                    reject(`Error with inserting match: ${err}, ${sql}`)
-                } else {
-                    resolve()
-                }
-            })
         })
     }
 }

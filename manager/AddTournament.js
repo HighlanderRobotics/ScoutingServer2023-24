@@ -11,7 +11,7 @@ class AddTournament extends Manager {
 
     async runTask(tournamentKey, name, location, date) {
 
-        const { data, error } = await supabase
+        const { data, error } = await this.supabase
             .from('tournaments')
             .insert([
                 { 'tournamentKey': tournamentKey, 'name': name, 'location': location, 'date': date },

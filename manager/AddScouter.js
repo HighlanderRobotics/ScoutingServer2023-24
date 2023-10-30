@@ -8,7 +8,7 @@ class AddScouter extends Manager {
     }
 
     async runInsertScouters(scouterUuid, team, name) {
-        const { data, error } = await supabase
+        const { data, error } = await this.supabase
             .from('scouters')
             .insert([
                 { 'scouterUuis': scouterUuid, 'team': team, 'name': name },

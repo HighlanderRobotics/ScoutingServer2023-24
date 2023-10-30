@@ -9,7 +9,7 @@ class deleteData extends Manager {
     }
 
     async runTask(scouterUuid, matchNumber, tournamentKey, team) {
-        const { data, error } = await supabase
+        const { data, error } = await this.supabase
             .from('scoutReport')
             .eq('scouterUuid', scouterUuid)
             .eq('matchNumber', matchNumber)
@@ -21,9 +21,8 @@ class deleteData extends Manager {
             console.log(error)
             return error
         }
-        var sql2 = `DELETE FROM events
-        WHERE scouter_uuid, match_number, tournament_key, team = ?, ?, ?, ?`
-        const { data1, error1 } = await supabase
+        
+        const { data1, error1 } = await this.supabase
             .from('events')
             .eq('scouterUuid', scouterUuid)
             .eq('matchNumber', matchNumber)

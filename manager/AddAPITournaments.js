@@ -51,7 +51,7 @@ class AddAPITournaments extends Manager {
     }
     async insertTournament(response, i) {
         // Manager.db.run(sql, [response.data[i].name, response.data[i].city, response.data[i].start_date, response.data[i].key], (err) => {
-        const { data, error } = await supabase
+        const { data, error } = await this.supabase
             .from('tournaments')
             .insert([
                 { 'name': response.data[i].name, 'location': response.data[i].city, 'date': response.data[i].start_date, 'tournamentKey': response.data[i].key },

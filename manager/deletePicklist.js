@@ -9,7 +9,7 @@ class deletePicklist extends Manager {
     }
 
     async runTask(scouterUuid) {
-        const { data, error } = await supabase
+        const { data, error } = await this.supabase
             .from('sharedPicklist')
             .eq('scouterUuid', scouterUuid)
             .select()

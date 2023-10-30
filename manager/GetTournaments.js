@@ -14,7 +14,7 @@ class GetTournaments extends Manager {
 
 
 
-        let { data: tournaments, error } = await supabase
+        let { data: tournaments, error } = await this.supabase
             .from('tournaments')
             .select('*')
         if (error) {

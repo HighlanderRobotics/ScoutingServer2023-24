@@ -10,7 +10,7 @@ class editNotes extends Manager {
 
     async runTask(scouterUuid, newNote, tournamentKey, matchKey, teamNumber) {
 
-        const { data, error } = await supabase
+        const { data, error } = await this.supabase
             .from('scoutReport')
             .update({ 'notes': newNote})
             .eq('scouterUuid', scouterUuid)

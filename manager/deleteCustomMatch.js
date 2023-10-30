@@ -10,7 +10,7 @@ class deleteCustomMatch extends Manager {
     }
 
     async runTask(tournamentKey, matchNumber, matchType) {
-        const { data, error } = await supabase
+        const { data, error } = await this.supabase
             .from('match')
             .eq('matchType', matchType)
             .eq('matchNumber', matchNumber)

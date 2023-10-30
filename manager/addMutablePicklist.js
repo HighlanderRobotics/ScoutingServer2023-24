@@ -15,7 +15,7 @@ class addMutablePicklist extends Manager {
         }
         let teamsStringed = JSON.stringify(teams)
 
-        const { data, error } = await supabase
+        const { data, error } = await this.supabase
             .from('mutablePicklist')
             .insert([
                 { 'scouterUuid': scouterUuid, 'teams': teams, 'team': team, 'username': username },
@@ -30,7 +30,7 @@ class addMutablePicklist extends Manager {
 
 
             if (rows.length === 1) {
-                const { error1 } = await supabase
+                const { error1 } = await this.supabase
                     .from('mutablePicklist')
                     .delete()
                     .eq('scouterUuid', scouterUuid)
@@ -40,7 +40,7 @@ class addMutablePicklist extends Manager {
                 }
             }
         }
-        const { data2, error2 } = await supabase
+        const { data2, error2 } = await this.supabase
             .from('mutablePicklist')
             .insert([
                 { 'scouterUuid': scouterUuid, 'teams': teams, 'team': team, 'username': username },
@@ -55,7 +55,7 @@ class addMutablePicklist extends Manager {
 
 
             if (rows.length === 1) {
-                const { error1 } = await supabase
+                const { error1 } = await this.supabase
                     .from('mutablePicklist')
                     .delete()
                     .eq('scouterUuid', scouterUuid)

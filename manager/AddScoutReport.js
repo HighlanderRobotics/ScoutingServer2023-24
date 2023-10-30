@@ -23,7 +23,7 @@ class AddScoutReport extends Manager {
         else if (match != undefined) {
             matchKey = match.key
             try {
-                const { data, error } = await supabase
+                const { data, error } = await this.supabase
                     .from('scoutReport')
                     .insert([
                         { 'tournamentKey': data.tournamentKey, 'match': data.match, 'scouterName': data.scouterName, 'statTime': data.startTime, 'notes': data.notes, 'links': data.links, 'robotRule': data.robotRule, 'autochallengeResult': data.autoChallengeResult, 'challengeResult': data.challengeResult, 'penaltyCard': data.penaltyCard, 'driverAbility': data.driverAbility },
@@ -61,7 +61,7 @@ class AddScoutReport extends Manager {
                             }
                         }
                     }
-                    const { data1, error1 } = await supabase
+                    const { data1, error1 } = await this.supabase
                         .from('events')
                         .insert([
                             { 'team': data.team, 'tournamentKey': data.tournamentKey, 'match': data.match, 'sourceTeam': data.sourceTeam, 'time': events[i][0], 'action': data.action, 'position': data.position, 'points': points },
@@ -85,7 +85,7 @@ class AddScoutReport extends Manager {
             }
 
             console.log(`Data entry complete for ${match.key}`)
-            const { data, error } = await supabase
+            const { data, error } = await this.supabase
                 .from('matches')
                 .select('*')
                 .eq('teamKey', teamKey)

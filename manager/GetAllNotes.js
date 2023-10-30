@@ -15,7 +15,7 @@ class GetAllNotes extends Manager {
     async runTask(teamKey, tournamentScoutedSettings, teamScoutedSettings) {
 
 
-        let { data: scoutReport, error } = await supabase
+        let { data: scoutReport, error } = await this.supabase
             .from('scoutReport')
             .select('notes')
             .in('tournamentKey', [tournamentScoutedSetting])

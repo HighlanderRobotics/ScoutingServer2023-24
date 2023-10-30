@@ -46,7 +46,8 @@ class AddAPITeams extends Manager {
     }
     async  insertTeam(response, i) {
 
-        let { data, error } = await this.supabase.from('teams')
+        let { data, error } = await this.supabase
+            .from('teams')
             .insert([
                 { key: response.data[i].key, teamNumber: response.data[i].team_number, teamName: response.data[i].nickname },
             ])

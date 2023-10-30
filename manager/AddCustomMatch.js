@@ -47,6 +47,10 @@ class AddCustomMatch extends Manager {
                 {'key':key, 'tournamentKey':tournamentKey, 'matchNumber':matchNumber, 'teamKey':teamKey, 'matchType':matchType },
             ])
             .select()
+        if (error1) {
+            console.log(error1)
+            return error1
+        }
     }
 }
 
