@@ -52,33 +52,36 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // only difference to baseAverage is it will sum with points coloumn 
-var BaseAnalysis_1 = require(".././BaseAnalysis");
+var BaseAnalysis_1 = require("./BaseAnalysis");
+var basePointAverage_1 = require("./base/basePointAverage");
+var baseNonEvents_1 = require("./base/baseNonEvents");
 var basePointAverages = /** @class */ (function (_super) {
     __extends(basePointAverages, _super);
-    function basePointAverages(team, teamsScoutedSettings, tournamentScoutedSettings, action) {
+    function basePointAverages(team, teamsScoutedSettings, tournamentScoutedSettings) {
         var _this = _super.call(this) || this;
         _this.teamAvg = 0;
         _this.teamArray = [];
         _this.allTeamAvg = 0;
         _this.difference = 0;
-        _this.action = action;
         _this.team = team;
         _this.tournamentScoutedSettings = tournamentScoutedSettings;
         _this.teamsScoutedSettings = teamsScoutedSettings;
         return _this;
     }
-    basePointAverages.prototype.getTeamAverage = function () {
+    basePointAverages.prototype.getData = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var nonClimbPoints, climb, climbArray, climbAuto, climbAutoArray;
             return __generator(this, function (_a) {
-                return [2 /*return*/];
-            });
-        });
-    };
-    basePointAverages.prototype.getAllTeamsAverage = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var sql;
-            return __generator(this, function (_a) {
-                sql = "";
+                nonClimbPoints = new basePointAverage_1.default(this.team, this.teamsScoutedSettings, this.tournamentScoutedSettings, 2, 300);
+                nonClimbPoints.runAnalysis();
+                climb = new baseNonEvents_1.default(this.team, this.teamsScoutedSettings, this.tournamentScoutedSettings, "challengeResult");
+                climb.runAnalysis();
+                climbArray = climb.finalizeResults().ratios;
+                climbAuto = new baseNonEvents_1.default(this.team, this.teamsScoutedSettings, this.tournamentScoutedSettings, "autoChallengeResult");
+                climbAuto.runAnalysis();
+                climbAutoArray = climbAuto.finalizeResults().ratios;
+                this.teamAvg = nonClimbPoints.finalizeResults().teamAvg + climbArray[1] * 10 + climbArray[2] * 8 + climbAutoArray[1] * 12 + climbAutoArray[2] * 10;
+                this.allTeamAvg = nonClimbPoints.finalizeResults().allTeamAvg + climb.finalizeResults().allTeamRatios[1] * 10 + climb.finalizeResults().allTeamRatios[2] * 8 + climbAuto.finalizeResults().allTeamRatios[1] * 12 + climbAuto.finalizeResults().allTeamRatios[2] * 10;
                 return [2 /*return*/];
             });
         });
@@ -89,15 +92,10 @@ var basePointAverages = /** @class */ (function (_super) {
         return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, a.getTeamAverage().catch(function (err) {
+                    case 0: return [4 /*yield*/, a.getData().catch(function (err) {
                             reject(err);
                         })];
                     case 1:
-                        _a.sent();
-                        return [4 /*yield*/, a.getAllTeamsAverage().catch(function (err) {
-                                reject(err);
-                            })];
-                    case 2:
                         _a.sent();
                         resolve("done");
                         return [2 /*return*/];

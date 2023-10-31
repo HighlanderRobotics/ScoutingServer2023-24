@@ -51,34 +51,63 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// only difference to baseAverage is it will sum with points coloumn 
 var BaseAnalysis_1 = require(".././BaseAnalysis");
-var basePointAverages = /** @class */ (function (_super) {
-    __extends(basePointAverages, _super);
-    function basePointAverages(team, teamsScoutedSettings, tournamentScoutedSettings) {
+var basePointAverage = /** @class */ (function (_super) {
+    __extends(basePointAverage, _super);
+    function basePointAverage(team, sourceTeams, tournamentScoutedSettings, action, lessThanTime) {
         var _this = _super.call(this) || this;
+        _this.teamAvg = 0;
+        _this.teamArray = [];
+        _this.allTeamAvg = 0;
+        _this.difference = 0;
         _this.team = team;
         _this.tournamentScoutedSettings = tournamentScoutedSettings;
-        _this.teamsScoutedSettings = teamsScoutedSettings;
+        _this.sourceTeams = sourceTeams;
+        _this.action = action;
+        _this.lessThanTime = lessThanTime;
         return _this;
     }
-    basePointAverages.prototype.getTeamAverage = function () {
+    basePointAverage.prototype.getTeamAverage = function () {
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/];
+            var _a, arr, error;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, this.supabase.rpc('groupAndCountPointsTeam', {
+                            tournament_keys: this.tournamentScoutedSettings,
+                            source_teams: this.sourceTeams,
+                            single_team: this.team,
+                            single_action: this.action,
+                            time_input: this.lessThanTime
+                        })];
+                    case 1:
+                        _a = _b.sent(), arr = _a.data, error = _a.error;
+                        this.teamArray = arr;
+                        this.teamAvg = this.teamArray.reduce(function (partialSum, a) { return partialSum + a; }, 0) / this.teamArray.length;
+                        return [2 /*return*/];
+                }
             });
         });
     };
-    basePointAverages.prototype.getAllTeamsAverage = function () {
+    basePointAverage.prototype.getAllTeamsAverage = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var sql;
-            return __generator(this, function (_a) {
-                sql = "";
-                return [2 /*return*/];
+            var _a, allArr, error;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, this.supabase.rpc('groupAndCountPoints', {
+                            tournament_keys: this.tournamentScoutedSettings,
+                            source_teams: this.sourceTeams,
+                            single_team: this.team,
+                            time_input: this.lessThanTime
+                        })];
+                    case 1:
+                        _a = _b.sent(), allArr = _a.data, error = _a.error;
+                        this.allTeamAvg = allArr.reduce(function (partialSum, a) { return partialSum + a; }, 0) / this.teamArray.length;
+                        return [2 /*return*/];
+                }
             });
         });
     };
-    basePointAverages.prototype.runAnalysis = function () {
+    basePointAverage.prototype.runAnalysis = function () {
         var _this = this;
         var a = this;
         return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
@@ -94,13 +123,14 @@ var basePointAverages = /** @class */ (function (_super) {
                             })];
                     case 2:
                         _a.sent();
+                        this.difference = this.teamAvg - this.allTeamAvg;
                         resolve("done");
                         return [2 /*return*/];
                 }
             });
         }); });
     };
-    basePointAverages.prototype.finalizeResults = function () {
+    basePointAverage.prototype.finalizeResults = function () {
         return {
             "team": this.team,
             "teamAvg": this.teamAvg,
@@ -109,11 +139,6 @@ var basePointAverages = /** @class */ (function (_super) {
             "difference": this.difference
         };
     };
-    return basePointAverages;
+    return basePointAverage;
 }(BaseAnalysis_1.default));
-var MainItem = /** @class */ (function () {
-    function MainItem() {
-    }
-    return MainItem;
-}());
-export default basePointAverages;
+exports.default = basePointAverage;

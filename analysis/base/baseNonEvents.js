@@ -56,6 +56,8 @@ var baseNonEvents = /** @class */ (function (_super) {
     __extends(baseNonEvents, _super);
     function baseNonEvents(team, teamsScoutedSettings, tournamentScoutedSettings, columnName) {
         var _this = _super.call(this) || this;
+        _this.arrayRatios = [];
+        _this.allTeamArrayRatios = [];
         _this.team = team;
         _this.tournamentScoutedSettings = tournamentScoutedSettings;
         _this.teamsScoutedSettings = teamsScoutedSettings;
@@ -89,14 +91,10 @@ var baseNonEvents = /** @class */ (function (_super) {
     baseNonEvents.prototype.finalizeResults = function () {
         return {
             "team": this.team,
-            "ratios": this.arrayRatios
+            "ratios": this.arrayRatios,
+            "allTeamRatios": this.allTeamArrayRatios
         };
     };
     return baseNonEvents;
 }(BaseAnalysis_1.default));
-var MainItem = /** @class */ (function () {
-    function MainItem() {
-    }
-    return MainItem;
-}());
-export default baseNonEvents;
+exports.default = baseNonEvents;

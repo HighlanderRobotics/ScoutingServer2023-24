@@ -1,6 +1,6 @@
 // Assuming you're using ES6 style imports
 // import Manager from '../manager/Manager.js';
-import sqlite from 'sqlite3'
+import * as sqlite from 'sqlite3';
 import { createClient } from '@supabase/supabase-js';
 
 sqlite.verbose()
