@@ -1,6 +1,7 @@
 import Manager from './Manager.js'
 import axios from 'axios';
 import isFullyScouted from './isFullyScouted.js';
+import checkNewMatch from '../analysis/checkNewMatch.ts'
 
 class AddScoutReport extends Manager {
     static name = 'addScoutReport'
@@ -9,7 +10,7 @@ class AddScoutReport extends Manager {
         super()
     }
 
-    async runTask(teamKey, tournamentKey, data) {
+    async runTask(sourceTeam, tournamentKey, data, tournamentSettings, sourceTeamSettings) {
         let localMatchKey = `${tournamentKey}_${data.match}`
         let matchKey = null
 
@@ -18,7 +19,7 @@ class AddScoutReport extends Manager {
                 const { data, error } = await this.supabase
                     .from('scoutReport')
                     .insert([
-                        { 'tournamentKey': data.tournamentKey, 'match': data.match, 'scouterName': data.scouterName, 'statTime': data.startTime, 'notes': data.notes, 'links': data.links, 'robotRole': data.robotRole, 'autochallengeResult': data.autoChallengeResult, 'challengeResult': data.challengeResult, 'penaltyCard': data.penaltyCard, 'driverAbility': data.driverAbility },
+                        {'team' : data.team, 'sourceTeam' : sourceTeam, 'tournamentKey': data.tournamentKey, 'match': data.match, 'scouterUuid': data.scouterUuid, 'statTime': data.startTime, 'notes': data.notes, 'links': data.links, 'robotRole': data.robotRole, 'autochallengeResult': data.autoChallengeResult, 'challengeResult': data.challengeResult, 'penaltyCard': data.penaltyCard, 'driverAbility': data.driverAbility },
                     ])
                     .select()
                 if (error) {
@@ -71,39 +72,38 @@ class AddScoutReport extends Manager {
                     reject({
                         "results": err,
                         "customCode": 500,
-                        "justForJacob": "SQLITE UNIQUE ERROR, run node resetDataTable.js"
+                        "collectionApp": "SQLITE UNIQUE ERROR, run node resetDataTable.js"
                     })
                 }
             }
+        
+            await new checkNewMatch(team, data.scouterUuid, data.match, tournamentKey, tournamentSettings, sourceTeamSettings).runAnalysis()
 
-            console.log(`Data entry complete for ${match.key}`)
-            const { data, error } = await this.supabase
-                .from('matches')
-                .select('*')
-                .eq('teamKey', teamKey)
-                .eq('tournamentKey', tournamentKey)
-                .eq('SUBSTRING(key, 1, LENGTH(key)-1)', `${localMatchKey}_`)
-                .from('matches')
-                .select('matchNumber')
-                .eq('key', data.match);
-            if (error) {
-                console.log(error)
-                return error
-            }
-            else if (row == undefined || row.length === 0) {
-                console.log("can't find match number")
-            }
+
+
+            // console.log(`Data entry complete for ${match.key}`)
+            // const { data, error } = await this.supabase
+            //     .from('matches')
+            //     .select('*')
+            //     .eq('teamKey', teamKey)
+            //     .eq('tournamentKey', tournamentKey)
+            //     .eq('SUBSTRING(key, 1, LENGTH(key)-1)', `${localMatchKey}_`)
+            //     .from('matches')
+            //     .select('matchNumber')
+            //     .eq('key', data.match);
+            // if (error) {
+            //     console.log(error)
+            //     return error
+            // }
+            // else if (row == undefined || row.length === 0) {
+            //     console.log("can't find match number")
+            // }
 
             resolve("done")
 
-        } else {
-            console.log(`Couldn't find match for:`)
-            reject({
-                "results": `Match doesn't exist`,
-                "customCode": 406
-            })
-        }
+      
     }
+
 }
 
 // console.log(gameDependent)
