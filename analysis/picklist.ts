@@ -1,27 +1,27 @@
 
-import BaseAnalysis  from'./BaseAnalysis';
+import baseAverage  from'./base/baseAverage';
+import totalPoints from './totalPoints'
 
 class picklist extends BaseAnalysis {
     getData() {
         throw new Error('Method not implemented.');
     }
-    private weightedArray: any;
-    private unWeightedArray: any;
-    constructor( team: any, coneOneScore: any, coneTwoScore: any, coneThreeScore: any, cubeOneScore: any, cubeTwoScore: any, cubeThreeScore: any, autoCargo: any, teleOp: any, defense: any, climbAuto: any, feedCone: any, feedCube: any, avgTotal: any, teleopClimb: any, driverAbility: any, allAndArray: any) {
+    private weightedArray: any[];
+    private unWeightedArray: any[];
+    private team : number;
+    private sum : number;
+    private sourceTeamSettings : number[];
+    private tournamentSettings : string[];
+
+    constructor( team: any, totalPoints : number, autoPoints : number, teleopPoints : number, defenseEvents : number, pickUps : number, soureTeamSettings : int[], tournamentSettings : string[] ) {
         super()
-        // this.team = team
-        // this.cubeOneScore = cubeOneScore
-        // this.cubeTwoScore = cubeTwoScore
-        // this.cubeThreeScore = cubeThreeScore
-        // this.autoCargo = autoCargo
-        // this.teleOp = teleOp
-        // this.result = 0
-        // this.coneOneScore = coneOneScore
-        // this.coneTwoScore = coneTwoScore
-        // this.coneThreeScore = coneThreeScore
-        // this.defense = defense
-        // this.climbAuto = climbAuto
-        // this.array = []
+        this.team = team
+        this.weightedArray = []
+        this.unWeightedArray = []
+        this.sum = 0
+        this.sourceTeamSettings = soureTeamSettings
+        this.tournamentSettings = tournamentSettings
+
         // this.feedingCone = feedCone
         // this.feedingCube = feedCube
         // this.avgTotal = avgTotal
@@ -38,13 +38,14 @@ class picklist extends BaseAnalysis {
         let a = this
                 let arr = []
                 let unAdj = []
-                // var cone = new cargoCountOverview(a.db, a.team, 1, 2)
-                // await cone.runAnalysis()
-                // sum += cone.finalizeResults().zScore * a.coneOneScore
-                // var cube = new cargoCountOverview(a.db, a.team, 0, 2)
-                // await cube.runAnalysis()
-                // sum += cube.finalizeResults().zScore * a.cubeScore
 
+                var cargoPlace = new baseAverage(a.team, this.sourceTeamSettings, this.tournamentSettings, 2, 300, 0)
+                await cargoPlace.runAnalysis()
+                let z1 = cargoPlace.finalizeResults().zScore
+                this.sum += z1
+                // arr.push({"result" : z1 *a, "type" : "cargoScores"})
+                unAdj.push({"result" : z1, "type" : "cargoScores"})
+        
 
 
             //     var avgScore = new averageScorePicklist(a.db, a.team, 1)
@@ -189,4 +190,4 @@ class picklist extends BaseAnalysis {
     }
 
 }
-export = picklist;
+export default picklist;

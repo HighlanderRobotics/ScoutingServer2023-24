@@ -1,5 +1,7 @@
 
 import BaseAnalysis  from '.././BaseAnalysis';
+import simpleStats from 'simple-statistics';
+
 
 class baseAverage extends BaseAnalysis {
     private teamAvg = 0
@@ -11,15 +13,21 @@ class baseAverage extends BaseAnalysis {
     private sourceTeams : number[]
     private tournamentScoutedSettings : String[]
     private action: number
-    private lessThanTime : number
+    private timeMax : number
+    private allTeamArr : number[] 
+    private zScore : number
+    private timeMin : number
 
-    constructor( team: number, sourceTeams: number[], tournamentScoutedSettings: String[], action: number, lessThanTime : number) {
+    constructor( team: number, sourceTeams: number[], tournamentScoutedSettings: String[], action: number, timeMax : number, timeMin : number) {
         super()
         this.team = team
         this.tournamentScoutedSettings = tournamentScoutedSettings
         this.sourceTeams = sourceTeams
         this.action = action
-        this.lessThanTime = lessThanTime
+        this.timeMax = timeMax
+        this.allTeamArr = []
+        this.zScore = 0
+        this.timeMin = timeMin
     }
     async getTeamAverage() {
         
@@ -28,7 +36,8 @@ class baseAverage extends BaseAnalysis {
             source_teams: this.sourceTeams,
             single_team: this.team,
             single_action : this.action,
-            time_input: this.lessThanTime
+            timeMax_input: this.timeMax,
+            timeMin_input : this.timeMin
           });
           
         this.teamArray = arr
@@ -40,11 +49,17 @@ class baseAverage extends BaseAnalysis {
             tournament_keys: this.tournamentScoutedSettings,
             source_teams: this.sourceTeams,
             single_team: this.team,
-            time_input: this.lessThanTime
+            timeMax_input: this.timeMax,
+            timeMin_input : this.timeMin
           });
           
+        this.allTeamArr = allArr
     
         this.allTeamAvg = allArr.reduce((partialSum: any, a: any) => partialSum + a, 0) / this.teamArray.length
+
+        this.difference = this.teamAvg - this.allTeamAvg
+
+        this.zScore = this.difference/simpleStats.standardDeviation(this.allTeamArr)
 
     }
 
@@ -59,7 +74,6 @@ class baseAverage extends BaseAnalysis {
             await a.getAllTeamsAverage().catch((err) => {
                 reject(err)
             })
-            this.difference = this.teamAvg - this.allTeamAvg
             resolve("done")
         })
 
@@ -72,7 +86,9 @@ class baseAverage extends BaseAnalysis {
             "teamAvg": this.teamAvg,
             "allTeamAvg": this.allTeamAvg,
             "teamArray": this.teamArray,
-            "difference": this.difference
+            "difference": this.difference,
+            "allTeamArr" : this.allTeamArr,
+            "zScore" : this.zScore
         }
     }
 }

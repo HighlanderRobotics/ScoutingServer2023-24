@@ -24,7 +24,7 @@ class checkNewMatch extends BaseAnalysis {
     async getData() {
         const { data: points, error } = await this.supabase
             .from('events')
-            .select('count(points)', 'team')
+            .select('count(points), team')
             .eq('tournamentKey', this.tournamentKey)
             .eq('match', this.match)
             .eq('scouterUuid', this.scouterUuid)
@@ -33,41 +33,48 @@ class checkNewMatch extends BaseAnalysis {
             console.log(error)
             return error
         }
-        let teamAvg = new basePointAverage(points[0].team, this.sourceTeamSettings, this.tournamentSettings, 2, 300)
+        let teamAvg = new basePointAverage(points[0].team, this.sourceTeamSettings, this.tournamentSettings, 2, 0, 300
+            )
         await teamAvg.runAnalysis()
         const teamAvgPoints = teamAvg.finalizeResults().teamAvg
 
-        const { data :scouterName, error2 } = await this.supabase
-            .from('flaggedMatches')
-            .select("name")
-            .eq('scouterUuid', this.scouterUuid)
-        if (error2) {
-            console.log(error)
-            return error
-        }
-
-
-        //check return type
-        if (points > teamAvgPoints + teamAvgPoints * 0.5) {
-            const { data, error } = await this.supabase
+        {
+            const { data: scouterNames, error } = await this.supabase
                 .from('flaggedMatches')
-                .insert([{ 'sourceTeam': this.sourceTeam, 'uuid': this.scouterUuid, 'match': this.match, "tournamentKey": this.tournamentKey, "note": "very high points recorded", "name" : scouterName[0].name }])
+                .select("name")
+                .eq('scouterUuid', this.scouterUuid);
+
             if (error) {
-                console.log(error)
-                return error
-            }
-        }
-        if (points == 0) {
-            const { data, error } = await this.supabase
-                .from('flaggedMatches')
-                .insert([{ 'sourceTeam': this.sourceTeam, 'uuid': this.scouterUuid, 'match': this.match, "tournamentKey": this.tournamentKey, "note": "0 non-endgame points recorded", "name" : scouterName[0].name}])
-            if (error) {
-                console.log(error)
+                console.error("Error fetching names:", error);
                 return error
             }
 
+
+
+
+            //check return type
+            let teamPoints = points[0].count[0].points 
+            if (teamPoints > teamAvgPoints + teamAvgPoints * 0.5) {
+                const { data, error } = await this.supabase
+                    .from('flaggedMatches')
+                    .insert([{ 'sourceTeam': this.sourceTeam, 'uuid': this.scouterUuid, 'match': this.match, "tournamentKey": this.tournamentKey, "note": "very high points recorded", "name": scouterNames[0].name }])
+                if (error) {
+                    console.log(error)
+                    return error
+                }
+            }
+            if (teamPoints == 0) {
+                const { data, error } = await this.supabase
+                    .from('flaggedMatches')
+                    .insert([{ 'sourceTeam': this.sourceTeam, 'uuid': this.scouterUuid, 'match': this.match, "tournamentKey": this.tournamentKey, "note": "0 non-endgame points recorded", "name": scouterNames[0].name }])
+                if (error) {
+                    console.log(error)
+                    return error
+                }
+
+            }
         }
-        
+
 
     }
 

@@ -11,13 +11,16 @@ class basePointAverages extends BaseAnalysis {
     private team
     private teamsScoutedSettings
     private tournamentScoutedSettings
+    private picklist 
 
-    constructor( team: any, teamsScoutedSettings: any, tournamentScoutedSettings: any) {
+    constructor( team: any, teamsScoutedSettings: any, tournamentScoutedSettings: any, picklist : boolean) {
         super()
         this.team = team
         this.tournamentScoutedSettings = tournamentScoutedSettings
         this.teamsScoutedSettings = teamsScoutedSettings
+        this.picklist = picklist
     }
+    
     
     async getData()
     {
@@ -41,6 +44,13 @@ class basePointAverages extends BaseAnalysis {
         this.teamAvg = nonClimbPoints.finalizeResults().teamAvg + climbArray[1] * 10 + climbArray[2] *8  + climbAutoArray[1] * 12 + climbAutoArray[2] * 10
         this.allTeamAvg = nonClimbPoints.finalizeResults().allTeamAvg + climb.finalizeResults().allTeamRatios[1] * 10 + climb.finalizeResults().allTeamRatios[2] * 8 + climbAuto.finalizeResults().allTeamRatios[1] * 12+ climbAuto.finalizeResults().allTeamRatios[2] * 10
 
+
+        this.difference = this.teamAvg - this.allTeamAvg
+        if(this.picklist)
+        {
+            
+
+        }
     }
 
 

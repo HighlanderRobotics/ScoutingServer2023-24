@@ -22,11 +22,11 @@ class alliancePage extends BaseAnalysis {
     }
     async getData() {
 
-        let onePoints = new totalPoints(this.teamOne, this.teamScoutedSettings, this.tournamentScoutedSettings)        
+        let onePoints = new totalPoints(this.teamOne, this.teamScoutedSettings, this.tournamentScoutedSettings, false)        
         onePoints.runAnalysis()
-        let twoPoints = new totalPoints(this.teamTwo, this.teamScoutedSettings, this.tournamentScoutedSettings)        
+        let twoPoints = new totalPoints(this.teamTwo, this.teamScoutedSettings, this.tournamentScoutedSettings, false)        
         twoPoints.runAnalysis()
-        let threePoints = new totalPoints(this.teamThree, this.teamScoutedSettings, this.tournamentScoutedSettings)        
+        let threePoints = new totalPoints(this.teamThree, this.teamScoutedSettings, this.tournamentScoutedSettings, false)        
         threePoints.runAnalysis()
         this.totalPoints = onePoints.finalizeResults().teamAvg + twoPoints.finalizeResults().teamAvg + threePoints.finalizeResults().teamAvg 
     
