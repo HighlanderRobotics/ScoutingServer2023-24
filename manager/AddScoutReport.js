@@ -81,23 +81,28 @@ class AddScoutReport extends Manager {
 
 
 
-            // console.log(`Data entry complete for ${match.key}`)
-            // const { data, error } = await this.supabase
-            //     .from('matches')
-            //     .select('*')
-            //     .eq('teamKey', teamKey)
-            //     .eq('tournamentKey', tournamentKey)
-            //     .eq('SUBSTRING(key, 1, LENGTH(key)-1)', `${localMatchKey}_`)
-            //     .from('matches')
-            //     .select('matchNumber')
-            //     .eq('key', data.match);
-            // if (error) {
-            //     console.log(error)
-            //     return error
-            // }
-            // else if (row == undefined || row.length === 0) {
-            //     console.log("can't find match number")
-            // }
+            console.log(`Data entry complete for ${match.key}`)
+            const { data, error } = await this.supabase
+                .from('matches')
+                .select('*')
+                .eq('teamKey', teamKey)
+                .eq('tournamentKey', tournamentKey)
+                .eq('SUBSTRING(key, 1, LENGTH(key)-1)', `${localMatchKey}_`)
+            if (error) {
+                console.log(error)
+                return error
+            }
+            const { data, error1 } = await this.supabase
+                .from('matches')
+                .select('matchNumber')
+                .eq('key', data.match);
+            if (error1) {
+                console.log(error1)
+                return error1
+            }
+            else if (row == undefined || row.length === 0) {
+                console.log("can't find match number")
+            }
 
             resolve("done")
 
