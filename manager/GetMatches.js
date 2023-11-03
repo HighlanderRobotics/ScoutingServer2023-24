@@ -53,6 +53,22 @@ class GetMatches extends Manager {
             })
 
             resolve(modifiedMatches)
+
+            let { data: matches, error } = await this.supabase
+                  .from('matches')
+                  .select('*')
+                  .eq('tournamentKey',tournamentKey)
+
+            if(matches.length===0){
+                this.AddTournamentMatches
+            }
+            if(matches.length>0){
+                return matches
+            }
+            else {
+                return "Could not find matches"
+            }
+            
         }
     }
 }

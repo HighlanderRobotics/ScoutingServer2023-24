@@ -82,7 +82,7 @@ class AddScoutReport extends Manager {
 
 
             console.log(`Data entry complete for ${match.key}`)
-            const { data, error } = await this.supabase
+            const { data1, error } = await this.supabase
                 .from('matches')
                 .select('*')
                 .eq('teamKey', teamKey)
@@ -92,7 +92,7 @@ class AddScoutReport extends Manager {
                 console.log(error)
                 return error
             }
-            const { data, error1 } = await this.supabase
+            const { data2, error1 } = await this.supabase
                 .from('matches')
                 .select('matchNumber')
                 .eq('key', data.match);
