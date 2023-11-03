@@ -1,7 +1,7 @@
 
 import { time } from 'console';
 import BaseAnalysis  from '.././BaseAnalysis';
-import simpleStats from 'simple-statistics';
+import * as simpleStats from 'simple-statistics';
 
 
 class basePointAverage extends BaseAnalysis {

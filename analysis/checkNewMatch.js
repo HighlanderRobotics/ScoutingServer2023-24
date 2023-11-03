@@ -67,12 +67,12 @@ var checkNewMatch = /** @class */ (function (_super) {
     }
     checkNewMatch.prototype.getData = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, points, error, teamAvg, teamAvgPoints, _b, scouterName, error2, _c, data, error_1, _d, data, error_2;
+            var _a, points, error, teamAvg, teamAvgPoints, _b, scouterNames, error_1, teamPoints, _c, data, error_2, _d, data, error_3;
             return __generator(this, function (_e) {
                 switch (_e.label) {
                     case 0: return [4 /*yield*/, this.supabase
                             .from('events')
-                            .select('count(points)', 'team')
+                            .select('count(points), team')
                             .eq('tournamentKey', this.tournamentKey)
                             .eq('match', this.match)
                             .eq('scouterUuid', this.scouterUuid)
@@ -83,7 +83,7 @@ var checkNewMatch = /** @class */ (function (_super) {
                             console.log(error);
                             return [2 /*return*/, error];
                         }
-                        teamAvg = new basePointAverage_1.default(points[0].team, this.sourceTeamSettings, this.tournamentSettings, 2, 300);
+                        teamAvg = new basePointAverage_1.default(points[0].team, this.sourceTeamSettings, this.tournamentSettings, 2, 0, 300);
                         return [4 /*yield*/, teamAvg.runAnalysis()];
                     case 2:
                         _e.sent();
@@ -93,32 +93,33 @@ var checkNewMatch = /** @class */ (function (_super) {
                                 .select("name")
                                 .eq('scouterUuid', this.scouterUuid)];
                     case 3:
-                        _b = _e.sent(), scouterName = _b.data, error2 = _b.error2;
-                        if (error2) {
-                            console.log(error);
-                            return [2 /*return*/, error];
-                        }
-                        if (!(points > teamAvgPoints + teamAvgPoints * 0.5)) return [3 /*break*/, 5];
-                        return [4 /*yield*/, this.supabase
-                                .from('flaggedMatches')
-                                .insert([{ 'sourceTeam': this.sourceTeam, 'uuid': this.scouterUuid, 'match': this.match, "tournamentKey": this.tournamentKey, "note": "very high points recorded", "name": scouterName[0].name }])];
-                    case 4:
-                        _c = _e.sent(), data = _c.data, error_1 = _c.error;
+                        _b = _e.sent(), scouterNames = _b.data, error_1 = _b.error;
                         if (error_1) {
-                            console.log(error_1);
+                            console.error("Error fetching names:", error_1);
                             return [2 /*return*/, error_1];
                         }
-                        _e.label = 5;
-                    case 5:
-                        if (!(points == 0)) return [3 /*break*/, 7];
+                        teamPoints = points[0].count[0].points;
+                        if (!(teamPoints > teamAvgPoints + teamAvgPoints * 0.5)) return [3 /*break*/, 5];
                         return [4 /*yield*/, this.supabase
                                 .from('flaggedMatches')
-                                .insert([{ 'sourceTeam': this.sourceTeam, 'uuid': this.scouterUuid, 'match': this.match, "tournamentKey": this.tournamentKey, "note": "0 non-endgame points recorded", "name": scouterName[0].name }])];
-                    case 6:
-                        _d = _e.sent(), data = _d.data, error_2 = _d.error;
+                                .insert([{ 'sourceTeam': this.sourceTeam, 'uuid': this.scouterUuid, 'match': this.match, "tournamentKey": this.tournamentKey, "note": "very high points recorded", "name": scouterNames[0].name }])];
+                    case 4:
+                        _c = _e.sent(), data = _c.data, error_2 = _c.error;
                         if (error_2) {
                             console.log(error_2);
                             return [2 /*return*/, error_2];
+                        }
+                        _e.label = 5;
+                    case 5:
+                        if (!(teamPoints == 0)) return [3 /*break*/, 7];
+                        return [4 /*yield*/, this.supabase
+                                .from('flaggedMatches')
+                                .insert([{ 'sourceTeam': this.sourceTeam, 'uuid': this.scouterUuid, 'match': this.match, "tournamentKey": this.tournamentKey, "note": "0 non-endgame points recorded", "name": scouterNames[0].name }])];
+                    case 6:
+                        _d = _e.sent(), data = _d.data, error_3 = _d.error;
+                        if (error_3) {
+                            console.log(error_3);
+                            return [2 /*return*/, error_3];
                         }
                         _e.label = 7;
                     case 7: return [2 /*return*/];

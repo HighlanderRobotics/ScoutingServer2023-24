@@ -1,7 +1,7 @@
 import Manager from './Manager.js'
 import axios from 'axios';
 import isFullyScouted from './isFullyScouted.js';
-import checkNewMatch from '../analysis/checkNewMatch.ts'
+// import checkNewMatch from '../analysis/checkNewMatch.ts'
 
 class AddScoutReport extends Manager {
     static name = 'addScoutReport'
