@@ -52,12 +52,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // only difference to baseAverage is it will sum with points coloumn 
-var BaseAnalysis_1 = require("./BaseAnalysis");
-var basePointAverage_1 = require("./base/basePointAverage");
-var baseNonEvents_1 = require("./base/baseNonEvents");
+var BaseAnalysis_js_1 = require("./BaseAnalysis.js");
+var basePointAverage_js_1 = require("./base/basePointAverage.js");
+var baseNonEvents_js_1 = require("./base/baseNonEvents.js");
 var basePointAverages = /** @class */ (function (_super) {
     __extends(basePointAverages, _super);
-    function basePointAverages(team, teamsScoutedSettings, tournamentScoutedSettings) {
+    function basePointAverages(team, teamsScoutedSettings, tournamentScoutedSettings, picklist) {
         var _this = _super.call(this) || this;
         _this.teamAvg = 0;
         _this.teamArray = [];
@@ -66,22 +66,26 @@ var basePointAverages = /** @class */ (function (_super) {
         _this.team = team;
         _this.tournamentScoutedSettings = tournamentScoutedSettings;
         _this.teamsScoutedSettings = teamsScoutedSettings;
+        _this.picklist = picklist;
         return _this;
     }
     basePointAverages.prototype.getData = function () {
         return __awaiter(this, void 0, void 0, function () {
             var nonClimbPoints, climb, climbArray, climbAuto, climbAutoArray;
             return __generator(this, function (_a) {
-                nonClimbPoints = new basePointAverage_1.default(this.team, this.teamsScoutedSettings, this.tournamentScoutedSettings, 2, 300);
+                nonClimbPoints = new basePointAverage_js_1.default(this.team, this.teamsScoutedSettings, this.tournamentScoutedSettings, 2, 300, 0);
                 nonClimbPoints.runAnalysis();
-                climb = new baseNonEvents_1.default(this.team, this.teamsScoutedSettings, this.tournamentScoutedSettings, "challengeResult");
+                climb = new baseNonEvents_js_1.default(this.team, this.teamsScoutedSettings, this.tournamentScoutedSettings, "challengeResult");
                 climb.runAnalysis();
                 climbArray = climb.finalizeResults().ratios;
-                climbAuto = new baseNonEvents_1.default(this.team, this.teamsScoutedSettings, this.tournamentScoutedSettings, "autoChallengeResult");
+                climbAuto = new baseNonEvents_js_1.default(this.team, this.teamsScoutedSettings, this.tournamentScoutedSettings, "autoChallengeResult");
                 climbAuto.runAnalysis();
                 climbAutoArray = climbAuto.finalizeResults().ratios;
                 this.teamAvg = nonClimbPoints.finalizeResults().teamAvg + climbArray[1] * 10 + climbArray[2] * 8 + climbAutoArray[1] * 12 + climbAutoArray[2] * 10;
                 this.allTeamAvg = nonClimbPoints.finalizeResults().allTeamAvg + climb.finalizeResults().allTeamRatios[1] * 10 + climb.finalizeResults().allTeamRatios[2] * 8 + climbAuto.finalizeResults().allTeamRatios[1] * 12 + climbAuto.finalizeResults().allTeamRatios[2] * 10;
+                this.difference = this.teamAvg - this.allTeamAvg;
+                if (this.picklist) {
+                }
                 return [2 /*return*/];
             });
         });
@@ -113,5 +117,5 @@ var basePointAverages = /** @class */ (function (_super) {
         };
     };
     return basePointAverages;
-}(BaseAnalysis_1.default));
+}(BaseAnalysis_js_1.default));
 exports.default = basePointAverages;

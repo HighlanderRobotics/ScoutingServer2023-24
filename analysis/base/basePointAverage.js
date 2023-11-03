@@ -51,7 +51,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var BaseAnalysis_1 = require(".././BaseAnalysis");
+var BaseAnalysis_js_1 = require(".././BaseAnalysis.js");
 var simpleStats = require("simple-statistics");
 var basePointAverage = /** @class */ (function (_super) {
     __extends(basePointAverage, _super);
@@ -148,5 +148,5 @@ var basePointAverage = /** @class */ (function (_super) {
         };
     };
     return basePointAverage;
-}(BaseAnalysis_1.default));
+}(BaseAnalysis_js_1.default));
 exports.default = basePointAverage;

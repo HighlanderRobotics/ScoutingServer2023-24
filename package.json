@@ -12,13 +12,14 @@
     "windowsstart": "wt -p \"ngrok\" bash ngrok.sh ; split-pane -p \"CollectionServer\" node collectionServer.js",
     "test": "jest",
     "dev": "nodemon collectionServer.js",
-    "setup": "node setup.mjs"
+    "setup": "node setup.mjs",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "Cassie Colby <cassiecolby@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "@supabase/supabase-js": "^2.38.2",
+    "@supabase/supabase-js": "^2.38.4",
     "@types/express": "^4.17.20",
     "@types/node": "^20.8.7",
     "axios": "^0.21.4",
@@ -44,7 +45,8 @@
     "socket.io": "^4.6.1",
     "sqlite": "^4.1.2",
     "sqlite3": "^5.1.6",
-    "supabase": "^1.106.1"
+    "supabase": "^1.106.1",
+    "ts-node": "^10.9.1"
   },
   "devDependencies": {
     "dotenv": "^16.0.3",

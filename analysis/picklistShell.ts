@@ -1,5 +1,5 @@
 
-import BaseAnalysis  from'./BaseAnalysis';
+import BaseAnalysis  from'./BaseAnalysis.js';
 
 class picklistShell extends BaseAnalysis {
 
@@ -168,4 +168,4 @@ class picklistShell extends BaseAnalysis {
 
 }
 
-export = picklistShell;
+export default picklistShell;

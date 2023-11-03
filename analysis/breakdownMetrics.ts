@@ -1,5 +1,5 @@
-import BaseAnalysis from './BaseAnalysis';
-import baseNonEvents from './base/baseNonEvents';
+import BaseAnalysis from './BaseAnalysis.js';
+import baseNonEvents from './base/baseNonEvents.js';
 
 class breakdownMetrics extends BaseAnalysis {
     team : number;

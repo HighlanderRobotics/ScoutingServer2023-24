@@ -1,6 +1,9 @@
 
-import BaseAnalysis  from '.././BaseAnalysis';
-import simpleStats from 'simple-statistics';
+import BaseAnalysis  from '.././BaseAnalysis.js';
+import * as simpleStats from 'simple-statistics';
+
+// Now you can use methods from simpleStats like so:
+// let mean = simpleStats.mean([1, 2, 3]);
 
 
 class baseAverage extends BaseAnalysis {
@@ -18,7 +21,8 @@ class baseAverage extends BaseAnalysis {
     private zScore : number
     private timeMin : number
 
-    constructor( team: number, sourceTeams: number[], tournamentScoutedSettings: String[], action: number, timeMax : number, timeMin : number) {
+    constructor( team: number, sourceTeams: number[], tournamentScoutedSettings: string[], action: number, timeMax : number, timeMin : number) {
+
         super()
         this.team = team
         this.tournamentScoutedSettings = tournamentScoutedSettings

@@ -1,7 +1,7 @@
 // only difference to baseAverage is it will sum with points coloumn 
-import BaseAnalysis  from './BaseAnalysis';
-import basePointAverage from './base/basePointAverage'
-import baseNonEvents from './base/baseNonEvents'
+import BaseAnalysis  from './BaseAnalysis.js';
+import basePointAverage from './base/basePointAverage.js'
+import baseNonEvents from './base/baseNonEvents.js'
 
 class basePointAverages extends BaseAnalysis {
     private teamAvg = 0
@@ -24,7 +24,7 @@ class basePointAverages extends BaseAnalysis {
     
     async getData()
     {
-        let nonClimbPoints = new basePointAverage(this.team, this.teamsScoutedSettings, this.tournamentScoutedSettings, 2, 300 )
+        let nonClimbPoints = new basePointAverage(this.team, this.teamsScoutedSettings, this.tournamentScoutedSettings, 2, 300, 0 )
         nonClimbPoints.runAnalysis()
         
 

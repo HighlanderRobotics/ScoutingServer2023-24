@@ -51,31 +51,70 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var BaseAnalysis_1 = require(".././BaseAnalysis");
+var BaseAnalysis_js_1 = require(".././BaseAnalysis.js");
+var simpleStats = require("simple-statistics");
+// Now you can use methods from simpleStats like so:
+// let mean = simpleStats.mean([1, 2, 3]);
 var baseAverage = /** @class */ (function (_super) {
     __extends(baseAverage, _super);
-    function baseAverage(team, sourceTeams, tournamentScoutedSettings, action) {
+    function baseAverage(team, sourceTeams, tournamentScoutedSettings, action, timeMax, timeMin) {
         var _this = _super.call(this) || this;
+        _this.teamAvg = 0;
+        _this.teamArray = [];
+        _this.allTeamAvg = 0;
+        _this.difference = 0;
         _this.team = team;
         _this.tournamentScoutedSettings = tournamentScoutedSettings;
         _this.sourceTeams = sourceTeams;
         _this.action = action;
+        _this.timeMax = timeMax;
+        _this.allTeamArr = [];
+        _this.zScore = 0;
+        _this.timeMin = timeMin;
         return _this;
     }
     baseAverage.prototype.getTeamAverage = function () {
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                this.teamArray = this.knex.avg().count().from("events").whereIn('action', this.action).where("source_team", this.sourceTeams).where("team", "=", this.team).groupBy("source_team", "key");
-                this.teamAvg = this.teamArray.reduce(function (partialSum, a) { return partialSum + a; }, 0) / this.teamArray.length;
-                return [2 /*return*/];
+            var _a, arr, error;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, this.supabase.rpc('groupAndCountTeam', {
+                            tournament_keys: this.tournamentScoutedSettings,
+                            source_teams: this.sourceTeams,
+                            single_team: this.team,
+                            single_action: this.action,
+                            timeMax_input: this.timeMax,
+                            timeMin_input: this.timeMin
+                        })];
+                    case 1:
+                        _a = _b.sent(), arr = _a.data, error = _a.error;
+                        this.teamArray = arr;
+                        this.teamAvg = this.teamArray.reduce(function (partialSum, a) { return partialSum + a; }, 0) / this.teamArray.length;
+                        return [2 /*return*/];
+                }
             });
         });
     };
     baseAverage.prototype.getAllTeamsAverage = function () {
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                this.allTeamAvg = this.knex.avg().count().from("events").whereIn('action', this.action).where("source_team", this.sourceTeams).groupBy("source_team", "key");
-                return [2 /*return*/];
+            var _a, allArr, error;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, this.supabase.rpc('groupAndCount', {
+                            tournament_keys: this.tournamentScoutedSettings,
+                            source_teams: this.sourceTeams,
+                            single_team: this.team,
+                            timeMax_input: this.timeMax,
+                            timeMin_input: this.timeMin
+                        })];
+                    case 1:
+                        _a = _b.sent(), allArr = _a.data, error = _a.error;
+                        this.allTeamArr = allArr;
+                        this.allTeamAvg = allArr.reduce(function (partialSum, a) { return partialSum + a; }, 0) / this.teamArray.length;
+                        this.difference = this.teamAvg - this.allTeamAvg;
+                        this.zScore = this.difference / simpleStats.standardDeviation(this.allTeamArr);
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -95,7 +134,6 @@ var baseAverage = /** @class */ (function (_super) {
                             })];
                     case 2:
                         _a.sent();
-                        this.difference = this.teamAvg - this.allTeamAvg;
                         resolve("done");
                         return [2 /*return*/];
                 }
@@ -108,14 +146,11 @@ var baseAverage = /** @class */ (function (_super) {
             "teamAvg": this.teamAvg,
             "allTeamAvg": this.allTeamAvg,
             "teamArray": this.teamArray,
-            "difference": this.difference
+            "difference": this.difference,
+            "allTeamArr": this.allTeamArr,
+            "zScore": this.zScore
         };
     };
     return baseAverage;
-}(BaseAnalysis_1.default));
-var MainItem = /** @class */ (function () {
-    function MainItem() {
-    }
-    return MainItem;
-}());
+}(BaseAnalysis_js_1.default));
 export default baseAverage;

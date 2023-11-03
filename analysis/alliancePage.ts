@@ -1,5 +1,5 @@
-import BaseAnalysis  from'./BaseAnalysis';
-import totalPoints from './totalPoints'
+import BaseAnalysis  from'./BaseAnalysis.js';
+import totalPoints from './totalPoints.js'
 class alliancePage extends BaseAnalysis {
     private teamOne : number
     private teamTwo : number

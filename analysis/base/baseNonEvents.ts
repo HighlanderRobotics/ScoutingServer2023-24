@@ -1,5 +1,5 @@
 
-import BaseAnalysis  from '.././BaseAnalysis';
+import BaseAnalysis  from '.././BaseAnalysis.js';
 
 class baseNonEvents extends BaseAnalysis {
 

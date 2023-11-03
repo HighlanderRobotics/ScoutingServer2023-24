@@ -1,5 +1,5 @@
 
-import BaseAnalysis from '.././BaseAnalysis';
+import BaseAnalysis from '.././BaseAnalysis.js';
 
 class notes extends BaseAnalysis {
 
@@ -16,12 +16,13 @@ class notes extends BaseAnalysis {
     }
     async getNotes() {
 
-        let { data: scoutReport, error } = await this.supabase
+        const { data: scoutReport, error } = await this.supabase
             .from('scoutReport')
             .select('notes')
-            .in
-
-
+            .eq('tournamentKey', this.tournamentScoutedSettings)
+            .eq('team', this.team)
+            .eq('sourceTeam', this.teamsScoutedSettings)
+        this.notes = scoutReport
     }
 
 
@@ -46,4 +47,4 @@ class notes extends BaseAnalysis {
         }
     }
 }
-export default class MainItem { notes: any }
+export default notes

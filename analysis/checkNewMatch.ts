@@ -1,6 +1,6 @@
 import { UUID } from 'crypto';
-import BaseAnalysis from './BaseAnalysis';
-import basePointAverage from './base/basePointAverage';
+import BaseAnalysis from './BaseAnalysis.js';
+import basePointAverage from './base/basePointAverage.js';
 class checkNewMatch extends BaseAnalysis {
 
     private sourceTeam: number;

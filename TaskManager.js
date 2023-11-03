@@ -3,13 +3,15 @@
 // import AverageForMetric = from('./analysis/AverageForMetric.js')
 //import Overview = from('./overview.js')
 
-import breakdownMetrics from './analysis/breakdownMetrics.js'
-import categoryMetrics from'./analysis/categoryMetrics.js'
-import notes from'./analysis/base/notes.js'
-import picklistShell from './analysis/picklistShell.js'
-import alliancePage  from'./analysis/alliancePage.js'
-import predictWinning from'./analysis/predictWinning.js'
-import flag from './analysis/flag.js'
+// import breakdownMetrics from './analysis/breakdownMetrics.js'
+// import categoryMetrics from './analysis/categoryMetrics.js'
+import notes from './dist/analysis/base/notes.js'
+// import picklistShell from './analysis/picklistShell.js'
+// import alliancePage from './analysis/alliancePage.js'
+// import predictWinning from './analysis/predictWinning.js'
+// import flag from './analysis/flag.js'
+// import BaseAnalysis from './analysis/BaseAnalysis.js'
+import baseAverage from './dist/analysis/base/baseAverage.js'
 
 
 class TaskManager {
@@ -61,34 +63,50 @@ class TaskManager {
         let a = this;
         let returnAnalysis = []
 
-        tasks.forEach((task) => {
+        tasks.forEach(async (task) => {
 
             switch (task.name) {
-            
-                case (categoryMetrics.name):
-                    returnAnalysis.push(new categoryMetrics(Manager.db, task.team))
+
+                // case (categoryMetrics.name):
+                //     returnAnalysis.push(new categoryMetrics( task.team))
+                //     break
+                // case (breakdownMetrics.name):
+                //     returnAnalysis.push(new breakdownMetrics(task.team))
+                //     break
+                case ("baseAverage"):
+                    try {
+                        const baseAverageInstance = new baseAverage(
+                            Number(task.team),
+                            task.sourceTeamSettings,
+                            task.tournamentsSetting,
+                            Number(task.action),
+                            Number(task.timeMax),
+                            Number(task.timeMin)
+                        );
+                        const analysisResults = await baseAverageInstance.runAnalysis();
+                        const finalResults = analysisResults.finalizeResults();
+                        returnAnalysis.push(finalResults);
+                    } catch (error) {
+                        console.error("Error creating baseAverage instance:", error);
+                        // Handle the error appropriately
+                    }
+                case ("notes"):
+                    returnAnalysis.push(await new notes(task.team, JSON.parse(task.sourceTeamSetting), JSON.parse(task.tournamentsSetting)).runAnalysis().finalizeResults)
                     break
-                case (breakdownMetrics.name):
-                    returnAnalysis.push(new breakdownMetrics(Manager.db, task.team))
-                    break
-                
-                case (notes.name):
-                    returnAnalysis.push(new notes(Manager.db, task.team))
-                    break
-                case ("picklist"):
-                    returnAnalysis.push(new picklistShell(Manager.db, task.tournamentKey, task.coneOneScore, task.coneTwoScore, task.coneThreeScore, task.cubeOneScore, task.cubeTwoScore, task.cubeThreeScore,task.autoCargo, task.teleopScore, task.defenseScore, task.autoClimb, task.feedCone, task.feedCube, task.avgTotal, task.teleopClimb, task.driverAbility, JSON.parse(task.flags)))
-                    break
-                
-                case("alliancePage"):
-                    returnAnalysis.push(new alliancePage(Manager.db, task.teamOne, task.teamTwo, task.teamThree))
-                    break
-                case("predictMatch"):
-                    returnAnalysis.push(new predictWinning(Manager.db, task.red1, task.red2, task.red3, task.blue1, task.blue2, task.blue3))
-                    break
-               
-                case("flag"):
-                    returnAnalysis.push(new flag(Manager.db, task.team,JSON.parse(task.types), task.tournamentKey))
-                    break
+                // case ("picklist"):
+                //     returnAnalysis.push(new picklistShell(task.tournamentKey, task.coneOneScore, task.coneTwoScore, task.coneThreeScore, task.cubeOneScore, task.cubeTwoScore, task.cubeThreeScore,task.autoCargo, task.teleopScore, task.defenseScore, task.autoClimb, task.feedCone, task.feedCube, task.avgTotal, task.teleopClimb, task.driverAbility, JSON.parse(task.flags)))
+                //     break
+
+                // case("alliancePage"):
+                //     returnAnalysis.push(new alliancePage( task.teamOne, task.teamTwo, task.teamThree))
+                //     break
+                // case("predictMatch"):
+                //     returnAnalysis.push(new predictWinning(Manager.db, task.red1, task.red2, task.red3, task.blue1, task.blue2, task.blue3))
+                //     break
+
+                // case("flag"):
+                //     returnAnalysis.push( new flag(Manager.db, task.team,JSON.parse(task.types), task.tournamentKey))
+                //     break
                 default:
                     console.log(`${task.name} is not a valid task`)
             }
@@ -99,3 +117,6 @@ class TaskManager {
 }
 
 export default TaskManager
+
+
+

@@ -1,6 +1,6 @@
 
 import { time } from 'console';
-import BaseAnalysis  from '.././BaseAnalysis';
+import BaseAnalysis  from '.././BaseAnalysis.js';
 import * as simpleStats from 'simple-statistics';
 
 

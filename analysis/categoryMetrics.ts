@@ -1,9 +1,9 @@
 
-import BaseAnalysis  from'./BaseAnalysis';
-import basePointAverages from './base/basePointAverage';
-import baseAverage from './base/baseAverage';
-import totalPoints from './totalPoints'
-import baseNonEvents from './base/baseNonEvents';
+import BaseAnalysis  from'./BaseAnalysis.js';
+import basePointAverages from './base/basePointAverage.js';
+import baseAverage from './base/baseAverage.js';
+import totalPoints from './totalPoints.js'
+import baseNonEvents from './base/baseNonEvents.js';
 
 class categoryMetrics extends BaseAnalysis {
     private result: unknown
@@ -74,4 +74,4 @@ class categoryMetrics extends BaseAnalysis {
     }
 
 }
-export = categoryMetrics;
+export default categoryMetrics;

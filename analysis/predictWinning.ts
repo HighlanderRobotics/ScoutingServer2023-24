@@ -1,5 +1,5 @@
 
-import BaseAnalysis  from'./BaseAnalysis';
+import BaseAnalysis  from'./BaseAnalysis.js';
 
 class predictWinning extends BaseAnalysis {
     private red1 : number
@@ -199,5 +199,5 @@ class predictWinning extends BaseAnalysis {
         }
     }
 }
-export = predictWinning;
+export default predictWinning;
     

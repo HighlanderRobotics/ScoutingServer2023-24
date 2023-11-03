@@ -91,7 +91,7 @@ app.post('/API/analysis', async (req, res) => {
 app.get('/API/analysis/:task', async (req, res) => {
     // Run analysis engine
     if (req.query) {
-        singleTask = [
+        let singleTask = [
             {
                 'name': req.params.task,
             }

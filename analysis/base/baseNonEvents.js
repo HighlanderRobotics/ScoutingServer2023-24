@@ -51,7 +51,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var BaseAnalysis_1 = require(".././BaseAnalysis");
+var BaseAnalysis_js_1 = require(".././BaseAnalysis.js");
 var baseNonEvents = /** @class */ (function (_super) {
     __extends(baseNonEvents, _super);
     function baseNonEvents(team, teamsScoutedSettings, tournamentScoutedSettings, columnName) {
@@ -96,5 +96,5 @@ var baseNonEvents = /** @class */ (function (_super) {
         };
     };
     return baseNonEvents;
-}(BaseAnalysis_1.default));
+}(BaseAnalysis_js_1.default));
 exports.default = baseNonEvents;

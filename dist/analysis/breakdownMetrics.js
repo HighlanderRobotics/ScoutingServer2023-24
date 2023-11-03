@@ -1,0 +1,49 @@
+import BaseAnalysis from './BaseAnalysis.js';
+import baseNonEvents from './base/baseNonEvents.js';
+class breakdownMetrics extends BaseAnalysis {
+    team;
+    teamKey;
+    result;
+    tournamentScoutedSettings;
+    teamScoutedSetting;
+    metrics;
+    constructor(team, tournamentScoutedSettings, teamScoutedSetting) {
+        super();
+        this.team = team;
+        this.teamKey = "ftc" + team;
+        this.teamScoutedSetting = teamScoutedSetting;
+        this.tournamentScoutedSettings = tournamentScoutedSettings;
+    }
+    async getData() {
+        let roles = new baseNonEvents(this.team, this.teamScoutedSetting, this.tournamentScoutedSettings, "robotRole");
+        roles.runAnalysis();
+        let climb = new baseNonEvents(this.team, this.teamScoutedSetting, this.tournamentScoutedSettings, "challengeResult");
+        climb.runAnalysis();
+        let autoClimb = new baseNonEvents(this.team, this.teamScoutedSetting, this.tournamentScoutedSettings, "autoChallengeResult");
+        autoClimb.runAnalysis();
+        let metrics = { "roles": roles.finalizeResults().ratios, "climb": climb.finalizeResults().ratios, "autoClimb": autoClimb.finalizeResults().ratios };
+        this.metrics = metrics;
+    }
+    runAnalysis() {
+        return new Promise(async (resolve, reject) => {
+            this.getData()
+                .then((data) => {
+                this.result = data;
+                resolve("done");
+            })
+                .catch((err) => {
+                if (err) {
+                    reject(err);
+                    return err;
+                }
+            });
+        });
+    }
+    finalizeResults() {
+        return {
+            "breakdowns": this.metrics
+        };
+    }
+}
+export default breakdownMetrics;
+//# sourceMappingURL=breakdownMetrics.js.map

@@ -1,4 +1,4 @@
-import BaseAnalysis  from'./BaseAnalysis';
+import BaseAnalysis  from'./BaseAnalysis.js';
 
 class flag extends BaseAnalysis {
     getData() {

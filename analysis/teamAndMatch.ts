@@ -2,7 +2,7 @@
 //auto path, auto points, auto charge, driver ability, role, notes, links, cones and cubes w level breakdown
 	
 
-import BaseAnalysis  from'./BaseAnalysis';
+import BaseAnalysis  from'./BaseAnalysis.js';
 
 class teamAndMatch extends BaseAnalysis {
     private team : number
@@ -147,5 +147,5 @@ class teamAndMatch extends BaseAnalysis {
     }
 
 }
-export = teamAndMatch;
+export default teamAndMatch;
 

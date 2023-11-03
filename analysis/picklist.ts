@@ -1,6 +1,6 @@
-
-import baseAverage  from'./base/baseAverage';
-import totalPoints from './totalPoints'
+import BaseAnalysis from './BaseAnalysis.js';
+import baseAverage  from'./base/baseAverage.js';
+import totalPoints from './totalPoints.js'
 
 class picklist extends BaseAnalysis {
     getData() {
@@ -13,7 +13,7 @@ class picklist extends BaseAnalysis {
     private sourceTeamSettings : number[];
     private tournamentSettings : string[];
 
-    constructor( team: any, totalPoints : number, autoPoints : number, teleopPoints : number, defenseEvents : number, pickUps : number, soureTeamSettings : int[], tournamentSettings : string[] ) {
+    constructor( team: any, totalPoints : number, autoPoints : number, teleopPoints : number, defenseEvents : number, pickUps : number, soureTeamSettings : number[], tournamentSettings : string[] ) {
         super()
         this.team = team
         this.weightedArray = []
