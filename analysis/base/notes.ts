@@ -18,10 +18,10 @@ class notes extends BaseAnalysis {
 
         const { data: scoutReport, error } = await this.supabase
             .from('scoutReport')
-            .select('notes')
-            .eq('tournamentKey', this.tournamentScoutedSettings)
+            .select('notes, match')
+            .in('tournamentKey', this.tournamentScoutedSettings)
             .eq('team', this.team)
-            .eq('sourceTeam', this.teamsScoutedSettings)
+            .in('sourceTeam', this.teamsScoutedSettings)
         this.notes = scoutReport
     }
 

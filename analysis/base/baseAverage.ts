@@ -59,7 +59,7 @@ class baseAverage extends BaseAnalysis {
           
         this.allTeamArr = allArr
     
-        this.allTeamAvg = allArr.reduce((partialSum: any, a: any) => partialSum + a, 0) / this.teamArray.length
+        this.allTeamAvg = this.allTeamArr.reduce((partialSum: any, a: any) => partialSum + a, 0) / this.teamArray.length
 
         this.difference = this.teamAvg - this.allTeamAvg
 

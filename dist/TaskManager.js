@@ -2,15 +2,16 @@
 // import AverageForMetric = from('./analysis/AverageForMetric.js')
 // import AverageForMetric = from('./analysis/AverageForMetric.js')
 //import Overview = from('./overview.js')
-import breakdownMetrics from './analysis/breakdownMetrics.js';
-import categoryMetrics from './analysis/categoryMetrics.js';
-import notes from './analysis/base/notes.js';
-import picklistShell from './analysis/picklistShell.js';
-import alliancePage from './analysis/alliancePage.js';
-import predictWinning from './analysis/predictWinning.js';
-import flag from './analysis/flag.js';
-import BaseAnalysis from './analysis/BaseAnalysis.js';
-import baseAverage from './analysis/base/baseAverage.js';
+// import breakdownMetrics from './analysis/breakdownMetrics.js'
+// import categoryMetrics from './analysis/categoryMetrics.js'
+import notes from './dist/analysis/base/notes.js';
+// import picklistShell from './analysis/picklistShell.js'
+// import alliancePage from './analysis/alliancePage.js'
+// import predictWinning from './analysis/predictWinning.js'
+// import flag from './analysis/flag.js'
+// import BaseAnalysis from './analysis/BaseAnalysis.js'
+import baseAverage from './dist/analysis/base/baseAverage.js';
+import { BADFAMILY } from 'dns';
 class TaskManager {
     runTasks(tasks) {
         if (tasks.length <= 0) {
@@ -51,7 +52,6 @@ class TaskManager {
         });
     }
     addTasks(tasks) {
-        let a = this;
         let returnAnalysis = [];
         tasks.forEach(async (task) => {
             switch (task.name) {
@@ -62,18 +62,10 @@ class TaskManager {
                 //     returnAnalysis.push(new breakdownMetrics(task.team))
                 //     break
                 case ("baseAverage"):
-                    try {
-                        const baseAverageInstance = new baseAverage(Number(task.team), task.sourceTeamSettings, task.tournamentsSetting, Number(task.action), Number(task.timeMax), Number(task.timeMin));
-                        const analysisResults = await baseAverageInstance.runAnalysis();
-                        const finalResults = analysisResults.finalizeResults();
-                        returnAnalysis.push(finalResults);
-                    }
-                    catch (error) {
-                        console.error("Error creating baseAverage instance:", error);
-                        // Handle the error appropriately
-                    }
+                    returnAnalysis.push(new baseAverage(Number(task.team), task.sourceTeamSettings, task.tournamentsSetting, Number(task.action), Number(task.timeMax), Number(task.timeMin)));
+                    break;
                 case ("notes"):
-                    returnAnalysis.push(await new notes(task.team, JSON.parse(task.sourceTeamSetting), JSON.parse(task.tournamentsSetting)).runAnalysis().finalizeResults);
+                    returnAnalysis.push(new notes(task.team, task.sourceTeamSetting, task.tournamentsSetting));
                     break;
                 // case ("picklist"):
                 //     returnAnalysis.push(new picklistShell(task.tournamentKey, task.coneOneScore, task.coneTwoScore, task.coneThreeScore, task.cubeOneScore, task.cubeTwoScore, task.cubeThreeScore,task.autoCargo, task.teleopScore, task.defenseScore, task.autoClimb, task.feedCone, task.feedCube, task.avgTotal, task.teleopClimb, task.driverAbility, JSON.parse(task.flags)))

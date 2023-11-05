@@ -47,7 +47,7 @@ class baseAverage extends BaseAnalysis {
             timeMin_input: this.timeMin
         });
         this.allTeamArr = allArr;
-        this.allTeamAvg = allArr.reduce((partialSum, a) => partialSum + a, 0) / this.teamArray.length;
+        this.allTeamAvg = this.allTeamArr.reduce((partialSum, a) => partialSum + a, 0) / this.teamArray.length;
         this.difference = this.teamAvg - this.allTeamAvg;
         this.zScore = this.difference / simpleStats.standardDeviation(this.allTeamArr);
     }
