@@ -9,6 +9,7 @@ class BaseAnalysis {
     constructor() {
         this.supabase = createClient(this.supabaseUrl, this.supabaseKey);
     }
+    
 }
 export default BaseAnalysis;
 //# sourceMappingURL=BaseAnalysis.js.map

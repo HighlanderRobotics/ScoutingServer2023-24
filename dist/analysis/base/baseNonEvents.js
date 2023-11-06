@@ -13,7 +13,35 @@ class baseNonEvents extends BaseAnalysis {
         this.teamsScoutedSettings = teamsScoutedSettings;
         this.columnName = columnName;
     }
-    async getRatios() {
+    async getRatiosTeam() {
+        const { data: arr, error } = await this.supabase.select(this.columnName)
+            .from('scoutReport, match')
+            .in('tournamentKey', this.tournamentScoutedSettings)
+            .in('sourceTeam', this.sourceTeamSetting)
+            .eq('team', this.team)
+        if (error) {
+            console.log(error)
+        }
+
+        let groupedRatios = this.groupedRatios(arr)
+        this.arrayRatios = groupedRatios
+
+
+    }
+    async getAllRatios() {
+
+    }
+    async groupIntoRatios(arr) {
+        const { data: arr, error } = await this.supabase.select(this.columnName)
+            .from('scoutReport, match')
+            .in('tournamentKey', this.tournamentScoutedSettings)
+            .in('sourceTeam', this.sourceTeamSetting)
+        if (error) {
+            console.log(error)
+        }
+
+        let groupedRatios = this.groupedRatios(arr)
+        this.allTeamArrayRatios = groupedRatios
     }
     runAnalysis() {
         let a = this;
@@ -21,6 +49,8 @@ class baseNonEvents extends BaseAnalysis {
             await a.getRatios().catch((err) => {
                 reject(err);
             });
+            await a.getAllRatios().catch((err) =>
+                reject(err))
             resolve("done");
         });
     }

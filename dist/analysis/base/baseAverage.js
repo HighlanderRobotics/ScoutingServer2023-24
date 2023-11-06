@@ -1,25 +1,25 @@
+import { group } from 'console';
 import BaseAnalysis from '.././BaseAnalysis.js';
 import * as simpleStats from 'simple-statistics';
-// Now you can use methods from simpleStats like so:
-// let mean = simpleStats.mean([1, 2, 3]);
+
 class baseAverage extends BaseAnalysis {
     teamAvg = 0;
     teamArray = [];
     allTeamAvg = 0;
     difference = 0;
     team;
-    sourceTeams;
+    sourceTeamSetting;
     tournamentScoutedSettings;
     action;
     timeMax;
     allTeamArr;
     zScore;
     timeMin;
-    constructor(team, sourceTeams, tournamentScoutedSettings, action, timeMax, timeMin) {
+    constructor(team, sourceTeamSetting, tournamentScoutedSettings, action, timeMax, timeMin) {
         super();
         this.team = team;
         this.tournamentScoutedSettings = tournamentScoutedSettings;
-        this.sourceTeams = sourceTeams;
+        this.sourceTeamSetting = sourceTeamSetting;
         this.action = action;
         this.timeMax = timeMax;
         this.allTeamArr = [];
@@ -27,41 +27,71 @@ class baseAverage extends BaseAnalysis {
         this.timeMin = timeMin;
     }
     async getTeamAverage() {
-        const { data: arr, error } = await this.supabase.rpc('groupAndCountTeam', {
-            tournament_keys: this.tournamentScoutedSettings,
-            source_teams: this.sourceTeams,
-            single_team: this.team,
-            single_action: this.action,
-            timeMax_input: this.timeMax,
-            timeMin_input: this.timeMin
-        });
-        this.teamArray = arr;
-        this.teamAvg = this.teamArray.reduce((partialSum, a) => partialSum + a, 0) / this.teamArray.length;
+        try {
+
+
+            const { data: arr, error } = await this.supabase.from('events')
+            .select('match, tournamentKey, scouterUuid')
+            .in('tournamentKey', this.tournamentScoutedSettings)
+            .in('sourceTeam', this.sourceTeamSetting)
+            .eq('action', this.action)
+            .eq('team', this.team)
+            .gt('time', this.timeMin)
+            .lt('time', this.timeMax)
+            
+            let groupedArr = group(arr)
+
+            this.teamArray = groupedArr;
+            this.teamAvg = this.teamArray.reduce((partialSum, a) => partialSum + a, 0) / this.teamArray.length;
+        }
+        catch (error) {
+
+            console.log(error)
+            return error
+
+        }
     }
     async getAllTeamsAverage() {
-        const { data: allArr, error } = await this.supabase.rpc('groupAndCount', {
-            tournament_keys: this.tournamentScoutedSettings,
-            source_teams: this.sourceTeams,
-            single_team: this.team,
-            timeMax_input: this.timeMax,
-            timeMin_input: this.timeMin
-        });
-        this.allTeamArr = allArr;
-        this.allTeamAvg = this.allTeamArr.reduce((partialSum, a) => partialSum + a, 0) / this.teamArray.length;
-        this.difference = this.teamAvg - this.allTeamAvg;
-        this.zScore = this.difference / simpleStats.standardDeviation(this.allTeamArr);
+        try {
+            const { data: allArr, error } = await this.supabase.from('events')
+            .select('matchKey, COUNT(*) as row_count')
+            .in('tournamentKey', this.tournamentScoutedSettings)
+            .in('sourceTeam', this.sourceTeamSetting)
+            .eq('action', this.action)
+            .gt('time', this.timeMin)
+            .lt('time', this.timeMax)
+            .group('uuid, match, tournamentKey')
+            
+            if(error)
+            {
+                console.log(error)
+            }
+            this.allTeamArr = allArr;
+            this.allTeamAvg = this.allTeamArr.reduce((partialSum, a) => partialSum + a, 0) / this.teamArray.length;
+            this.difference = this.teamAvg - this.allTeamAvg;
+            this.zScore = this.difference / simpleStats.standardDeviation(this.allTeamArr);
+            
+        }
+        catch(error)
+        {
+            console.log(error)
+            return error
+        }
     }
     runAnalysis() {
-        let a = this;
         return new Promise(async (resolve, reject) => {
-            await a.getTeamAverage().catch((err) => {
+            await this.getTeamAverage().catch((err) => {
                 reject(err);
             });
-            await a.getAllTeamsAverage().catch((err) => {
+            await this.getAllTeamsAverage().catch((err) => {
                 reject(err);
             });
             resolve("done");
         });
+    }
+    group(arr)
+    {
+
     }
     finalizeResults() {
         return {

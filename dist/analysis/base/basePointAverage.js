@@ -25,15 +25,17 @@ class basePointAverage extends BaseAnalysis {
         this.zScore = 0;
     }
     async getTeamAverage() {
-        const { data: arr, error } = await this.supabase.rpc('groupAndCountPointsTeam', {
-            tournament_keys: this.tournamentScoutedSettings,
-            source_teams: this.sourceTeams,
-            single_team: this.team,
-            single_action: this.action,
-            timeMax_input: this.timeMax,
-            timeMin_input: this.timeMin
-        });
-        this.teamArray = arr;
+        const { data: arr, error } = await this.supabase 
+        .select('match, tournamentKey, scouterUuid, points')
+        .in('tournamentKey', this.tournamentScoutedSettings)
+        .in('sourceTeam', this.sourceTeamSetting)
+        .eq('action', this.action)
+        .eq('team', this.team)
+        .gt('time', this.timeMin)
+        .lt('time', this.timeMax)
+
+        let groupedArr = this.group(arr)
+        this.teamArray = groupedArr;
         this.teamAvg = this.teamArray.reduce((partialSum, a) => partialSum + a, 0) / this.teamArray.length;
     }
     async getAllTeamsAverage() {
@@ -48,6 +50,10 @@ class basePointAverage extends BaseAnalysis {
         this.allTeamAvg = allArr.reduce((partialSum, a) => partialSum + a, 0) / this.teamArray.length;
         this.difference = this.teamAvg - this.allTeamAvg;
         this.zScore = this.difference / simpleStats.standardDeviation(this.allTeamArr);
+    }
+    group(arr)
+    {
+
     }
     runAnalysis() {
         let a = this;

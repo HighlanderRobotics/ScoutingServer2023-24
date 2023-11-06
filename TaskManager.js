@@ -76,7 +76,7 @@ class TaskManager {
                 case ("baseAverage"):
                     returnAnalysis.push(new baseAverage(
                         Number(task.team),
-                        task.sourceTeamSettings,
+                        task.sourceTeamSetting,
                         task.tournamentsSetting,
                         Number(task.action),
                         Number(task.timeMax),

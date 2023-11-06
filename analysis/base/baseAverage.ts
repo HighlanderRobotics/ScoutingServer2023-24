@@ -8,12 +8,12 @@ import * as simpleStats from 'simple-statistics';
 
 class baseAverage extends BaseAnalysis {
     private teamAvg = 0
-    private teamArray: number[] = [];
+    private teamArray!: number[] | [];
     private allTeamAvg = 0
     private difference = 0
 
     private team : number
-    private sourceTeams : number[]
+    private sourceTeamSetting : number[]
     private tournamentScoutedSettings : String[]
     private action: number
     private timeMax : number
@@ -21,12 +21,12 @@ class baseAverage extends BaseAnalysis {
     private zScore : number
     private timeMin : number
 
-    constructor( team: number, sourceTeams: number[], tournamentScoutedSettings: string[], action: number, timeMax : number, timeMin : number) {
+    constructor( team: number, sourceTeamSetting: number[], tournamentScoutedSettings: string[], action: number, timeMax : number, timeMin : number) {
 
         super()
         this.team = team
         this.tournamentScoutedSettings = tournamentScoutedSettings
-        this.sourceTeams = sourceTeams
+        this.sourceTeamSetting = sourceTeamSetting
         this.action = action
         this.timeMax = timeMax
         this.allTeamArr = []
@@ -35,29 +35,40 @@ class baseAverage extends BaseAnalysis {
     }
     async getTeamAverage() {
         
-        const { data : arr, error } = await this.supabase.rpc('groupAndCountTeam', {
-            tournament_keys: this.tournamentScoutedSettings,
-            source_teams: this.sourceTeams,
-            single_team: this.team,
-            single_action : this.action,
-            timeMax_input: this.timeMax,
-            timeMin_input : this.timeMin
-          });
-          
-        this.teamArray = arr
+        const { data: arr, error } = await this.supabase.from('events')
+        .select('match, tournamentKey, scouterUuid')
+        .in('tournamentKey', this.tournamentScoutedSettings)
+        .in('sourceTeam', this.sourceTeamSetting)
+        .eq('action', this.action)
+        .eq('team', this.team)
+        .gt('time', this.timeMin)
+        .lt('time', this.timeMax)
+        if (error) {
+            console.log(error)
+        }
+        let groupedArr = this.group(arr)
+
+        this.teamArray = groupedArr
         this.teamAvg = this.teamArray.reduce((partialSum, a) => partialSum + a, 0) / this.teamArray.length
     
     }
+    group(arr: { match: any; tournamentKey: any; scouterUuid: any; }[] | null) : number[]
+    {
+        return [1, 2, 3]
+    }
     async getAllTeamsAverage() {
-        const { data : allArr, error } = await this.supabase.rpc('groupAndCount', {
-            tournament_keys: this.tournamentScoutedSettings,
-            source_teams: this.sourceTeams,
-            single_team: this.team,
-            timeMax_input: this.timeMax,
-            timeMin_input : this.timeMin
-          });
-          
-        this.allTeamArr = allArr
+        const { data: arr, error } = await this.supabase.from('events')
+        .select('match, tournamentKey, scouterUuid, points')
+        .in('tournamentKey', this.tournamentScoutedSettings)
+        .in('sourceTeam', this.sourceTeamSetting)
+        .eq('action', this.action)
+        .eq('team', this.team)
+        .gt('time', this.timeMin)
+        .lt('time', this.timeMax)
+        if (error) {
+            console.log(error)
+        }
+        this.allTeamArr = this.group(arr)
     
         this.allTeamAvg = this.allTeamArr.reduce((partialSum: any, a: any) => partialSum + a, 0) / this.teamArray.length
 
