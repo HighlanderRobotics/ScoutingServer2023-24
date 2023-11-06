@@ -1,6 +1,5 @@
 // Assuming you're using ES6 style imports
 // import Manager from '../manager/Manager.js';
-import * as sqlite from 'sqlite3';
 import { createClient } from '@supabase/supabase-js';
 class BaseAnalysis {
     supabaseUrl = 'https://vuavdtyffnscsvwiknpa.supabase.co';
@@ -9,7 +8,6 @@ class BaseAnalysis {
     constructor() {
         this.supabase = createClient(this.supabaseUrl, this.supabaseKey);
     }
-    
 }
 export default BaseAnalysis;
 //# sourceMappingURL=BaseAnalysis.js.map

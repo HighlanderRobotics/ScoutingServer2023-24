@@ -15,25 +15,22 @@ class addMutablePicklist extends Manager {
         }
         let teamsStringed = JSON.stringify(teams)
 
-        const { data, error } = await this.supabase
+        const { data : rowPicklist, error } = await this.supabase
             .from('mutablePicklist')
-            .insert([
-                { 'uuid': uuid, 'teams': teams, 'name' : name,  'team': team, 'username': username },
-            ])
+            .select('*')
             .eq('uuid', uuid)
-            .select()
         if (error) {
             console.log(error)
             return error
         }
-        if (rows != undefined) {
+        if (rowPicklist != undefined) {
 
 
-            if (rows.length === 1) {
+            if (rowPicklist.length === 1) {
                 const { error1 } = await this.supabase
                     .from('mutablePicklist')
                     .delete()
-                    .eq('scouterUuid', scouterUuid)
+                    .eq('uuid', uuid)
                 if (error1) {
                     console.log(error1)
                     return error
@@ -43,28 +40,13 @@ class addMutablePicklist extends Manager {
         const { data2, error2 } = await this.supabase
             .from('mutablePicklist')
             .insert([
-                { 'scouterUuid': scouterUuid, 'teams': teams, 'team': team, 'username': username },
+                { 'uuid': uuid, 'teams': teams, 'team': team, 'username': username },
             ])
-            .eq('scouterUuid', scouterUuid)
-            .select()
         if (error2) {
             console.log(error2)
             return error2
         }
-        if (rows != undefined) {
-
-
-            if (rows.length === 1) {
-                const { error1 } = await this.supabase
-                    .from('mutablePicklist')
-                    .delete()
-                    .eq('scouterUuid', scouterUuid)
-                if (error1) {
-                    console.log(error1)
-                    return error
-                }
-            }
-        }
+        
     }
 }
 

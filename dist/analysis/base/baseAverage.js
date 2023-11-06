@@ -1,10 +1,10 @@
-import { group } from 'console';
 import BaseAnalysis from '.././BaseAnalysis.js';
 import * as simpleStats from 'simple-statistics';
-
+// Now you can use methods from simpleStats like so:
+// let mean = simpleStats.mean([1, 2, 3]);
 class baseAverage extends BaseAnalysis {
     teamAvg = 0;
-    teamArray = [];
+    teamArray;
     allTeamAvg = 0;
     difference = 0;
     team;
@@ -27,71 +27,52 @@ class baseAverage extends BaseAnalysis {
         this.timeMin = timeMin;
     }
     async getTeamAverage() {
-        try {
-
-
-            const { data: arr, error } = await this.supabase.from('events')
+        const { data: arr, error } = await this.supabase.from('events')
             .select('match, tournamentKey, scouterUuid')
             .in('tournamentKey', this.tournamentScoutedSettings)
             .in('sourceTeam', this.sourceTeamSetting)
             .eq('action', this.action)
             .eq('team', this.team)
             .gt('time', this.timeMin)
-            .lt('time', this.timeMax)
-            
-            let groupedArr = group(arr)
-
-            this.teamArray = groupedArr;
-            this.teamAvg = this.teamArray.reduce((partialSum, a) => partialSum + a, 0) / this.teamArray.length;
+            .lt('time', this.timeMax);
+        if (error) {
+            console.log(error);
         }
-        catch (error) {
-
-            console.log(error)
-            return error
-
-        }
+        let groupedArr = this.group(arr);
+        this.teamArray = groupedArr;
+        this.teamAvg = this.teamArray.reduce((partialSum, a) => partialSum + a, 0) / this.teamArray.length;
+    }
+    group(arr) {
+        return [1, 2, 3];
     }
     async getAllTeamsAverage() {
-        try {
-            const { data: allArr, error } = await this.supabase.from('events')
-            .select('matchKey, COUNT(*) as row_count')
+        const { data: arr, error } = await this.supabase.from('events')
+            .select('match, tournamentKey, scouterUuid, points')
             .in('tournamentKey', this.tournamentScoutedSettings)
             .in('sourceTeam', this.sourceTeamSetting)
             .eq('action', this.action)
+            .eq('team', this.team)
             .gt('time', this.timeMin)
-            .lt('time', this.timeMax)
-            .group('uuid, match, tournamentKey')
-            
-            if(error)
-            {
-                console.log(error)
-            }
-            this.allTeamArr = allArr;
-            this.allTeamAvg = this.allTeamArr.reduce((partialSum, a) => partialSum + a, 0) / this.teamArray.length;
-            this.difference = this.teamAvg - this.allTeamAvg;
-            this.zScore = this.difference / simpleStats.standardDeviation(this.allTeamArr);
-            
+            .lt('time', this.timeMax);
+        if (error) {
+            console.log(error);
         }
-        catch(error)
-        {
-            console.log(error)
-            return error
-        }
+        this.allTeamArr = this.group(arr);
+        this.allTeamAvg = this.allTeamArr.reduce((partialSum, a) => partialSum + a, 0) / this.teamArray.length;
+        this.difference = this.teamAvg - this.allTeamAvg;
+        this.zScore = this.difference / simpleStats.standardDeviation(this.allTeamArr);
     }
     runAnalysis() {
+        let a = this;
         return new Promise(async (resolve, reject) => {
-            await this.getTeamAverage().catch((err) => {
+            await a.getTeamAverage().catch((err) => {
                 reject(err);
             });
-            await this.getAllTeamsAverage().catch((err) => {
+            await a.getAllTeamsAverage().catch((err) => {
                 reject(err);
             });
             resolve("done");
         });
-    }
-    group(arr)
-    {
-
     }
     finalizeResults() {
         return {

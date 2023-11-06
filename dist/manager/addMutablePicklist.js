@@ -10,18 +10,15 @@ class addMutablePicklist extends Manager {
             return ("no team");
         }
         let teamsStringed = JSON.stringify(teams);
-        const { data, error } = await this.supabase
+        const { data: rowPicklist, error } = await this.supabase
             .from('mutablePicklist')
-            .insert([
-            { 'uuid': uuid, 'teams': teams, 'name': name, 'team': team, 'username': username },
-        ])
-            .eq('uuid', uuid)
-            .select();
+            .select('*')
+            .eq('uuid', uuid);
         if (error) {
             console.log(error);
             return error;
         }
-        if (rows != undefined) {
+        if (rowPicklist != []) {
             if (rows.length === 1) {
                 const { error1 } = await this.supabase
                     .from('mutablePicklist')

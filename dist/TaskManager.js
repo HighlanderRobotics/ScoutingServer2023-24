@@ -62,7 +62,7 @@ class TaskManager {
                 //     returnAnalysis.push(new breakdownMetrics(task.team))
                 //     break
                 case ("baseAverage"):
-                    returnAnalysis.push(new baseAverage(Number(task.team), task.sourceTeamSettings, task.tournamentsSetting, Number(task.action), Number(task.timeMax), Number(task.timeMin)));
+                    returnAnalysis.push(new baseAverage(Number(task.team), task.sourceTeamSetting, task.tournamentsSetting, Number(task.action), Number(task.timeMax), Number(task.timeMin)));
                     break;
                 case ("notes"):
                     returnAnalysis.push(new notes(task.team, task.sourceTeamSetting, task.tournamentsSetting));

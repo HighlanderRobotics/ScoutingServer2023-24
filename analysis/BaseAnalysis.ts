@@ -1,9 +1,7 @@
 // Assuming you're using ES6 style imports
 // import Manager from '../manager/Manager.js';
-import * as sqlite from 'sqlite3';
 import { createClient } from '@supabase/supabase-js';
 
-sqlite.verbose()
 
 abstract class BaseAnalysis {
     private supabaseUrl = 'https://vuavdtyffnscsvwiknpa.supabase.co';

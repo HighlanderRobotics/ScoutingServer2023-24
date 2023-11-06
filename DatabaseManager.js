@@ -64,6 +64,8 @@ class DatabaseManager {
                 //     return new GetScoutersSchedule().runTask()
                 // case UpdateScoutersSchedule.name:
                 //     return new UpdateScoutersSchedule().runTask(body)
+                case AddScouter.name:
+                    return new AddScouter().runTask(body.scouterUuid, body.team, body.name)
                 case GetMatches.name:
                     return new GetMatches().runTask(body)
                 case IsMatchesScouted.name:
@@ -83,7 +85,7 @@ class DatabaseManager {
                 case getPicklists.name:
                     return new getPicklists().runTask(body.team)
                 case addPicklist.name:
-                    return new addPicklist().runTask(body.uuid, body.name, body.cubeOneScore, body.cubeTwoScore, body.cubeThreeScore, body.coneOneScore, body.coneTwoScore, body.coneThreeScore, body.autoCargo, body.teleopScore, body.defenseScore, body.autoClimb, body.feedCone, body.feedCube, body.avgTotal, body.teleopClimb, body.driverAbility, body.team, body.userName)
+                    return new addPicklist().runTask(body.name, body.avgTotal, body.team, body.userName)
                 case addMutablePicklist.name:
                     //works as edit or add
                     return new addMutablePicklist().runTask(body.uuid, body.name, body.teams, body.team, body.userName)

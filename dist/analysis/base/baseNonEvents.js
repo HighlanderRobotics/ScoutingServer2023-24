@@ -1,47 +1,31 @@
 import BaseAnalysis from '.././BaseAnalysis.js';
 class baseNonEvents extends BaseAnalysis {
     team;
-    teamsScoutedSettings;
+    sourceTeamSetting;
     tournamentScoutedSettings;
     arrayRatios = [];
-    allTeamArrayRatios = [];
+    allTeamArrayRatios;
     columnName;
-    constructor(team, teamsScoutedSettings, tournamentScoutedSettings, columnName) {
+    constructor(team, sourceTeamSetting, tournamentScoutedSettings, columnName) {
         super();
         this.team = team;
         this.tournamentScoutedSettings = tournamentScoutedSettings;
-        this.teamsScoutedSettings = teamsScoutedSettings;
+        this.sourceTeamSetting = sourceTeamSetting;
         this.columnName = columnName;
     }
-    async getRatiosTeam() {
-        const { data: arr, error } = await this.supabase.select(this.columnName)
-            .from('scoutReport, match')
+    async getRatios() {
+        const { data: arr, error } = await this.supabase.from('scoutReport, match')
+            .select(this.columnName)
             .in('tournamentKey', this.tournamentScoutedSettings)
-            .in('sourceTeam', this.sourceTeamSetting)
-            .eq('team', this.team)
+            .in('sourceTeam', this.sourceTeamSetting);
         if (error) {
-            console.log(error)
+            console.log(error);
         }
-
-        let groupedRatios = this.groupedRatios(arr)
-        this.arrayRatios = groupedRatios
-
-
+        let groupedRatios = this.groupedRatios(arr);
+        this.allTeamArrayRatios = groupedRatios;
     }
-    async getAllRatios() {
-
-    }
-    async groupIntoRatios(arr) {
-        const { data: arr, error } = await this.supabase.select(this.columnName)
-            .from('scoutReport, match')
-            .in('tournamentKey', this.tournamentScoutedSettings)
-            .in('sourceTeam', this.sourceTeamSetting)
-        if (error) {
-            console.log(error)
-        }
-
-        let groupedRatios = this.groupedRatios(arr)
-        this.allTeamArrayRatios = groupedRatios
+    groupedRatios(arr) {
+        return [1, 2, 3];
     }
     runAnalysis() {
         let a = this;
@@ -49,8 +33,6 @@ class baseNonEvents extends BaseAnalysis {
             await a.getRatios().catch((err) => {
                 reject(err);
             });
-            await a.getAllRatios().catch((err) =>
-                reject(err))
             resolve("done");
         });
     }
