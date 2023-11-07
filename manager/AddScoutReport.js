@@ -10,16 +10,13 @@ class AddScoutReport extends Manager {
         super()
     }
 
-    async runTask(sourceTeam, tournamentKey, data, tournamentSettings, sourceTeamSettings) {
-        let localMatchKey = `${tournamentKey}_${data.match}`
-        let matchKey = null
+    async runTask(sourceTeam, tournamentKey, data) {
 
-            matchKey = match.key
             try {
-                const { data, error } = await this.supabase
+                const { da, error } = await this.supabase
                     .from('scoutReport')
                     .insert([
-                        {'team' : data.team, 'sourceTeam' : sourceTeam, 'tournamentKey': data.tournamentKey, 'match': data.match, 'scouterUuid': data.scouterUuid, 'statTime': data.startTime, 'notes': data.notes, 'links': data.links, 'robotRole': data.robotRole, 'autochallengeResult': data.autoChallengeResult, 'challengeResult': data.challengeResult, 'penaltyCard': data.penaltyCard, 'driverAbility': data.driverAbility },
+                        {'team' : data.team, 'sourceTeam' : sourceTeam, 'tournamentKey': tournamentKey, 'match': data.match, 'scouterUuid': data.scouterUuid, 'startTime': data.startTime, 'notes': data.notes, 'links': data.links, 'robotRole': data.robotRole, 'autoChallengeResult': data.autoChallengeResult, 'challengeResult': data.challengeResult, 'penaltyCard': data.penaltyCard, 'driverAbility': data.driverAbility },
                     ])
                     .select()
                 if (error) {
@@ -29,8 +26,11 @@ class AddScoutReport extends Manager {
                 let events = data.events
                 for (let i = 0; i < events.length; i++) {
                     let points = 0
+                    let time = events[i][0]
+                    let position = events[i][2]
+
                     if (events[i][1] === 2) {
-                        level = ceil(position / 3)
+                        let level = Math.ceil(position / 3)
                         if (time <= 17) {
                             if (level === 1) {
                                 points = 3
@@ -54,10 +54,10 @@ class AddScoutReport extends Manager {
                             }
                         }
                     }
-                    const { data1, error1 } = await this.supabase
+                        const { data1, error1 } = await this.supabase
                         .from('events')
                         .insert([
-                            { 'team': data.team, 'tournamentKey': data.tournamentKey, 'match': data.match, 'sourceTeam': data.sourceTeam, 'time': events[i][0], 'action': data.action, 'position': data.position, 'points': points },
+                            { 'team': data.team, 'tournamentKey': tournamentKey, 'match': data.match, 'sourceTeam': data.sourceTeam, 'time': events[i][0], 'action': events[i][1], 'position': position, 'points': points },
                         ])
                         .select()
                     if (error1) {
@@ -66,45 +66,41 @@ class AddScoutReport extends Manager {
                     }
                 }
             }
-            catch {
+            catch(err) {
                 if (err) {
                     console.log(err)
-                    reject({
-                        "results": err,
-                        "customCode": 500,
-                        "collectionApp": "SQLITE UNIQUE ERROR, run node resetDataTable.js"
-                    })
+        
                 }
             }
         
-            await new checkNewMatch(team, data.scouterUuid, data.match, tournamentKey, tournamentSettings, sourceTeamSettings).runAnalysis()
+            // await new checkNewMatch(team, data.scouterUuid, data.match, tournamentKey, tournamentSettings, sourceTeamSettings).runAnalysis()
 
 
 
-            console.log(`Data entry complete for ${match.key}`)
-            const { data1, error } = await this.supabase
-                .from('matches')
-                .select('*')
-                .eq('teamKey', teamKey)
-                .eq('tournamentKey', tournamentKey)
-                .eq('SUBSTRING(key, 1, LENGTH(key)-1)', `${localMatchKey}_`)
-            if (error) {
-                console.log(error)
-                return error
-            }
-            const { data2, error1 } = await this.supabase
-                .from('matches')
-                .select('matchNumber')
-                .eq('key', data.match);
-            if (error1) {
-                console.log(error1)
-                return error1
-            }
-            else if (row == undefined || row.length === 0) {
-                console.log("can't find match number")
-            }
+            // console.log(`Data entry complete for ${match.key}`)
+            // const { data1, error } = await this.supabase
+            //     .from('matches')
+            //     .select('*')
+            //     .eq('teamKey', teamKey)
+            //     .eq('tournamentKey', tournamentKey)
+            //     .eq('SUBSTRING(key, 1, LENGTH(key)-1)', `${localMatchKey}_`)
+            // if (error) {
+            //     console.log(error)
+            //     return error
+            // }
+            // const { data2, error1 } = await this.supabase
+            //     .from('matches')
+            //     .select('matchNumber')
+            //     .eq('key', data.match);
+            // if (error1) {
+            //     console.log(error1)
+            //     return error1
+            // }
+            // else if (row == undefined || row.length === 0) {
+            //     console.log("can't find match number")
+            // }
 
-            resolve("done")
+            // resolve("done")
 
       
     }

@@ -16,18 +16,15 @@ class getMutablePicklists extends Manager {
 
 
         let { data: sharedPicklist, error } = await this.supabase
-            .from('sharedPicklist')
+            .from('mutablePicklist')
             .select('*')
         if (error) {
             console.log(error)
             return error
         }
         else {
-
-            resolve(sharedPicklist.map((row) => ({
-                ...row,
-                teams: JSON.parse(row.teams).map(team => parseInt(team)),
-            })))
+            return sharedPicklist
+         
         }
 
 

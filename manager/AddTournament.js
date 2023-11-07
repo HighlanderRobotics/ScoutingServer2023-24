@@ -16,7 +16,6 @@ class AddTournament extends Manager {
             .insert([
                 { 'tournamentKey': tournamentKey, 'name': name, 'location': location, 'date': date },
             ])
-            .select()
         if (error) {
             console.log(error)
             return error

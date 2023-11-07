@@ -19,6 +19,7 @@ class AddTournamentMatches extends Manager {
                 .from('tournaments')
                 .select('*')
                 .eq('tournamentKey', key)
+            console.log(match)
             if (error) {
                 console.log(error)
                 return error
@@ -38,6 +39,7 @@ class AddTournamentMatches extends Manager {
                         headers: { 'X-TBA-Auth-Key': process.env.KEY }
                     }).then(async response => {
                         // For each match in the tournament
+                        console.log(response.data)
                         for (var i = 0; i < response.data.length; i++) {
                             // console.log(response.data[i])
                             // console.log("-----------------------------")
@@ -56,7 +58,7 @@ class AddTournamentMatches extends Manager {
                                 //add to matches
 
                                 const { data, error } = await this.supabase
-                                    .from('match')
+                                    .from('matches')
                                     .insert([
                                         { 'key': key, 'tournamentKey': tournamentKey, 'matchNumber': matchNumber, 'teamKey': teamKey, 'matchType': matchType },
                                     ])
@@ -152,6 +154,8 @@ class AddTournamentMatches extends Manager {
                         })
                 }
             }
+            resolve("done")
+
         })
     }
 }

@@ -1,19 +1,13 @@
 // import Manager from('./manager/Manager.js')
 import AddScoutReport from './manager/AddScoutReport.js'
 import GetTeams from'./manager/GetTeams.js'
-import InitServer from'./manager/InitServer.js'
-import ResetAndPopulate from'./manager/ResetAndPopulate.js'
 import AddAPITeams from'./manager/AddAPITeams.js'
 import AddAPITournaments from'./manager/AddAPITournaments.js'
 import AddScouter from'./manager/AddScouter.js'
 import AddTournamentMatches from'./manager/AddTournamentMatches.js'
 import IsScouted from'./manager/IsScouted.js'
-import GetScoutersSchedule from'./manager/GetScoutersSchedule.js'
-import UpdateScoutersSchedule from'./manager/UpdateScoutersSchedule.js'
 import GetMatches from'./manager/GetMatches.js'
 import IsMatchesScouted from'./manager/IsMatchesScouted.js'
-import GetAllNotes from'./manager/GetAllNotes.js'
-import NewScouter from'./manager/NewScouter.js'
 import MatchesCompleted from'./manager/MatchesCompleted.js'
 import GetTeamsInTournament from'./manager/GetTeamsInTournament.js'
 import GetTournaments from'./manager/GetTournaments.js'
@@ -45,19 +39,19 @@ class DatabaseManager {
             switch (task) {
                 case AddScoutReport.name:
                     // Different naming scheme is because of Jacob
-                    return new AddScoutReport().runTask(body.teamNumber, body.tournamentKey, body.tournamentSettings, body.socurceTeamSettings)
+                    return new AddScoutReport().runTask(body.sourceTeam, body.tournamentKey, body.data)
                 case GetTeams.name:
                     return new GetTeams().runTask()
-                case InitServer.name:
-                    return new InitServer().runTask()
-                case ResetAndPopulate.name:
-                    return new ResetAndPopulate().runTask()
+                // case InitServer.name:
+                //     return new InitServer().runTask()
+                // case ResetAndPopulate.name:
+                //     return new ResetAndPopulate().runTask()
                 case AddAPITeams.name:
                     return new AddAPITeams().runTask()
                 case AddAPITournaments.name:
                     return new AddAPITournaments().runTask(body.year)
                 case AddTournamentMatches.name:
-                    return new AddTournamentMatches().runTask(body.key)
+                    return new AddTournamentMatches().runTask(body.tournamentKey)
                 case IsScouted.name:
                     return new IsScouted().runTask(body.tournamentKey, body.matchKey)
                 // case GetScoutersSchedule.name:
@@ -70,10 +64,7 @@ class DatabaseManager {
                     return new GetMatches().runTask(body)
                 case IsMatchesScouted.name:
                     return new IsMatchesScouted().runTask(body.tournamentKey, body.scouterName, body.matchKeys)
-                case GetAllNotes.name:
-                    return new GetAllNotes().runTask(body.teamKey, body.sinceTime)
-                case NewScouter.name:
-                    return new NewScouter().runTask(body.scouterName, body.scouterNumber, body.scouterEmail)
+         
                 case MatchesCompleted.name:
                     return new MatchesCompleted().runTask(body)
                 case GetTeamsInTournament.name:
@@ -112,8 +103,8 @@ class DatabaseManager {
                     return new AddCustomMatch().runTask(body.tournamentKey, body.matchNumber, body.matchType, body.teams)
                 case deleteCustomMatch.name:
                     return new deleteCustomMatch().runTask(body.tournamentKey, body.matchNumber, body.matchType)
-                case test.name:
-                    return new test().runTask()
+                // case test.name:
+                //     return new test().runTask()
                 
 
                 default:
