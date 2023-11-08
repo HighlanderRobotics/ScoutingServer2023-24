@@ -13,7 +13,7 @@ class AddCustomMatch extends Manager {
         for (let i = 0; i < teams.length; i++) {
             let currKey = tournamentKey + '_' + matchType + matchNumber + '_' + i
             let currTeamKey = "frc" + teams[i]
-            this.runInsert(currKey, tournamentKey, matchNumber, currTeamKey, matchType)
+            await this.runInsert(currKey, tournamentKey, matchNumber, currTeamKey, matchType)
         }
     }
     async runInsert(key, tournamentKey, matchNumber, teamKey, matchType) {
@@ -23,6 +23,7 @@ class AddCustomMatch extends Manager {
             .eq('matchNumber', matchNumber)
             .eq('tournamentKey', tournamentKey)
             .eq('matchType', matchType)
+            .eq('teamKey' , teamKey)
         if (error) {
             console.log(error)
             return error
@@ -35,6 +36,8 @@ class AddCustomMatch extends Manager {
                 .eq('matchNumber', matchNumber)
                 .eq('tournamentKey', tournamentKey)
                 .eq('matchType', matchType)
+                .eq('teamKey' , teamKey)
+
             if (error) {
                 console.log(error)
                 return error

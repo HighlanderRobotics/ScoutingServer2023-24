@@ -5,14 +5,13 @@ class IsScouted extends Manager {
 
     constructor() {
         super()
-        this.result = []
     }
 
     async runTask(tournamentKey, match, sourceTeam) {
 
         let { data: scoutReport, error } = await this.supabase
             .from('scoutReport')
-            .select(['scouterUuid', 'scouterName'])
+            .select('*')
             .eq('sourceTeam', sourceTeam)
             .eq('tournamentKey', tournamentKey)
             .eq('match', match)

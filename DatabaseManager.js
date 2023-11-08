@@ -53,7 +53,7 @@ class DatabaseManager {
                 case AddTournamentMatches.name:
                     return new AddTournamentMatches().runTask(body.tournamentKey)
                 case IsScouted.name:
-                    return new IsScouted().runTask(body.tournamentKey, body.matchKey)
+                    return new IsScouted().runTask(body.tournamentKey, body.matchKey, body.sourceTeam)
                 // case GetScoutersSchedule.name:
                 //     return new GetScoutersSchedule().runTask()
                 // case UpdateScoutersSchedule.name:
@@ -61,7 +61,7 @@ class DatabaseManager {
                 case AddScouter.name:
                     return new AddScouter().runTask(body.scouterUuid, body.team, body.name)
                 case GetMatches.name:
-                    return new GetMatches().runTask(body)
+                    return new GetMatches().runTask(body.tournamentKey)
                 case IsMatchesScouted.name:
                     return new IsMatchesScouted().runTask(body.tournamentKey, body.scouterName, body.matchKeys)
          
@@ -94,8 +94,8 @@ class DatabaseManager {
                     return new getRankOfTeam().runTask(body.teamKey, body.tournamentKey)
                 case editData.name:
                     return new editData().runTask(body.uuid, body.matchKey, body.scouterName, body.startTime, body.scoutReport, body.notes)
-                case addMatch.name:
-                    return new addMatch().runTask(body)
+                // case addMatch.name:
+                //     return new addMatch().runTask(body)
        
                 case AddTournament.name:
                     return new AddTournament().runTask(body.key, body.name, body.location, body.date)

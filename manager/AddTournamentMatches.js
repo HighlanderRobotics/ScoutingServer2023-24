@@ -10,39 +10,35 @@ class AddTournamentMatches extends Manager {
     }
 
     runTask(key) {
-        console.log(key);
         var url = 'https://www.thebluealliance.com/api/v3'
         var nonQM = 1
         return new Promise(async (resolve, reject) => {
 
-            let { data: match, error } = await this.supabase
+            let { data: tournament, error } = await this.supabase
                 .from('tournaments')
                 .select('*')
                 .eq('tournamentKey', key)
-            console.log(match)
             if (error) {
                 console.log(error)
                 return error
             }
 
-            if (match == undefined) {
+            if (tournament == undefined || tournament == []) {
                 console.error(`Error with addMatches(): Tournament not found`)
                 reject({
                     "result": `Error with addMatches(): Tournament not found`,
                     "customCode": 406
                 })
             } else {
-                for (var i = 0; i < match.length; i++) {
+                for (var i = 0; i < tournament.length; i++) {
                     // Get matches in tournament
                     //tournament length is 1
-                    axios.get(`${url}/event/${tournament[i].key}/matches/simple`, {
+                    await axios.get(`${url}/event/${tournament[i].key}/matches/simple`, {
                         headers: { 'X-TBA-Auth-Key': process.env.KEY }
                     }).then(async response => {
-                        // For each match in the tournament
-                        console.log(response.data)
+                        console.log(response)
                         for (var i = 0; i < response.data.length; i++) {
-                            // console.log(response.data[i])
-                            // console.log("-----------------------------")
+                          
                             if (response.data[i].comp_level == 'qm') {
                                 //all teams in the match
                                 var teams = [...response.data[i].alliances.red.team_keys, ...response.data[i].alliances.blue.team_keys]
@@ -132,7 +128,7 @@ class AddTournamentMatches extends Manager {
                                 const { data, error } = await this.supabase
                                     .from('match')
                                     .insert([
-                                        { 'key': key, 'tournamentKey': tournamentKey, 'matchNumber': matchNumber, 'teamKey': teamKey, 'matchType': matchType },
+                                        { 'key': key, 'tournamentKey': key, 'matchNumber': matchNumber, 'teamKey': teamKey, 'matchType': matchType },
                                     ])
                                     .select()
                                 if (error) {
@@ -144,6 +140,7 @@ class AddTournamentMatches extends Manager {
                         resolve()
                     })
                         .catch((err) => {
+                            console.log(err)
                             if (err) {
                                 reject({
                                     "result": "Could not connect to tba api",

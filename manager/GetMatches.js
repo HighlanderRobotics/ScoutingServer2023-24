@@ -1,3 +1,4 @@
+import { modifierNames } from 'chalk';
 import Manager from './Manager.js'
 
 class GetMatches extends Manager {
@@ -7,11 +8,12 @@ class GetMatches extends Manager {
         super()
     }
 
-    async runTask(body) {
-        const { data, error } = await this.supabase
-            .from('match')
+    async runTask(tournamentKey) {
+        let modifiedMatches = []
+        const { data : matches, error } = await this.supabase
+            .from('matches')
             .select('*')
-            .eq('tournamentKey', body.tournamentKey)
+            .eq('tournamentKey', tournamentKey)
             .order('matchNumber');
         if (error) {
             console.log(error)
@@ -19,9 +21,9 @@ class GetMatches extends Manager {
         }
         else if (matches.length == 0) {
             // No matches found
-            console.log(`No matches found for ${body.tournamentKey}`)
+            console.log(`No matches found for ${tournamentKey}`)
             reject({
-                "result": `No matches found for ${body.tournamentKey}`,
+                "result": `No matches found for ${tournamentKey}`,
                 "customCode": 406
             })
         } else {
@@ -29,14 +31,14 @@ class GetMatches extends Manager {
             matches.forEach((match) => {
                 if (match.matchType === 'qm') {
                     // Remove tournamentKey from the matchKey as requested
-                    match.matchKey = match.key.substring(body.tournamentKey.length + 1)
+                    match.matchKey = match.key.substring(tournamentKey.length + 1)
                     if (match.matchNumber > largestQm) {
                         largestQm = match.matchNumber
                     }
                 }
             })
 
-
+            
             matches.forEach((match) => {
                 // console.log(match)
                 let temp = { key: match.key, team: match.teamKey }
@@ -52,14 +54,13 @@ class GetMatches extends Manager {
 
             })
 
-            resolve(modifiedMatches)
-
-            let { data: matches, error } = await this.supabase
+            return modifiedMatches
+            let { data: matches2, error } = await this.supabase
                   .from('matches')
                   .select('*')
                   .eq('tournamentKey',tournamentKey)
 
-            if(matches.length===0){
+            if(matches2.length===0){
                 this.AddTournamentMatches
             }
             if(matches.length>0){
