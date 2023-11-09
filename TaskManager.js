@@ -13,6 +13,7 @@ import notes from './dist/analysis/base/notes.js'
 // import BaseAnalysis from './analysis/BaseAnalysis.js'
 import baseAverage from './dist/analysis/base/baseAverage.js'
 import { BADFAMILY } from 'dns'
+import teamAndMatch from './analysis/teamAndMatch.js'
 
 
 class TaskManager {
@@ -87,6 +88,9 @@ class TaskManager {
                     break
                 case ("notes"):
                     returnAnalysis.push(new notes(task.team, task.sourceTeamSetting, task.tournamentsSetting))
+                    break
+                case('teamAndMatch'):
+                    returnAnalysis.push(new teamAndMatch(task.team, task.match, task.scouterUuid))
                     break
                 // case ("picklist"):
                 //     returnAnalysis.push(new picklistShell(task.tournamentKey, task.coneOneScore, task.coneTwoScore, task.coneThreeScore, task.cubeOneScore, task.cubeTwoScore, task.cubeThreeScore,task.autoCargo, task.teleopScore, task.defenseScore, task.autoClimb, task.feedCone, task.feedCube, task.avgTotal, task.teleopClimb, task.driverAbility, JSON.parse(task.flags)))
