@@ -13,17 +13,17 @@ class picklist extends BaseAnalysis {
     private team : number;
     private sum : number;
     private sourceTeamSettings : number[];
-    private tournamentSettings : string[];
+    private tournamentSetting : string[];
     private cargoPlaced : number
 
-    constructor( team: any, cargoPlaced : number, sourceTeamSetttings : number[], tournamentSettings : string[] ) {
+    constructor( team: any, cargoPlaced : number, sourceTeamSetttings : number[], tournamentSetting : string[] ) {
         super()
         this.team = team
         this.weightedArray = []
         this.unWeightedArray = []
         this.sum = 0
         this.sourceTeamSettings = sourceTeamSetttings
-        this.tournamentSettings = tournamentSettings
+        this.tournamentSetting = tournamentSetting
         this.cargoPlaced = cargoPlaced
 
         // this.feedingCone = feedCone
@@ -42,7 +42,7 @@ class picklist extends BaseAnalysis {
                 let arr = []
                 let unAdj = []
 
-                var cargoPlace = new baseAverage(this.team, this.sourceTeamSettings, this.tournamentSettings, 2, 300, 0)
+                var cargoPlace = new baseAverage(this.team, this.sourceTeamSettings, this.tournamentSetting, 2, 300, 0)
                 await cargoPlace.runAnalysis()
                 let z1 = cargoPlace.finalizeResults().zScore
                 this.sum += z1

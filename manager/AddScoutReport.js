@@ -73,7 +73,7 @@ class AddScoutReport extends Manager {
                 }
             }
         
-            // await new checkNewMatch(team, data.scouterUuid, data.match, tournamentKey, tournamentSettings, sourceTeamSettings).runAnalysis()
+            // await new checkNewMatch(team, data.scouterUuid, data.match, tournamentKey, tournamentSetting, sourceTeamSettings).runAnalysis()
 
 
 

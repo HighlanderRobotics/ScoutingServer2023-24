@@ -66,7 +66,7 @@ class AddScoutReport extends Manager {
                 console.log(err);
             }
         }
-        // await new checkNewMatch(team, data.scouterUuid, data.match, tournamentKey, tournamentSettings, sourceTeamSettings).runAnalysis()
+        // await new checkNewMatch(team, data.scouterUuid, data.match, tournamentKey, tournamentSetting, sourceTeamSettings).runAnalysis()
         // console.log(`Data entry complete for ${match.key}`)
         // const { data1, error } = await this.supabase
         //     .from('matches')

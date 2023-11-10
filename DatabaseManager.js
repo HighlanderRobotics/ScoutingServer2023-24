@@ -88,7 +88,7 @@ class DatabaseManager {
                 case getMutablePicklists.name:
                     return new getMutablePicklists().runTask(body.team)
                 case deleteData.name:
-                    return new deleteData().runTask(body.uuid)
+                    return new deleteData().runTask(body.scouterUuid, body.matchNumber, body.tournamentKey)
                 case editNotes.name:
                     return new editNotes().runTask(body.uuid, body.newNote) 
                 case getScoutReport.name:

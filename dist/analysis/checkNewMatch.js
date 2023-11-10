@@ -5,15 +5,15 @@ class checkNewMatch extends BaseAnalysis {
     scouterUuid;
     match;
     tournamentKey;
-    tournamentSettings;
+    tournamentSetting;
     sourceTeamSettings;
-    constructor(sourceTeam, scouterUuid, match, tournamentKey, tournamentSettings, sourceTeamSettings) {
+    constructor(sourceTeam, scouterUuid, match, tournamentKey, tournamentSetting, sourceTeamSettings) {
         super();
         this.sourceTeam = sourceTeam;
         this.scouterUuid = scouterUuid;
         this.match = match;
         this.tournamentKey = tournamentKey;
-        this.tournamentSettings = tournamentSettings;
+        this.tournamentSetting = tournamentSetting;
         this.sourceTeamSettings = sourceTeamSettings;
     }
     async getData() {
@@ -28,7 +28,7 @@ class checkNewMatch extends BaseAnalysis {
             console.log(error);
             return error;
         }
-        let teamAvg = new basePointAverage(points[0].team, this.sourceTeamSettings, this.tournamentSettings, 2, 0, 300);
+        let teamAvg = new basePointAverage(points[0].team, this.sourceTeamSettings, this.tournamentSetting, 2, 0, 300);
         await teamAvg.runAnalysis();
         const teamAvgPoints = teamAvg.finalizeResults().teamAvg;
         {
