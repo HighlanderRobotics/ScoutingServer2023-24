@@ -12,7 +12,8 @@ import notes from './dist/analysis/base/notes.js';
 // import BaseAnalysis from './analysis/BaseAnalysis.js'
 import baseAverage from './dist/analysis/base/baseAverage.js';
 import { BADFAMILY } from 'dns';
-import teamAndMatch from './analysis/teamAndMatch.js';
+import teamAndMatch from './dist/analysis/teamAndMatch.js';
+import matchPrediction from './dist/analysis/matchPrediction.js';
 class TaskManager {
     runTasks(tasks) {
         if (tasks.length <= 0) {
@@ -71,6 +72,8 @@ class TaskManager {
                 case ('teamAndMatch'):
                     returnAnalysis.push(new teamAndMatch(task.team, task.match, task.scouterUuid));
                     break;
+                // case("matchPrediction"):
+                //     returnAnalysis.push(new matchPrediction(task.team, task.))
                 // case ("picklist"):
                 //     returnAnalysis.push(new picklistShell(task.tournamentKey, task.coneOneScore, task.coneTwoScore, task.coneThreeScore, task.cubeOneScore, task.cubeTwoScore, task.cubeThreeScore,task.autoCargo, task.teleopScore, task.defenseScore, task.autoClimb, task.feedCone, task.feedCube, task.avgTotal, task.teleopClimb, task.driverAbility, JSON.parse(task.flags)))
                 //     break
