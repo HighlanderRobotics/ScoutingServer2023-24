@@ -13,7 +13,7 @@ import notes from './dist/analysis/base/notes.js'
 // import BaseAnalysis from './analysis/BaseAnalysis.js'
 import baseAverage from './dist/analysis/base/baseAverage.js'
 import { BADFAMILY } from 'dns'
-import teamAndMatch from './analysis/teamAndMatch.js'
+import teamAndMatch from './dist/analysis/teamAndMatch.js'
 
 
 class TaskManager {
