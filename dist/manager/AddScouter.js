@@ -4,11 +4,11 @@ class AddScouter extends Manager {
     constructor() {
         super();
     }
-    async runInsertScouters(scouterUuid, team, name) {
+    async runTask(scouterUuid, team, name) {
         const { data, error } = await this.supabase
             .from('scouters')
             .insert([
-            { 'scouterUuis': scouterUuid, 'team': team, 'name': name },
+            { 'scouterUuid': scouterUuid, 'team': team, 'name': name },
         ])
             .select();
         if (error) {

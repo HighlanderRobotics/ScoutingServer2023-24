@@ -8,8 +8,8 @@ class deleteMutablePicklist extends Manager {
         //check uuid will be unique across teams
         const { data, error } = await this.supabase
             .from('mutablePicklist')
-            .eq('uuid', uuid)
-            .select();
+            .delete("*")
+            .eq('uuid', uuid);
         if (error) {
             console.log(error);
             return error;

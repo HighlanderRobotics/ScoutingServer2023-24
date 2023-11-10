@@ -18,12 +18,12 @@ class addMutablePicklist extends Manager {
             console.log(error);
             return error;
         }
-        if (rowPicklist != []) {
-            if (rows.length === 1) {
+        if (rowPicklist != undefined) {
+            if (rowPicklist.length === 1) {
                 const { error1 } = await this.supabase
                     .from('mutablePicklist')
                     .delete()
-                    .eq('scouterUuid', scouterUuid);
+                    .eq('uuid', uuid);
                 if (error1) {
                     console.log(error1);
                     return error;
@@ -33,25 +33,11 @@ class addMutablePicklist extends Manager {
         const { data2, error2 } = await this.supabase
             .from('mutablePicklist')
             .insert([
-            { 'scouterUuid': scouterUuid, 'teams': teams, 'team': team, 'username': username },
-        ])
-            .eq('scouterUuid', scouterUuid)
-            .select();
+            { 'uuid': uuid, 'teams': teams, 'team': team, 'username': username },
+        ]);
         if (error2) {
             console.log(error2);
             return error2;
-        }
-        if (rows != undefined) {
-            if (rows.length === 1) {
-                const { error1 } = await this.supabase
-                    .from('mutablePicklist')
-                    .delete()
-                    .eq('scouterUuid', scouterUuid);
-                if (error1) {
-                    console.log(error1);
-                    return error;
-                }
-            }
         }
     }
 }

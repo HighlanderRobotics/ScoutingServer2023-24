@@ -3,101 +3,59 @@
 import BaseAnalysis from './BaseAnalysis.js';
 class teamAndMatch extends BaseAnalysis {
     team;
-    teamKey;
     matchKey;
-    teamsThatScouted;
+    scouterUuid;
     result;
-    constructor(team, matchKey, teamsThatScouted) {
+    constructor(team, matchKey, scouterUuid) {
         super();
         this.team = team;
-        this.teamKey = "ftc" + team;
         this.matchKey = matchKey;
-        this.teamsThatScouted = teamsThatScouted;
+        this.scouterUuid = scouterUuid;
+        this.result = { "piecesScored": 0, "piecesDropped": 0, "cubesPickedUp": 0, "conesPickedUp": 0, "defensiveEvents": 0, "autoPath": [], "autoClimb": -1, "teleOpClimb": -1, "robotRole": -1 };
     }
     async getData() {
-        let a = this;
-        // return new Promise(async (resolve, reject) => {
-        //     let metrics = {}
-        //     let i = -1;
-        //     var autoScore = new averageScore(a.db, a.team, 0)
-        //     await autoScore.runAnalysis()
-        //     let autoScoreArr = autoScore.finalizeResults().array
-        //     if(autoScoreArr.length == 0)
-        //     {
-        //         resolve(null)
-        //         return
-        //     }
-        //     for(let j = 0; j < autoScore.finalizeResults().array.length; j ++)
-        //     {
-        //         // console.log(autoScoreArr[j])
-        //         if(autoScoreArr[j].match == a.matchKey)
-        //         {
-        //             i = j;
-        //             break
-        //         }
-        //     }
-        //     if(i == -1)
-        //     {
-        //         resolve(null)
-        //         return
-        //     }
-        //     metrics.autoScore = autoScoreArr[i]
-        //     var autoPath = new autoPaths(a.db, a.team)
-        //     await autoPath.runAnalysis()
-        //     let paths = autoPath.finalizeResults().paths
-        //     metrics.autoPath = null
-        //     for(const key in autoPath.finalizeResults().paths)
-        //     {
-        //         // if(value.match)
-        //         // {
-        //         // }
-        //         if(paths[key].matches.includes(a.matchKey))
-        //         {
-        //             metrics.autoPath = paths[key]
-        //         }
-        //     }
-        //     var driverAbility = new driverAbilityTeam(a.db, a.team)
-        //     await driverAbility.runAnalysis()
-        //     metrics.driverAbility = driverAbility.array[i]
-        //     var role = new roles(a.db, a.team)
-        //     await role.runAnalysis()
-        //     metrics.role = role.finalizeResults().array[i].value
-        //     var note = new notes(a.db, a.team)
-        //     await note.runAnalysis()
-        //    let tempNotes = note.finalizeResults().result
-        //     // metrics.notes = note.finalizeResults().result[i].notes
-        //     metrics.notes = []
-        //     for(let i = 0; i < tempNotes.length; i ++)
-        //     {
-        //         if(tempNotes[i].matchKey == a.matchKey && tempNotes[i].notes != "")
-        //         {
-        //             metrics.notes.push(tempNotes[i])
-        //         }
-        //     }
-        //     // console.log(note.finalizeResults().result)
-        //     var teleScore = new averageScore(a.db, a.team, 1)
-        //     await teleScore.runAnalysis()
-        //     metrics.teleScore = teleScore.finalizeResults().array[i].value
-        //     var levelOneCone = new levels(a.db, a.team, 1, 1)
-        //     await levelOneCone.runAnalysis()
-        //     metrics.levelOneCone = levelOneCone.finalizeResults().array[i].value
-        //     var levelTwoCone = new levels(a.db, a.team, 1, 2)
-        //     await levelTwoCone.runAnalysis()
-        //     metrics.levelTwoCone = levelTwoCone.finalizeResults().array[i].value
-        //     var levelThreeCone = new levels(a.db, a.team, 1, 3)
-        //     await levelThreeCone.runAnalysis()
-        //     metrics.levelThreeCone = levelThreeCone.finalizeResults().array[i].value
-        //     var levelOneCube = new levels(a.db, a.team, 0, 1)
-        //     await levelOneCube.runAnalysis()
-        //     metrics.levelOneCube = levelOneCube.finalizeResults().array[i].value
-        //     var levelTwoCube = new levels(a.db, a.team, 0, 2)
-        //     await levelTwoCube.runAnalysis()
-        //     metrics.levelTwoCube = levelTwoCube.finalizeResults().array[i].value
-        //     var levelThreeCube = new levels(a.db, a.team, 0, 3)
-        //     await levelThreeCube.runAnalysis()
-        //     metrics.levelThreeCube = levelThreeCube.finalizeResults().array[i].value
-        //     resolve({metrics})
-        // })
+        this.addMetric("piecesScored", 2);
+        this.addMetric("piecesDropped", 3);
+        this.addMetric("cubesPickedUp", 0);
+        this.addMetric("conesPickedUp", 1);
+        this.addMetric("defensiveEvents", 5);
+        this.addCategory("autoClimb", 'autoChallengeResult');
+        this.addCategory("teleOpClimb", 'challengeResult');
+        this.addCategory("robotRole", 'robotRole');
+        //add auto path
+    }
+    async addCategory(metricName, columnName) {
+        let { data: x, error } = await this.supabase
+            .from('scoutReport')
+            .select(columnName)
+            .eq('scouterUuid', this.scouterUuid)
+            .eq('team', this.team)
+            .eq('match', this.matchKey);
+        if (error) {
+            console.log(error);
+        }
+        else {
+            if (x != null) {
+                this.result[metricName] = x[0];
+            }
+        }
+    }
+    async addMetric(metricName, action) {
+        let { data: x, error } = await this.supabase
+            .from('events')
+            .select('*')
+            .eq('action', action)
+            .eq('scouterUuid', this.scouterUuid)
+            .eq('team', this.team)
+            .eq('match', this.matchKey);
+        if (error) {
+            console.log(error);
+        }
+        else {
+            if (x != null) {
+                this.result[metricName] = x.length;
+            }
+        }
     }
     runAnalysis() {
         let a = this;
