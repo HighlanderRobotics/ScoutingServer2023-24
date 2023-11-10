@@ -5,10 +5,9 @@ class alliancePage extends BaseAnalysis {
     teamTwo;
     teamThree;
     totalPoints;
-    result;
     tournamentScoutedSettings;
     teamScoutedSettings;
-    metircs;
+    metrics;
     constructor(teamOne, teamTwo, teamThree, tournamentScoutedSettings, teamScoutedSettings) {
         super();
         this.teamOne = teamOne;
@@ -25,14 +24,15 @@ class alliancePage extends BaseAnalysis {
         twoPoints.runAnalysis();
         let threePoints = new totalPoints(this.teamThree, this.teamScoutedSettings, this.tournamentScoutedSettings, false);
         threePoints.runAnalysis();
-        this.totalPoints = onePoints.finalizeResults().teamAvg + twoPoints.finalizeResults().teamAvg + threePoints.finalizeResults().teamAvg;
+        let alliancePoints = onePoints.finalizeResults().teamAvg + twoPoints.finalizeResults().teamAvg + threePoints.finalizeResults().teamAvg;
+        //add more later, just for testing
+        this.metrics = { "totalPoints": alliancePoints };
     }
     runAnalysis() {
         let a = this;
         return new Promise(async (resolve, reject) => {
             a.getData()
                 .then((data) => {
-                a.result = data;
                 resolve("done");
             })
                 .catch((err) => {
@@ -45,7 +45,10 @@ class alliancePage extends BaseAnalysis {
     }
     finalizeResults() {
         return {
-            "totalPoints": this.totalPoints,
+            "teamOne": this.teamOne,
+            "teamTwo": this.teamTwo,
+            "teamThree": this.teamThree,
+            "result": this.metrics
         };
     }
 }

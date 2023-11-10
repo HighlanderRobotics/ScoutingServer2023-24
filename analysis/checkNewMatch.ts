@@ -8,17 +8,17 @@ class checkNewMatch extends BaseAnalysis {
     private match: string;
     private tournamentKey: string;
 
-    private tournamentSettings: string[];
+    private tournamentSetting: string[];
     private sourceTeamSettings: number[];
 
 
-    constructor(sourceTeam: number, scouterUuid: UUID, match: string, tournamentKey: string, tournamentSettings: string[], sourceTeamSettings: number[]) {
+    constructor(sourceTeam: number, scouterUuid: UUID, match: string, tournamentKey: string, tournamentSetting: string[], sourceTeamSettings: number[]) {
         super()
         this.sourceTeam = sourceTeam
         this.scouterUuid = scouterUuid
         this.match = match
         this.tournamentKey = tournamentKey
-        this.tournamentSettings = tournamentSettings
+        this.tournamentSetting = tournamentSetting
         this.sourceTeamSettings = sourceTeamSettings
     }
     async getData() {
@@ -33,7 +33,7 @@ class checkNewMatch extends BaseAnalysis {
             console.log(error)
             return error
         }
-        let teamAvg = new basePointAverage(points[0].team, this.sourceTeamSettings, this.tournamentSettings, 2, 0, 300
+        let teamAvg = new basePointAverage(points[0].team, this.sourceTeamSettings, this.tournamentSetting, 2, 0, 300
             )
         await teamAvg.runAnalysis()
         const teamAvgPoints = teamAvg.finalizeResults().teamAvg

@@ -16,9 +16,9 @@ class matchPrediction extends BaseAnalysis {
     private redAlliance
     private redWinning
     private blueWinning: any
-    private tournamentSettings : string[]
+    private tournamentSetting : string[]
     private teamScoutedSettings : number[]
-    constructor( red1: number, red2 : number, red3: number, blue1: number, blue2: number, blue3: number, tournamentSettings : string[], teamScoutedSettings : number[]) {
+    constructor( red1: number, red2 : number, red3: number, blue1: number, blue2: number, blue3: number, tournamentSetting : string[], teamScoutedSettings : number[]) {
         super()
 
         this.red1 = red1
@@ -34,7 +34,7 @@ class matchPrediction extends BaseAnalysis {
         //blue = 1
         this.blueAlliance = {}
         this.redAlliance = {}
-        this.tournamentSettings = tournamentSettings
+        this.tournamentSetting = tournamentSetting
         this.teamScoutedSettings = teamScoutedSettings
     }
     async getWinner() {
@@ -45,16 +45,16 @@ class matchPrediction extends BaseAnalysis {
             // }
 
 
-            var score1 = new scores(this.red1, this.teamScoutedSettings, this.tournamentSettings, false)
+            var score1 = new scores(this.red1, this.teamScoutedSettings, this.tournamentSetting, false)
             await score1.runAnalysis()
             let redArr1 = score1.finalizeResults().teamArray
 
-            var score2 = new scores(this.red2, this.teamScoutedSettings, this.tournamentSettings, false)
+            var score2 = new scores(this.red2, this.teamScoutedSettings, this.tournamentSetting, false)
             await score2.runAnalysis()
             let redArr2 = score2.finalizeResults().teamArray
             
 
-            var score3 = new scores(this.red3, this.teamScoutedSettings, this.tournamentSettings, false)
+            var score3 = new scores(this.red3, this.teamScoutedSettings, this.tournamentSetting, false)
             await score3.runAnalysis()
             let redArr3 = score3.finalizeResults().teamArray
 
@@ -72,15 +72,15 @@ class matchPrediction extends BaseAnalysis {
             let redAllianceSDV = Math.sqrt(Math.pow(red1SDV, 2) + Math.pow(red2SDV, 2) + Math.pow(red3SDV, 2))
             let redAllianceMean = this.getMean(redArr1) +  this.getMean(redArr2) +  this.getMean(redArr3)
 
-            var score4 = new scores(this.blue1, this.teamScoutedSettings, this.tournamentSettings, false)
+            var score4 = new scores(this.blue1, this.teamScoutedSettings, this.tournamentSetting, false)
             await score4.runAnalysis()
             let blueArr1 = score4.finalizeResults().teamArray
 
-            var score5 = new scores(this.blue2, this.teamScoutedSettings, this.tournamentSettings, false)
+            var score5 = new scores(this.blue2, this.teamScoutedSettings, this.tournamentSetting, false)
             await score5.runAnalysis()
             let blueArr2 = score5.finalizeResults().teamArray
 
-            var score6 = new scores(this.blue3, this.teamScoutedSettings, this.tournamentSettings, false)
+            var score6 = new scores(this.blue3, this.teamScoutedSettings, this.tournamentSetting, false)
             await score6.runAnalysis()
             let blueArr3 = score6.finalizeResults().teamArray
 
@@ -115,11 +115,11 @@ class matchPrediction extends BaseAnalysis {
             {
                 this.winningAlliance = 1
             }
-            let blue = new alliancePage(this.blue1, this.blue2, this.blue3, this.tournamentSettings, this.teamScoutedSettings)
+            let blue = new alliancePage(this.blue1, this.blue2, this.blue3, this.tournamentSetting, this.teamScoutedSettings)
             await blue.runAnalysis()
             this.blueAlliance = blue.finalizeResults()
 
-            let red = new alliancePage(this.red1, this.red2, this.red3, this.tournamentSettings, this.teamScoutedSettings)
+            let red = new alliancePage(this.red1, this.red2, this.red3, this.tournamentSetting, this.teamScoutedSettings)
             await red.runAnalysis()
             this.redAlliance = red.finalizeResults()
 

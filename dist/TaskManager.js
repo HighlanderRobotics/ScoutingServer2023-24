@@ -72,8 +72,9 @@ class TaskManager {
                 case ('teamAndMatch'):
                     returnAnalysis.push(new teamAndMatch(task.team, task.match, task.scouterUuid));
                     break;
-                // case("matchPrediction"):
-                //     returnAnalysis.push(new matchPrediction(task.team, task.))
+                case ("matchPrediction"):
+                    returnAnalysis.push(new matchPrediction(task.red1, task.red2, task.red3, task.blue1, task.blue2, task.blue3, task.tournamentSetting, task.teamScoutedSettings));
+                    break;
                 // case ("picklist"):
                 //     returnAnalysis.push(new picklistShell(task.tournamentKey, task.coneOneScore, task.coneTwoScore, task.coneThreeScore, task.cubeOneScore, task.cubeTwoScore, task.cubeThreeScore,task.autoCargo, task.teleopScore, task.defenseScore, task.autoClimb, task.feedCone, task.feedCube, task.avgTotal, task.teleopClimb, task.driverAbility, JSON.parse(task.flags)))
                 //     break
