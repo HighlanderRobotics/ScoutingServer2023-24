@@ -27,7 +27,10 @@ import AddTournament from './manager/AddTournament.js'
 import AddCustomMatch from './manager/AddCustomMatch.js'
 import deleteCustomMatch from './manager/deleteCustomMatch.js'
 import test from './manager/test.js'
-
+import getScouterSchedule from './manager/getScouterSchedule.js'
+import addScouterSchedule from './manager/addScouterSchedule.js'
+import deleteScouterSchedule from './manager/deleteScouterSchedule.js'
+import updateScouterSchedule from './manager/updateScouterSchedule.js'
 
 class DatabaseManager {
     constructor() {
@@ -103,10 +106,14 @@ class DatabaseManager {
                     return new AddCustomMatch().runTask(body.tournamentKey, body.matchNumber, body.matchType, body.teams)
                 case deleteCustomMatch.name:
                     return new deleteCustomMatch().runTask(body.tournamentKey, body.matchNumber, body.matchType)
-                // case test.name:
-                //     return new test().runTask()
-                
-
+                case getScouterSchedule.name:
+                    return new getScouterSchedule().runTask(body.sourceTeam, body.tournamentKey)
+                case addScouterSchedule.name:
+                    return new addScouterSchedule().runTask(body.sourceTeam, body.startMatch, body.endMatch, body.tournamentKey, body.team1, body.team2, body.team3, body.team4, body.team5, body.team6)
+                case deleteScouterSchedule.name:
+                    return new addScouterSchedule().runTask(body.scourceTeam, body.tournamentKey)
+                case updateScouterSchedule.name:
+                    return new updateScouterSchedule().runTask(body.sourceTeam, body.startMatch, body.endMatch, body.tournamentKey, body.team1, body.team2, body.team3, body.team4, body.team5, body.team6)
                 default:
                     return new Promise((resolve, reject) => {
                         reject({
