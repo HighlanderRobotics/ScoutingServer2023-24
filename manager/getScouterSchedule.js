@@ -12,7 +12,7 @@ class getScouterSchedule extends Manager {
         let { data: scouterSchedule, error } = await this.supabase
             .from('scouterSchedule')
             .select('*')
-            .eq('scourceTeam',sourceTeam)
+            .eq('sourceTeam',sourceTeam)
             .eq('tournamentKey',tournamentKey)
         if(error){
             console.log(error)

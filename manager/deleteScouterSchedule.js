@@ -1,8 +1,8 @@
 import Manager from './Manager.js'
 
 
-class deletePicklist extends Manager {
-    static name = "deletePicklist"
+class deleteScouterSchedule extends Manager {
+    static name = "deleteScouterSchedule"
 
     constructor() {
         super()
@@ -11,7 +11,8 @@ class deletePicklist extends Manager {
     async runTask(scourceTeam, tournamentKey) {
         const { data, error } = await this.supabase
             .from('scouterSchedule')
-            .eq('scourceTeam', scourceTeam)
+            .delete('*')
+            .eq('sourceTeam', scourceTeam)
             .eq('tournamentKey', tournamentKey)
 
         if (error) {

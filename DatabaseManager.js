@@ -111,9 +111,9 @@ class DatabaseManager {
                 case addScouterSchedule.name:
                     return new addScouterSchedule().runTask(body.sourceTeam, body.startMatch, body.endMatch, body.tournamentKey, body.team1, body.team2, body.team3, body.team4, body.team5, body.team6)
                 case deleteScouterSchedule.name:
-                    return new addScouterSchedule().runTask(body.scourceTeam, body.tournamentKey)
+                    return new deleteScouterSchedule().runTask(body.sourceTeam, body.tournamentKey)
                 case updateScouterSchedule.name:
-                    return new updateScouterSchedule().runTask(body.sourceTeam, body.startMatch, body.endMatch, body.tournamentKey, body.team1, body.team2, body.team3, body.team4, body.team5, body.team6)
+                    return new updateScouterSchedule().runTask(body.sourceTeam,  body.startMatch, body.endMatch, body.tournamentKey, body.team1, body.team2, body.team3, body.team4, body.team5, body.team6)
                 default:
                     return new Promise((resolve, reject) => {
                         reject({
