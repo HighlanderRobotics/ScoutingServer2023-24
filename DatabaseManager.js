@@ -31,6 +31,8 @@ import getScouterSchedule from './manager/getScouterSchedule.js'
 import addScouterSchedule from './manager/addScouterSchedule.js'
 import deleteScouterSchedule from './manager/deleteScouterSchedule.js'
 import updateScouterSchedule from './manager/updateScouterSchedule.js'
+import deleteRegisteredTeam from './manager/deleteRegisteredTeam.js'
+import registerTeam from './manager/registerTeam.js'
 
 class DatabaseManager {
     constructor() {
@@ -114,6 +116,10 @@ class DatabaseManager {
                     return new addScouterSchedule().runTask(body.scourceTeam, body.tournamentKey)
                 case updateScouterSchedule.name:
                     return new updateScouterSchedule().runTask(body.sourceTeam, body.startMatch, body.endMatch, body.tournamentKey, body.team1, body.team2, body.team3, body.team4, body.team5, body.team6)
+                case deleteRegisteredTeam.name:
+                    return new deleteRegisteredTeam().runTask(body.team)
+                case registerTeam.name:
+                    return new registerTeam().runTask(body.team, body.teamCode)
                 default:
                     return new Promise((resolve, reject) => {
                         reject({
