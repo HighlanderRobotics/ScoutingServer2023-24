@@ -10,9 +10,9 @@ class addScouterSchedule extends Manager {
         const { data, error } = await this.supabase
             .from('scouterSchedule')
             .insert([
-                { 'sourceTeam': sourceTeam, 'startMatch': startMatch, 'endMatch': endMatch, 'tournamentKey': tournamentKey, 'team1':team1, 'team2':team2, 'team3': team3, 'team4':team4, 'team5':team5, 'team6':team6 },
+                { 'sourceTeam': sourceTeam, 'startMatch': startMatch, 'endMatch': endMatch, 'tournamentKey': tournamentKey, 'team1': team1, 'team2': team2, 'team3': team3, 'team4': team4, 'team5': team5, 'team6': team6 },
             ])
-        if(error){
+        if (error) {
             console.log(error)
             return error
         }
