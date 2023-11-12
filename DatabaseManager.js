@@ -33,7 +33,7 @@ import deleteScouterSchedule from './manager/deleteScouterSchedule.js'
 import updateScouterSchedule from './manager/updateScouterSchedule.js'
 import deleteRegisteredTeam from './manager/deleteRegisteredTeam.js'
 import registerTeam from './manager/registerTeam.js'
-
+import isTeamRegistered from './manager/isTeamRegistered.js'
 class DatabaseManager {
     constructor() {
         
@@ -120,6 +120,8 @@ class DatabaseManager {
                     return new deleteRegisteredTeam().runTask(body.team)
                 case registerTeam.name:
                     return new registerTeam().runTask(body.team, body.teamCode)
+                case isTeamRegistered.name:
+                    return new isTeamRegistered().runTask(body.team)
                 default:
                     return new Promise((resolve, reject) => {
                         reject({
