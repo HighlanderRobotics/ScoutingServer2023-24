@@ -8,10 +8,11 @@ class deleteScouterSchedule extends Manager {
         super()
     }
 
-    async runTask(scourceTeam, tournamentKey) {
+    async runTask(scouterScheduleUuid, scourceTeam, tournamentKey) {
         const { data, error } = await this.supabase
             .from('scouterSchedule')
             .delete('*')
+            .eq('scouterSchedule', scouterScheduleUuid)
             .eq('sourceTeam', scourceTeam)
             .eq('tournamentKey', tournamentKey)
 

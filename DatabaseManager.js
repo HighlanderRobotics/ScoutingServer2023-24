@@ -115,7 +115,7 @@ class DatabaseManager {
                 case deleteScouterSchedule.name:
                     return new deleteScouterSchedule().runTask(body.sourceTeam, body.tournamentKey)
                 case updateScouterSchedule.name:
-                    return new updateScouterSchedule().runTask(body.sourceTeam, body.startMatch, body.endMatch, body.tournamentKey, body.team1, body.team2, body.team3, body.team4, body.team5, body.team6)
+                    return new updateScouterSchedule().runTask(body.scouterScheduleUuid, body.sourceTeam, body.startMatch, body.endMatch, body.tournamentKey, body.team1, body.team2, body.team3, body.team4, body.team5, body.team6)
                 case deleteRegisteredTeam.name:
                     return new deleteRegisteredTeam().runTask(body.team)
                 case registerTeam.name:

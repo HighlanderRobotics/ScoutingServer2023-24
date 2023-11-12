@@ -11,8 +11,8 @@ class updateScouterSchedule extends Manager {
     super()
   }
 
-    async runTask(sourceTeam, startMatch, endMatch, tournamentKey, team1, team2, team3, team4, team5, team6)  {
-            new deleteScouterSchedule().runTask(sourceTeam, tournamentKey)
+    async runTask(scouterScheduleUuid, sourceTeam, startMatch, endMatch, tournamentKey, team1, team2, team3, team4, team5, team6)  {
+            new deleteScouterSchedule().runTask(scouterScheduleUuid, sourceTeam, tournamentKey)
             new addScouterSchedule().runTask(sourceTeam, startMatch, endMatch, tournamentKey, team1, team2, team3, team4, team5, team6)
     }
 }

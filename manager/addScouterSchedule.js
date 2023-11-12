@@ -8,7 +8,6 @@ class addScouterSchedule extends Manager {
 
     async runTask(sourceTeam, startMatch, endMatch, tournamentKey, team1, team2, team3, team4, team5, team6) {
 
-        for (let i = 0; i < startMatch.length; i++) {
 
 
             const { data, error } = await this.supabase
@@ -20,7 +19,6 @@ class addScouterSchedule extends Manager {
                 console.log(error)
                 return error
             }
-        }
     }
 
 }
