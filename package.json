@@ -6,14 +6,16 @@
   "homepage": "https://github.com/barryb5/learn-auth-server#README.md",
   "type": "module",
   "scripts": {
-    "start": "node collectionServer.js",
+    "start": "npm run build && node collectionServer.js",
     "linuxstart": "gnome-terminal -- ./ngrok.sh; node collectionServer.js",
     "macstart": "open -a Terminal.app ngrok.sh; node collectionServer.js",
     "windowsstart": "wt -p \"ngrok\" bash ngrok.sh ; split-pane -p \"CollectionServer\" node collectionServer.js",
     "test": "jest",
     "dev": "nodemon collectionServer.js",
     "setup": "node setup.mjs",
-    "build": "tsc"
+    "build": "tsc",
+    "watch": "tsc --watch"
+
   },
   "keywords": [],
   "author": "Cassie Colby <cassiecolby@gmail.com>",

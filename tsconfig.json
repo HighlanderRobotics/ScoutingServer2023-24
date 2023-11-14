@@ -16,7 +16,7 @@
         "**/*.ts",
         "**/*.js",
         "**/*.jsx"
-    ],
+, "manager2/addAPITeams.ts"    ],
     "exclude": [
         "node_modules"
     ]

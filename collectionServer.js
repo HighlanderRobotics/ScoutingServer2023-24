@@ -7,35 +7,38 @@ dotenv.config();
 // HTTPS
 const port = process.env.PORT 
 
-// Task Managers
-import TaskManager from './TaskManager.js'
-import DatabaseManager from './DatabaseManager.js'
-
-// const app = express()
-// app.use(express.json())
-
-// Terminal QR Code
-import qrcode from'qrcode-terminal'
-
-//socket io
-
-
 
 import express from 'express';
-import { createClient } from '@supabase/supabase-js';
 
 const app = express();
 
-
 import bodyParser from 'body-parser';
+import { addAPITeams } from './dist/manager2/addAPITeams.js';
+import { addAPITournaments } from './dist/manager2/addAPITournaments.js';
+import { addScouterSchedule } from './dist/manager2/addScouterSchedule.js';
+import { editData } from './dist/manager2/editData.js';
+import { deleteData } from './dist/manager2/deleteData.js';
+import { addData } from './dist/manager2/addData.js';
+import { getTeams } from './dist/manager2/getTeams.js';
+import { deleteScouterSchedule } from './dist/manager2/deleteScouterSchedule.js';
+import {getScouterSchedule} from './dist/manager2/getScouterSchedule.js';
+import { updateScouterSchedule } from './dist/manager2/updateScouterSchedule.js';
+import { addScouter } from './dist/manager2/addScouter.js';
+import { addPicklist } from './dist/manager2/addPicklist.js';
+import { deletePicklist } from './dist/manager2/deletePicklist.js';
+import { getPicklists } from './dist/manager2/getPicklist.js';
+import { addMutablePicklist } from './dist/manager2/addMutablePicklist.js';
+import { getMutablePicklists } from './dist/manager2/getMutablePicklists.js';
+import { deleteMutablePicklist } from './dist/manager2/deleteMutablePicklist.js';
+import { addRegisteredTeam } from './dist/manager2/addRegisteredTeam.js';
+import { getRegisteredTeam } from './dist/manager2/getRegisteredTeam.js';
+import { addTournament } from './dist/manager2/addTournament.js';
+import { deleteRegisteredTeam } from './dist/manager2/deleteRegisteredTeam.js';
+import { getTeamsInTournament } from './dist/manager2/getTeamsInTournament.js';
+import { getMatches } from './dist/manager2/getMatches.js';
+
+
 app.use(bodyParser.json());
-
-
-import cors from 'cors';
-
-
-// Use this to allow all CORS requests
-
 
 
 
@@ -49,111 +52,30 @@ app.listen(port, () => {
 app.get('/', async (req, res) => {
     res.status(200).send(`All good my dude`)
 })
+app.post('/API/manager/addAPITeams',  addAPITeams)
+app.post('/API/manager/addAPITournaments', addAPITournaments)
+app.post('/API/manager/addScouterSchedule', addScouterSchedule)
+app.post('/API/manager/editData', editData)
+app.delete('/API/manager/deleteData', deleteData)
+app.post('/API/manager/addData', addData)
+app.get('/API/manager/getTeams', getTeams)
+app.delete('/API/manager/deleteScouterSchedule', deleteScouterSchedule)
+app.get('/API/manager/getScouterSchedule', getScouterSchedule)
+app.post('/API/manager/updateScouterSchedule', updateScouterSchedule)
+app.post('/API/manager/addScouter', addScouter)
+app.post('/API/manager/addPicklist', addPicklist)
+app.delete('/API/manager/deletePicklist', deletePicklist)
+app.get('/API/manager/getPicklists', getPicklists)
+app.post('/API/manager/addMutablePicklist', addMutablePicklist)
+app.get('/API/manager/getMutablePicklists', getMutablePicklists)
+app.delete('/API/manager/deleteMutablePicklist', deleteMutablePicklist)
+app.post('/API/manager/addRegisteredTeam', addRegisteredTeam)
+app.delete('/API/manager/deleteRegisteredTeam', deleteRegisteredTeam)
+app.post('/API/manager/addTournament', addTournament)
+app.get('/API/manager/getRegisteredTeam', getRegisteredTeam)
+app.get('/API/manager/getTeamsInTournament', getTeamsInTournament)
+app.get('/API/manager/getMatches', getMatches)
 
-// Manager
 
 
-app.post('/API/manager/:task', async (req, res) => {
-    const task = req.params.task || req.body.task;
-    if (!task) {
-        return res.status(404).send('Missing Task Name');
-    }
 
-    try {
-        const result = await new DatabaseManager().runTask(task, req.body);
-        res.status(200).send(result);
-    } catch (err) {
-        console.error('Detected error:', err);
-        const statusCode = err.customCode || 400;
-        res.status(statusCode).send(err);
-    }
-});
-
-// Analysis
-app.post('/API/analysis', async (req, res) => {
-    
-    // Run analysis engine
-    if (req.body.uuid) {
-        if (req.body.tasks) {
-            let taskNumber = uuidToTask.size
-            uuidToTask.set(req.body.uuid, taskNumber)
-            tasks.set(taskNumber, new TaskManager().runTasks(req.body.tasks, req.body))
-
-            res.status(200).send(`Task Number: ${taskNumber}`)
-        } else {
-            res.status(400).send(`Missing tasks`)
-        }
-    } else {
-        res.status(400).send(`Missing uuid`)
-    }
-})
-
-app.post('/API/analysis/:task', async (req, res) => {
-    // Run analysis engine
-    if (req.query) {
-        let singleTask = [
-            {
-                'name': req.params.task,
-            }
-        ]
-        Object.keys(req.body).forEach((key) => {
-            singleTask[0][`${key}`] = req.body[key]
-        })
-
-        let results = await new TaskManager().runTasks(singleTask)
-        
-
-        // console.log(`Results: ${JSON.stringify(results)}`)
-        res.status(200).send(results)
-    } else {
-        res.status(400).send(`Missing tasks`)
-    }
-})
-
-// Reset DB (testing only)
-app.post('/resetDB', async (req,res) => {
-    if (req.body.uuid) {
-        let taskNumber = uuidToTask.size
-        uuidToTask.set(req.body.uuid, taskNumber)
-        tasks.set(taskNumber, Manager.resetAndPopulateDB())
-        res.status(200).send(`${JSON.stringify({'taskNumber': taskNumber})}`)
-    } else {
-        res.status(400).send(`Missing uuid`)
-    }
-})
-
-// Old system
-const promiseWithTimeout = ((promise) => {
-    // Times out after 1 ms, assumes promise is still pending (usually takes ~0ms)
-    var timeOutTime = 1
-
-    const timeoutPromise = new Promise(async (resolve, reject) => {
-        setTimeout(resolve, timeOutTime, `Requested task is unfinished, come back later`)
-    })
-
-    return Promise.race([promise, timeoutPromise])
-})
-
-app.get('/getTaskData', async (req,res) => {
-    // Get cached/Rerun analysis engine and send it
-
-    if (req.body.taskNumber != undefined && req.body.taskNumber < tasks.size) {
-        console.log(`Task Number: ${req.body.taskNumber}`)
-
-        promiseWithTimeout(tasks.get(req.body.taskNumber))
-        .then((response) => {
-            // console.log(response)
-            res.status(200).send(`${JSON.stringify(response)}`)
-        })
-    } else if (req.body.uuid != undefined && Array.from(uuidToTask.values()).includes(req.body.uuid)) {
-        console.log(`UUID: ${req.body.uuid}`)
-
-        promiseWithTimeout(tasks.get(uuidToTask.get(req.body.uuid)))
-        .then((response) => {
-                res.status(200).send(`${JSON.stringify(response)}`)
-        })
-    } else {
-        res.status(400).send(`Missing task number or uuid or task number/uuid doesn't have a task`)
-        return
-    }
-})
