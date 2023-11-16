@@ -6,6 +6,7 @@ export const addTournament = async (req: any, res:any) => {
             ])
         if (error) {
             res.status(400).send(error)
+            return
         }
         res.status(200).send('tournament added')
 };

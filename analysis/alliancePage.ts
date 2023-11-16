@@ -1,72 +1,31 @@
-import BaseAnalysis from './BaseAnalysis.js';
-import totalPoints from './totalPoints.js'
-class alliancePage extends BaseAnalysis {
-    private teamOne: number
-    private teamTwo: number
-    private teamThree: number
-    private totalPoints: number
-    private tournamentSetting: string[]
-    private sourceTeamSetting: number[]
-    private metrics: any;
+// import { supabase } from "./supabaseClient"
+// import { totalPoints } from "./totalPoints"
 
-    constructor(teamOne: number, teamTwo: number, teamThree: number, tournamentSetting: string[], sourceTeamSetting: number[]) {
-        super()
-        this.teamOne = teamOne
-        this.teamTwo = teamTwo
-        this.teamThree = teamThree
-        this.totalPoints = 0
-        this.tournamentSetting = tournamentSetting
-        this.sourceTeamSetting = sourceTeamSetting
+// export const alliancePage = async (req: any, res: any) => {
+//     let teamOne = req.query.teamOne
+//     let teamTwo = req.query.teamTwo
+//     let teamThree = req.query.teamThree
+//     let sourceTeamSetting = req.query.sourceTeamSetting
+//     let tournamentSetting = req.query.tournamentSetting
 
-    }
-    async getData() {
-
-        let onePoints = new totalPoints(this.teamOne, this.sourceTeamSetting, this.tournamentSetting, false)
-        onePoints.runAnalysis()
-        let twoPoints = new totalPoints(this.teamTwo, this.sourceTeamSetting, this.tournamentSetting, false)
-        twoPoints.runAnalysis()
-        let threePoints = new totalPoints(this.teamThree, this.sourceTeamSetting, this.tournamentSetting, false)
-        threePoints.runAnalysis()
-        let alliancePoints = onePoints.finalizeResults().teamAvg + twoPoints.finalizeResults().teamAvg + threePoints.finalizeResults().teamAvg
+//         req.team = teamOne
+    
+//         let onePoints =  await totalPoints(req, res)
+//         req.team = teamTwo
+//         let twoPoints =  await totalPoints(req, res)
+//         req.team = teamThree
+//         let threePoints = await totalPoints(req, res)
+//         let alliancePoints = onePoints.teamAvg + twoPoints.teamAvg + threePoints.teamAvg
 
 
-        //add more later, just for testing
-        this.metrics = {"totalPoints" : alliancePoints}
+//         //add more later, just for testing
+//         let metrics = {"totalPoints" : alliancePoints}
+//         res.status(200).send({
+//             "teamOne" : teamOne,
+//             "teamTwo" : teamTwo,
+//             "teamThree" : teamThree,
+//             "result" : metrics
 
+//         })
 
-
-
-    }
-
-
-    runAnalysis() {
-        let a = this
-        return new Promise(async (resolve, reject) => {
-            a.getData()
-                .then((data) => {
-                    resolve("done");
-                })
-                .catch((err) => {
-                    if (err) {
-                        reject(err);
-                        return err;
-                    }
-                });
-
-        })
-
-
-    }
-    finalizeResults() {
-        return {
-            "teamOne" : this.teamOne,
-            "teamTwo" : this.teamTwo,
-            "teamThree" : this.teamThree,
-            "result" : this.metrics
-
-        }
-    }
-
-}
-export default alliancePage;
-
+//     }

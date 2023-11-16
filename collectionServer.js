@@ -31,11 +31,12 @@ import { addMutablePicklist } from './dist/manager2/addMutablePicklist.js';
 import { getMutablePicklists } from './dist/manager2/getMutablePicklists.js';
 import { deleteMutablePicklist } from './dist/manager2/deleteMutablePicklist.js';
 import { addRegisteredTeam } from './dist/manager2/addRegisteredTeam.js';
-import { getRegisteredTeam } from './dist/manager2/getRegisteredTeam.js';
 import { addTournament } from './dist/manager2/addTournament.js';
-import { deleteRegisteredTeam } from './dist/manager2/deleteRegisteredTeam.js';
 import { getTeamsInTournament } from './dist/manager2/getTeamsInTournament.js';
 import { getMatches } from './dist/manager2/getMatches.js';
+import { newUser } from './dist/manager2/newUser.js';
+import { isCodeCorrect } from './dist/manager2/isCodeCorrect.js';
+import { deleteRegisteredTeam } from './dist/manager2/deleteRegisteredTeam.js';
 
 
 app.use(bodyParser.json());
@@ -72,9 +73,12 @@ app.delete('/API/manager/deleteMutablePicklist', deleteMutablePicklist)
 app.post('/API/manager/addRegisteredTeam', addRegisteredTeam)
 app.delete('/API/manager/deleteRegisteredTeam', deleteRegisteredTeam)
 app.post('/API/manager/addTournament', addTournament)
-app.get('/API/manager/getRegisteredTeam', getRegisteredTeam)
+app.get('/API/manager/newUser', newUser)
 app.get('/API/manager/getTeamsInTournament', getTeamsInTournament)
 app.get('/API/manager/getMatches', getMatches)
+app.get('/API/manager/isCodeCorrect', isCodeCorrect)
+app.get('/API/manager/newUser', newUser)
+
 
 
 

@@ -59,6 +59,7 @@ export const addData = async (req: any, res: any) => {
                     ])
                 if (error) {
                     res.status(400).send(error)
+                    return
                 }
             }
         }
@@ -67,8 +68,7 @@ export const addData = async (req: any, res: any) => {
     }
     catch (err) {
         if (err) {
-            console.log(err)
-
+            res.status(400).send(err)
         }
     }
 

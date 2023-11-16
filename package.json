@@ -6,7 +6,8 @@
   "homepage": "https://github.com/barryb5/learn-auth-server#README.md",
   "type": "module",
   "scripts": {
-    "start": "npm run build && node collectionServer.js",
+    "start" : "node collectionServer.js",
+    "start and build": "npm run build && node collectionServer.js",
     "linuxstart": "gnome-terminal -- ./ngrok.sh; node collectionServer.js",
     "macstart": "open -a Terminal.app ngrok.sh; node collectionServer.js",
     "windowsstart": "wt -p \"ngrok\" bash ngrok.sh ; split-pane -p \"CollectionServer\" node collectionServer.js",
@@ -15,12 +16,12 @@
     "setup": "node setup.mjs",
     "build": "tsc",
     "watch": "tsc --watch"
-
   },
   "keywords": [],
   "author": "Cassie Colby <cassiecolby@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "@slack/web-api": "^6.10.0",
     "@supabase/supabase-js": "^2.38.4",
     "@types/express": "^4.17.20",
     "@types/node": "^20.8.7",

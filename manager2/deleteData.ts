@@ -27,11 +27,13 @@ export const deleteData = async (req: any, res: any) => {
 
         if (error) {
             res.status(400).send(error)
+            return
         }
+        res.status(200).send('done deleting data');
+
     }
     
 
-    return res.status(200).send('done deleting data');
 
 
 };

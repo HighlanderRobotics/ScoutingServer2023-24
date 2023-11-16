@@ -38,6 +38,7 @@ export const addCustomMatch = async (req: any, res: any) => {
                 ])
             if (error) {
                 res.status(400).send(error)
+                return
             }
         }
     }

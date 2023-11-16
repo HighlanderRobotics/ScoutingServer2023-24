@@ -9,11 +9,13 @@ export const getMatches = async (req: any, res: any) => {
             .eq('tournamentKey', tournamentKey)
             .order('matchNumber');
         if (error) {
-            req.status(400).send(error)            
+            res.status(400).send(error)  
+            return          
 
         }
         else if (matches.length == 0) {
-            req.status(400).send("tournament not found")            
+            res.status(400).send("tournament not found")    
+            return        
         } else {
             let largestQm = matches[0].matchNumber
             matches.forEach((match) => {

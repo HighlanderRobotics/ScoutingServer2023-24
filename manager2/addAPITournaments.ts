@@ -23,8 +23,8 @@ export const addAPITournaments = async (req: any, res: any) => {
                             ])
                             .select()
                         if (error) {
-                            console.log(error)
-                            return error
+                            res.status(400).send(error)
+                            return
                         }
                     }
 
@@ -36,6 +36,7 @@ export const addAPITournaments = async (req: any, res: any) => {
             .catch((err) => {
                 if (err) {
                     res.status(400).send(err);
+                    return
                 }
             })
         res.status(200).send("addAPITournaments done");

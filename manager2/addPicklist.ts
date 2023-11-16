@@ -6,6 +6,7 @@ export const addPicklist = async (req: any, res:any) => {
     .insert([{'name' : req.body.name, 'team' : req.query.team, 'username' : req.query.username, 'avgTotal' : req.body.avgTotal}])
         if(error){
             res.status(400).send(error)
+            return
         }
         else
         {

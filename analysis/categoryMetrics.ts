@@ -1,77 +1,35 @@
 
-import BaseAnalysis  from'./BaseAnalysis.js';
-import basePointAverages from './base/basePointAverage.js';
-import baseAverage from './base/baseAverage.js';
-import totalPoints from './totalPoints.js'
-import baseNonEvents from './base/baseNonEvents.js';
+// import BaseAnalysis from './BaseAnalysis.js';
+// import basePointAverages from './base/basePointAverage.js';
+// import baseAverage from './base/baseAverage.js';
+// import { totalPoints } from './totalPoints.js'
+// import baseNonEvents from './base/baseNonEvents.js';
+// export const categoryMetrics = async (req: any, res: any) => {
+//         let team = req.team
+//         let sourceSetting = req.sourceSetting
+//         let tournamentSetting = req.tournamentSetting
 
-class categoryMetrics extends BaseAnalysis {
-    private result: unknown
-    private team
-    tournamentScoutedSettings : string[]
-    teamScoutedSettings : number[]
-    constructor( team: any, tournamentScoutedSettings : string[], teamScoutedSettings : number[]) {
-        super()
-        this.team = team
-        this.tournamentScoutedSettings = tournamentScoutedSettings
-        this.teamScoutedSettings = teamScoutedSettings
+//         let cones = new baseAverage( team,  sourceSetting,   tournamentSetting, 0, 0, 300)
+//         cones.runAnalysis()
+//         let cubes = new baseAverage( team,  sourceSetting,   tournamentSetting, 1, 0, 300)
+//         cubes.runAnalysis()
 
-    }
-    async getData() {
-        let a = this
+//         let averageTotal =  totalPoints( req, res)
 
-        return new Promise(async (resolve, reject) => {
+//         let averageClimb = new baseNonEvents( team,  sourceSetting,   tournamentSetting, "challengeResult")
+//         averageClimb.runAnalysis()
 
-            let cones = new baseAverage(this.team, this.teamScoutedSettings,this.tournamentScoutedSettings, 0, 0, 300)
-            cones.runAnalysis()
-            let cubes = new baseAverage(this.team, this.teamScoutedSettings, this.tournamentScoutedSettings,  1, 0, 300)
-            cubes.runAnalysis()
+//         let averageAutoClimb = new baseNonEvents( team,  sourceSetting,   tournamentSetting, "autoChallengeResult")
+//         averageAutoClimb.runAnalysis()
 
-            let averageTotal = new totalPoints(this.team, this.teamScoutedSettings, this.tournamentScoutedSettings, false)
-            averageTotal.runAnalysis()
-
-            let averageClimb = new baseNonEvents(this.team, this.teamScoutedSettings, this.tournamentScoutedSettings, "challengeResult")
-            averageClimb.runAnalysis()
-
-            let averageAutoClimb = new baseNonEvents(this.team, this.teamScoutedSettings, this.tournamentScoutedSettings, "autoChallengeResult")
-            averageAutoClimb.runAnalysis()
-
-            let droppedAvg = new baseAverage(this.team, this.teamScoutedSettings, this.tournamentScoutedSettings, 3, 300, 0)
-            await droppedAvg.runAnalysis()
-
-            // let driverAbility = new 
-            let metrics = {}
-        
-          
-            resolve({metrics})
-        })
-    }
-
-    runAnalysis() {
-        let a = this
-        return new Promise(async (resolve, reject) => {
-            a.getData()
-                .then((data) => {
-                    a.result = data;
-                    resolve("done");
-                })
-                .catch((err) => {
-                    if (err) {
-                        reject(err);
-                        return err;
-                    }
-                });
-        
-        })
+//         let droppedAvg = new baseAverage( team,  sourceSetting,   tournamentSetting, 3, 300, 0)
+//         await droppedAvg.runAnalysis()
 
 
-    }
-    finalizeResults() {
-        return {
-            "result": this.result,
-            "team": this.team,
-        }
-    }
+//         return {
+//             "result":  {"droppedAvg" : droppedAvg, },
+//             "team":  team,
+//         }
 
-}
-export default categoryMetrics;
+
+//     }

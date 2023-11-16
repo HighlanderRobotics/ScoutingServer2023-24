@@ -1,80 +1,46 @@
 // only difference to baseAverage is it will sum with points coloumn 
-import BaseAnalysis  from './BaseAnalysis.js';
+import BaseAnalysis from './BaseAnalysis.js';
 import basePointAverage from './base/basePointAverage.js'
 import baseNonEvents from './base/baseNonEvents.js'
 
-class basePointAverages extends BaseAnalysis {
-    private teamAvg = 0
-    private teamArray = []
-    private allTeamAvg = 0
-    private difference = 0
-    private team
-    private teamsScoutedSettings
-    private tournamentScoutedSettings
-    private picklist 
+import { supabase } from "./supabaseClient"
 
-    constructor( team: any, teamsScoutedSettings: any, tournamentScoutedSettings: any, picklist : boolean) {
-        super()
-        this.team = team
-        this.tournamentScoutedSettings = tournamentScoutedSettings
-        this.teamsScoutedSettings = teamsScoutedSettings
-        this.picklist = picklist
-    }
-    
-    
-    async getData()
-    {
-        let nonClimbPoints = new basePointAverage(this.team, this.teamsScoutedSettings, this.tournamentScoutedSettings, 2, 300, 0 )
-        nonClimbPoints.runAnalysis()
-        
-
-        let climb = new baseNonEvents(this.team, this.teamsScoutedSettings, this.tournamentScoutedSettings, "challengeResult")
-        climb.runAnalysis()
-        
-        let climbArray = climb.finalizeResults().ratios
-    
-
-        let climbAuto = new baseNonEvents(this.team, this.teamsScoutedSettings, this.tournamentScoutedSettings, "autoChallengeResult")
-        climbAuto.runAnalysis()
-        
-
-        let climbAutoArray = climbAuto.finalizeResults().ratios
-        
-        
-        this.teamAvg = nonClimbPoints.finalizeResults().teamAvg + climbArray[1] * 10 + climbArray[2] *8  + climbAutoArray[1] * 12 + climbAutoArray[2] * 10
-        this.allTeamAvg = nonClimbPoints.finalizeResults().allTeamAvg + climb.finalizeResults().allTeamRatios[1] * 10 + climb.finalizeResults().allTeamRatios[2] * 8 + climbAuto.finalizeResults().allTeamRatios[1] * 12+ climbAuto.finalizeResults().allTeamRatios[2] * 10
+export const totalPoints = async (req: any, res: any) => {
+    let team = req.query.team
+    let sourceTeamSetting = req.query.sourceTeamSetting
+    let tournamentSetting = req.query.tournamentSetting
 
 
-        this.difference = this.teamAvg - this.allTeamAvg
-        if(this.picklist)
-        {
-            
 
-        }
-    }
+    let nonClimbPoints = new basePointAverage(team, sourceTeamSetting, tournamentSetting, 2, 300, 0)
+    nonClimbPoints.runAnalysis()
 
 
-    runAnalysis() {
-        let a = this
-        return new Promise(async (resolve, reject) => {
-            await a.getData().catch((err) => {
-                reject(err)
-            })
-            
-            resolve("done")
-        })
+    let climb = new baseNonEvents(team, sourceTeamSetting, tournamentSetting, "challengeResult")
+    climb.runAnalysis()
+
+    let climbArray = climb.finalizeResults().ratios
 
 
-    }
+    let climbAuto = new baseNonEvents(team, sourceTeamSetting, tournamentSetting, "autoChallengeResult")
+    climbAuto.runAnalysis()
 
-    finalizeResults() {
-        return {
-            "team": this.team,
-            "teamAvg": this.teamAvg,
-            "allTeamAvg" : this.allTeamAvg,
-            "teamArray" : this.teamArray,
-            "difference" : this.difference
-        }
-    }
+
+    let climbAutoArray = climbAuto.finalizeResults().ratios
+
+
+    let teamAvg = nonClimbPoints.finalizeResults().teamAvg + climbArray[1] * 10 + climbArray[2] * 8 + climbAutoArray[1] * 12 + climbAutoArray[2] * 10
+    let allTeamAvg = nonClimbPoints.finalizeResults().allTeamAvg + climb.finalizeResults().allTeamRatios[1] * 10 + climb.finalizeResults().allTeamRatios[2] * 8 + climbAuto.finalizeResults().allTeamRatios[1] * 12 + climbAuto.finalizeResults().allTeamRatios[2] * 10
+
+
+    let difference = teamAvg - allTeamAvg
+    res.status(200).send({
+        "team": team,
+        "teamAvg": teamAvg,
+        "allTeamAvg": allTeamAvg,
+        // "teamArray":  teamArray,
+        "difference": difference
+    })
+
 }
-export default basePointAverages
+
