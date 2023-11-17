@@ -43,6 +43,7 @@ import { sendSlackVerification } from './dist/manager2/sendSlackVerification.js'
 import { approveRegisteredTeam } from './dist/manager2/approveRegisteredTeam.js';
 import { rejectRegisteredTeam } from './dist/manager2/rejectRegisteredTeam.js';
 import { checkRegistrationProgress } from './dist/manager2/checkRegistrationProgress.js';
+import { isFeatureToggledOn } from './dist/manager2/isFeatureToggledOn.js';
 
 
 
@@ -90,6 +91,7 @@ app.post('/API/manager/sendSlackVerification', sendSlackVerification)
 app.post('/API/manager/approveRegisteredTeam', approveRegisteredTeam)
 app.post('/API/manager/rejectRegisteredTeam', rejectRegisteredTeam)
 app.get('/API/manager/checkRegistrationProgress', checkRegistrationProgress)
+app.get('/API/manager/isFeatureToggledOn', isFeatureToggledOn)
 
 
 
