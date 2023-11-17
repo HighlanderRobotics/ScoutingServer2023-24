@@ -6,7 +6,7 @@
   "homepage": "https://github.com/barryb5/learn-auth-server#README.md",
   "type": "module",
   "scripts": {
-    "start" : "node collectionServer.js",
+    "start": "node collectionServer.js",
     "start and build": "npm run build && node collectionServer.js",
     "linuxstart": "gnome-terminal -- ./ngrok.sh; node collectionServer.js",
     "macstart": "open -a Terminal.app ngrok.sh; node collectionServer.js",
@@ -39,7 +39,7 @@
     "knex": "^3.0.1",
     "mathjs": "^11.5.0",
     "morgan": "^1.10.0",
-    "node-fetch": "^3.3.0",
+    "node-fetch": "^3.3.2",
     "nodejs": "^0.0.0",
     "ora": "^6.1.2",
     "papaparse": "^5.3.2",

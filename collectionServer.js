@@ -37,6 +37,13 @@ import { getMatches } from './dist/manager2/getMatches.js';
 import { newUser } from './dist/manager2/newUser.js';
 import { isCodeCorrect } from './dist/manager2/isCodeCorrect.js';
 import { deleteRegisteredTeam } from './dist/manager2/deleteRegisteredTeam.js';
+import { isScouted } from './dist/manager2/isScouted.js';
+import { addTournamentMatches } from './dist/manager2/addTournamentMatches.js';
+import { sendSlackVerification } from './dist/manager2/sendSlackVerification.js';
+import { approveRegisteredTeam } from './dist/manager2/approveRegisteredTeam.js';
+import { rejectRegisteredTeam } from './dist/manager2/rejectRegisteredTeam.js';
+import { checkRegistrationProgress } from './dist/manager2/checkRegistrationProgress.js';
+
 
 
 app.use(bodyParser.json());
@@ -73,11 +80,18 @@ app.delete('/API/manager/deleteMutablePicklist', deleteMutablePicklist)
 app.post('/API/manager/addRegisteredTeam', addRegisteredTeam)
 app.delete('/API/manager/deleteRegisteredTeam', deleteRegisteredTeam)
 app.post('/API/manager/addTournament', addTournament)
-app.get('/API/manager/newUser', newUser)
 app.get('/API/manager/getTeamsInTournament', getTeamsInTournament)
 app.get('/API/manager/getMatches', getMatches)
 app.get('/API/manager/isCodeCorrect', isCodeCorrect)
-app.get('/API/manager/newUser', newUser)
+app.post('/API/manager/newUser', newUser)
+app.get('/API/manager/isScouted', isScouted)
+app.post('/API/manager/addTournamentMatches', addTournamentMatches)
+app.post('/API/manager/sendSlackVerification', sendSlackVerification)
+app.post('/API/manager/approveRegisteredTeam', approveRegisteredTeam)
+app.post('/API/manager/rejectRegisteredTeam', rejectRegisteredTeam)
+app.get('/API/manager/checkRegistrationProgress', checkRegistrationProgress)
+
+
 
 
 
